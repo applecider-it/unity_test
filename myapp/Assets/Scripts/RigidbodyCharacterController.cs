@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // ★ 新Input System
 
 public class RigidbodyCharacterController : MonoBehaviour
 {
@@ -12,10 +11,6 @@ public class RigidbodyCharacterController : MonoBehaviour
     Rigidbody rb;
     bool isGrounded;
 
-    // Input System 用の変数
-    Vector2 moveInput;   // WASD / 左スティック
-    bool jumpPressed;   // ジャンプ入力
-
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -24,43 +19,9 @@ public class RigidbodyCharacterController : MonoBehaviour
     void Update()
     {
         CheckGround();
-
-        // ジャンプ入力があって、地面にいるならジャンプ
-        if (jumpPressed && isGrounded)
-        {
-            Jump();
-            jumpPressed = false; // 1回分消費
-        }
     }
 
-    void FixedUpdate()
-    {
-        Move();
-    }
-
-    // ===== Input System から呼ばれる関数 =====
-
-    // 移動入力（PlayerInput から自動で呼ばれる）
-    public void OnMove(InputValue value)
-    {
-        moveInput = value.Get<Vector2>();
-    }
-
-    // ジャンプ入力
-    public void OnJump(InputValue value)
-    {
-        if (value.isPressed)
-        {
-            jumpPressed = true;
-            
-            Debug.Log("OnJump isPressed");
-
-        }
-
-        Debug.Log($"OnJump {isGrounded}, {jumpPressed}");
-    }
-
-    void Move()
+    public void Move(Vector2 moveInput)
     {
         // 2D入力を3D空間に変換
         Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
@@ -74,9 +35,12 @@ public class RigidbodyCharacterController : MonoBehaviour
         rb.AddForce(velocityChange, ForceMode.VelocityChange);
     }
 
-    void Jump()
+    public void Jump()
     {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        if (isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);            
+        }
     }
 
     void CheckGround()
@@ -89,6 +53,6 @@ public class RigidbodyCharacterController : MonoBehaviour
             groundLayer
         );
 
-        Debug.Log($"isGrounded {isGrounded}");
+        //Debug.Log($"isGrounded {isGrounded}");
     }
 }
