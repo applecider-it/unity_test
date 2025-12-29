@@ -16,7 +16,7 @@ public class RigidbodyCharacterController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         CheckGround();
     }

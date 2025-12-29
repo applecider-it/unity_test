@@ -7,6 +7,9 @@ public class InputController : MonoBehaviour
     Vector2 moveInput;   // WASD / 左スティック
     bool jumpPressed;   // ジャンプ入力
 
+    Vector2 moveAxis; // ← カメラ方向変換後（XZ）
+
+    [SerializeField] Transform cameraTransform;
     public RigidbodyCharacterController ch;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -17,6 +20,13 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    void FixedUpdate()
+    {
+        ConvertInputToMoveAxis();
+        ch.Move(moveAxis);
+
         if (jumpPressed)
         {
             ch.Jump();
@@ -25,9 +35,33 @@ public class InputController : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void ConvertInputToMoveAxis()
     {
-        ch.Move(moveInput);
+        if (moveInput.sqrMagnitude < 0.01f)
+        {
+            moveAxis = Vector2.zero;
+            return;
+        }
+
+        Vector3 camForward = cameraTransform.forward;
+        Vector3 camRight   = cameraTransform.right;
+
+        camForward.y = 0f;
+        camRight.y   = 0f;
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        Vector3 worldDir =
+            camForward * moveInput.y +
+            camRight   * moveInput.x;
+
+        worldDir.Normalize();
+
+        // XZ平面に落とす
+        moveAxis = new Vector2(worldDir.x, worldDir.z);
+
+        moveAxis.Normalize();
     }
 
     // ===== Input System から呼ばれる関数 =====
