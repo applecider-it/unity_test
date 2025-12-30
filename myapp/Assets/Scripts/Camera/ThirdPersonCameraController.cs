@@ -10,7 +10,7 @@ public class ThirdPersonCameraController : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] Transform target; // 追従するキャラクター
-    [SerializeField] Transform camera;
+    [SerializeField] Transform targetCamera;
 
     [Header("Camera Settings")]
     [SerializeField] float distance = 9f;
@@ -29,7 +29,7 @@ public class ThirdPersonCameraController : MonoBehaviour
 
     void Start()
     {
-        Vector3 angles = camera.transform.eulerAngles;
+        Vector3 angles = targetCamera.transform.eulerAngles;
         yaw = angles.y;
         pitch = angles.x;
 
@@ -64,8 +64,8 @@ public class ThirdPersonCameraController : MonoBehaviour
         Vector3 targetPos = target.position + Vector3.up * height;
         Vector3 offset = rotation * Vector3.back * distance;
 
-        camera.transform.position = targetPos + offset;
-        camera.transform.rotation = rotation;
+        targetCamera.transform.position = targetPos + offset;
+        targetCamera.transform.rotation = rotation;
     }
 
     // ===== Input System から呼ばれる =====

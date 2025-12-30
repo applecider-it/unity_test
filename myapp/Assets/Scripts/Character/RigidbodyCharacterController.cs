@@ -8,6 +8,8 @@ public class RigidbodyCharacterController : MonoBehaviour
     public LayerMask groundLayer;
     public float groundCheckDistance = 0.1f;
 
+    [SerializeField] float rotationSpeed = 10f;
+
     Rigidbody rb;
     bool isGrounded;
 
@@ -23,23 +25,46 @@ public class RigidbodyCharacterController : MonoBehaviour
 
     public void Move(Vector2 moveInput)
     {
-        // 2D入力を3D空間に変換
+        // 入力なし → 即停止
+        if (moveInput.sqrMagnitude < 0.01f)
+        {
+            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
+            return;
+        }
+
+        // 入力あり
         Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
+        // ===== 移動処理 =====
+        
         Vector3 targetVelocity = moveDir * moveSpeed;
-        Vector3 currentVelocity = rb.linearVelocity;
 
-        Vector3 velocityChange =
-            targetVelocity - new Vector3(currentVelocity.x, 0f, currentVelocity.z);
+        rb.linearVelocity = new Vector3(
+            targetVelocity.x,
+            rb.linearVelocity.y,
+            targetVelocity.z
+        );
 
-        rb.AddForce(velocityChange, ForceMode.VelocityChange);
+        // ===== 回転処理 =====
+
+        // 移動方向を向く回転
+        Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+
+        // 現在の向きからスムーズに補間
+        rb.MoveRotation(
+            Quaternion.Slerp(
+                rb.rotation,
+                targetRotation,
+                rotationSpeed * Time.fixedDeltaTime
+            )
+        );
     }
 
     public void Jump()
     {
         if (isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);            
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
