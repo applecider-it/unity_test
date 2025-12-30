@@ -1,10 +1,8 @@
-using System.Diagnostics;
 using UnityEngine;
 
 public class RigidbodyCharacterController : MonoBehaviour
 {
     [Header("Main")]
-
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float moveSpeedAir = 0.05f;
     [SerializeField] float jumpForce = 5f;
@@ -13,17 +11,21 @@ public class RigidbodyCharacterController : MonoBehaviour
     [SerializeField] float gravity = 0.2f;
 
     [Header("Ground")]
-    [SerializeField] LayerMask groundLayer;
+    [Tooltip("地面と判断するためのマスク")] [SerializeField] LayerMask groundLayer;
 
     // private
 
-    Vector2 moveInput;  // 移動方向
-    bool jump;  // ジャンプフラグ
-
-    int jumpCnt = 0;
-
     Rigidbody rb;
+
+    /// <summary> 移動方向 </summary>
+    Vector2 moveInput;
+    /// <summary> ジャンプフラグ </summary>
+    bool jump;
+    /// <summary> ジャンプ直後カウント </summary>
+    int jumpCnt = 0;
+    /// <summary> 地面にいるときはtrue </summary>
     bool isGrounded;
+    /// <summary> 地面の法線ベクトル </summary>
     Vector3 groundNormal = Vector3.up;
 
     void Awake()
@@ -34,14 +36,14 @@ public class RigidbodyCharacterController : MonoBehaviour
     void FixedUpdate()
     {
         CheckGround();
-        Move();
-        Jump();
+        ExecMove();
+        ExecJump();
     }
 
     /// <summary>
     /// 移動処理
     /// </summary>
-    void Move()
+    void ExecMove()
     {
         // 重力の影響を与えたあとの、Velocity.y
         float nextVY = rb.linearVelocity.y - gravity;
@@ -58,16 +60,15 @@ public class RigidbodyCharacterController : MonoBehaviour
 
             Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
-            // ===== 移動処理 =====
-
             MoveProccesInMove(nextVY, moveDir);
-
-            // ===== 回転処理 =====
 
             RotationProccesInMove(moveDir);
         }
     }
 
+    /// <summary>
+    /// 移動処理の移動プロセス
+    /// </summary>
     void MoveProccesInMove(float nextVY, Vector3 moveDir)
     {
         if (isGrounded)
@@ -96,6 +97,9 @@ public class RigidbodyCharacterController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 移動処理の停止プロセス
+    /// </summary>
     void StopProccesInMove(float nextVY)
     {
         if (isGrounded)
@@ -113,6 +117,9 @@ public class RigidbodyCharacterController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 移動処理の回転プロセス
+    /// </summary>
     void RotationProccesInMove(Vector3 moveDir)
     {
         if (isGrounded)
@@ -134,7 +141,7 @@ public class RigidbodyCharacterController : MonoBehaviour
     /// <summary>
     /// ジャンプ処理
     /// </summary>
-    void Jump()
+    void ExecJump()
     {
         if (jumpCnt > 0) jumpCnt--;
 
@@ -173,16 +180,17 @@ public class RigidbodyCharacterController : MonoBehaviour
         }
 
         // 足元にレイを飛ばして検査
+
         float space = 0.5f;
         float radius = 0.3f; // キャラの足の太さに合わせる
 
         RaycastHit hit;
         isGrounded = Physics.SphereCast(
             transform.position + Vector3.up * space, // 開始位置
-            radius,                                  // 球の半径
-            Vector3.down,                            // 下方向
+            radius, // 球の半径
+            Vector3.down, // 下方向
             out hit,
-            groundCheckDistance + space - radius,             // 距離
+            groundCheckDistance + space - radius, // 距離
             groundLayer
         );
 
@@ -191,12 +199,6 @@ public class RigidbodyCharacterController : MonoBehaviour
 
     // setter
 
-    public void SetMoveInput(Vector2 value)
-    {
-        moveInput = value;
-    }
-    public void SetJump(bool value)
-    {
-        jump = value;
-    }
+    public Vector2 MoveInput { set => moveInput = value; }
+    public bool Jump { set => jump = value; }
 }
