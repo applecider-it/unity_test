@@ -1,17 +1,27 @@
+using System.Diagnostics;
 using UnityEngine;
 
 public class RigidbodyCharacterController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float jumpForce = 5f;
-
-    public LayerMask groundLayer;
-    public float groundCheckDistance = 0.1f;
-
+    [Header("Main")]
+    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float jumpForce = 5f;
+    [SerializeField] float groundCheckDistance = 0.1f;
     [SerializeField] float rotationSpeed = 10f;
+    [SerializeField] float gravity = 0.2f;
+
+    [Header("Ground")]
+    [SerializeField] LayerMask groundLayer;
+
+    // private
+
+    Vector2 moveInput;  // 移動方向
+
+    bool jump;  // ジャンプフラグ
 
     Rigidbody rb;
     bool isGrounded;
+    Vector3 groundNormal = Vector3.up;
 
     void Awake()
     {
@@ -21,14 +31,16 @@ public class RigidbodyCharacterController : MonoBehaviour
     void FixedUpdate()
     {
         CheckGround();
+        Move();
+        Jump();
     }
 
-    public void Move(Vector2 moveInput)
+    void Move()
     {
         // 入力なし → 即停止
         if (moveInput.sqrMagnitude < 0.01f)
         {
-            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
+            rb.linearVelocity = new Vector3(0f, (isGrounded ? 0f : rb.linearVelocity.y - gravity), 0f);
             return;
         }
 
@@ -36,12 +48,14 @@ public class RigidbodyCharacterController : MonoBehaviour
         Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
         // ===== 移動処理 =====
-        
-        Vector3 targetVelocity = moveDir * moveSpeed;
+
+        Vector3 slopeMoveDir = Vector3.ProjectOnPlane(moveDir, groundNormal).normalized;
+
+        Vector3 targetVelocity = slopeMoveDir * moveSpeed;
 
         rb.linearVelocity = new Vector3(
             targetVelocity.x,
-            rb.linearVelocity.y,
+            (isGrounded ? targetVelocity.y : rb.linearVelocity.y - gravity),
             targetVelocity.z
         );
 
@@ -60,24 +74,46 @@ public class RigidbodyCharacterController : MonoBehaviour
         );
     }
 
-    public void Jump()
+    void Jump()
     {
-        if (isGrounded)
+        if (jump)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            if (isGrounded)
+            {
+                rb.linearVelocity = new Vector3(
+                    rb.linearVelocity.x,
+                    jumpForce,
+                    rb.linearVelocity.z
+                );
+            }
+            jump = false;
         }
     }
 
     void CheckGround()
     {
         float space = 0.1f;
+        RaycastHit hit;
         isGrounded = Physics.Raycast(
             transform.position + (Vector3.up * space),
             Vector3.down,
+            out hit,
             groundCheckDistance + space + 0.01f,
             groundLayer
         );
 
+        groundNormal = isGrounded ? hit.normal : Vector3.up;
+
         //Debug.Log($"isGrounded {isGrounded}");
+    }
+
+    // setter
+    public void SetMoveInput(Vector2 value)
+    {
+        moveInput = value;
+    }
+    public void SetJump(bool value)
+    {
+        jump = value;
     }
 }

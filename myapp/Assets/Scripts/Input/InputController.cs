@@ -25,11 +25,11 @@ public class InputController : MonoBehaviour
     void FixedUpdate()
     {
         ConvertInputToMoveAxis();
-        ch.Move(moveAxis);
+        ch.SetMoveInput(moveAxis);
 
         if (jumpPressed)
         {
-            ch.Jump();
+            ch.SetJump(true);
 
             jumpPressed = false;
         }
