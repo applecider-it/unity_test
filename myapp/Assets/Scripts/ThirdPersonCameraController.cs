@@ -13,7 +13,7 @@ public class ThirdPersonCameraController : MonoBehaviour
     [SerializeField] Transform camera;
 
     [Header("Camera Settings")]
-    [SerializeField] float distance = 5f;
+    [SerializeField] float distance = 9f;
     [SerializeField] float height = 2f;
 
     [Header("Rotation")]
