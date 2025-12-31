@@ -16,6 +16,7 @@ public class RigidbodyCharacterController : MonoBehaviour
     // private
 
     Rigidbody rb;
+    private Animator animator;
 
     /// <summary> 移動方向 </summary>
     Vector2 moveInput;
@@ -31,24 +32,29 @@ public class RigidbodyCharacterController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
     {
+        bool noMove = moveInput.sqrMagnitude < 0.01f;
+
         CheckGround();
-        ExecMove();
+        ExecMove(noMove);
         ExecJump();
+
+        SetAnimator(noMove);
     }
 
     /// <summary>
     /// 移動処理
     /// </summary>
-    void ExecMove()
+    void ExecMove(bool noMove)
     {
         // 重力の影響を与えたあとの、Velocity.y
         float nextVY = rb.linearVelocity.y - gravity;
 
-        if (moveInput.sqrMagnitude < 0.01f)
+        if (noMove)
         {
             // 入力なしの時
 
@@ -195,6 +201,25 @@ public class RigidbodyCharacterController : MonoBehaviour
         );
 
         groundNormal = isGrounded ? hit.normal : Vector3.up;
+    }
+
+    /// <summary>
+    /// アニメーター指定
+    /// </summary>
+    void SetAnimator(bool noMove)
+    {
+        if (noMove)
+        {
+            // 入力なしの時
+
+            animator.SetBool("move", false);
+        }
+        else
+        {
+            // 入力ありの時
+
+            animator.SetBool("move", isGrounded);
+        }
     }
 
     // setter
