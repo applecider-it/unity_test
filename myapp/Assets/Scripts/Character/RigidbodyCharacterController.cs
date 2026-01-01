@@ -5,7 +5,7 @@ public class RigidbodyCharacterController : MonoBehaviour
     [Header("Main")]
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float moveSpeedAir = 0.05f;
-    [SerializeField] float jumpForce = 5f;
+    [SerializeField] float jumpForce = 6f;
     [SerializeField] float groundCheckDistance = 0.1f;
     [SerializeField] float rotationSpeed = 10f;
     [SerializeField] float gravity = 0.2f;
