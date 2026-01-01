@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 /// New Input System 対応 TPS カメラ
 /// ・マウスで回転
 /// ・キャラクターを追従
+/// ・障害物があればカメラを手前に寄せる
 /// </summary>
 public class ThirdPersonCameraController : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class ThirdPersonCameraController : MonoBehaviour
     [SerializeField] float sensitivity = 0.1f;
     [SerializeField] float minPitch = -30f;
     [SerializeField] float maxPitch = 70f;
+
+    [Header("Collision")]
+    [SerializeField] float cameraRadius = 0.3f;          // カメラの当たり判定サイズ
+    [SerializeField] LayerMask obstacleLayer;             // 障害物レイヤー
 
     // Input System から受け取るマウス入力
     Vector2 lookInput;
@@ -61,10 +66,35 @@ public class ThirdPersonCameraController : MonoBehaviour
     {
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);
 
+        // プレイヤー注視点
         Vector3 targetPos = target.position + Vector3.up * height;
-        Vector3 offset = rotation * Vector3.back * distance;
 
-        targetCamera.transform.position = targetPos + offset;
+        // 理想のカメラ位置
+        Vector3 desiredOffset = rotation * Vector3.back * distance;
+        Vector3 desiredPos = targetPos + desiredOffset;
+
+        // プレイヤー → カメラ方向
+        Vector3 dir = (desiredPos - targetPos).normalized;
+
+        float currentDistance = distance;
+
+        // 障害物チェック（SphereCast）
+        if (Physics.SphereCast(
+            targetPos,
+            cameraRadius,
+            dir,
+            out RaycastHit hit,
+            distance,
+            obstacleLayer))
+        {
+            // 障害物の手前にカメラを寄せる
+            currentDistance = hit.distance;
+        }
+
+        // 最終的なカメラ位置
+        targetCamera.transform.position =
+            targetPos + dir * currentDistance;
+
         targetCamera.transform.rotation = rotation;
     }
 
