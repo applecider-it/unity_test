@@ -26,11 +26,16 @@ public class ThirdPersonCameraController : MonoBehaviour
     [SerializeField] float cameraRadius = 0.3f;          // カメラの当たり判定サイズ
     [SerializeField] LayerMask obstacleLayer;             // 障害物レイヤー
 
+    [Header("Input")]
+    [SerializeField] float lookIgnoreTime = 0.2f; // 開始直後にLookを無視する時間
+
     // Input System から受け取るマウス入力
     Vector2 lookInput;
 
     float yaw;   // 左右回転
     float pitch; // 上下回転
+
+    float lookTimer;
 
     void Start()
     {
@@ -40,10 +45,20 @@ public class ThirdPersonCameraController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // 開始直後の入力暴れ対策
+        lookTimer = lookIgnoreTime;
     }
 
     void LateUpdate()
     {
+        // 少しの間カメラ更新をしない
+        if (lookTimer > 0f)
+        {
+            lookTimer -= Time.deltaTime;
+            return;
+        }
+
         RotateCamera();
         FollowTarget();
     }
@@ -53,7 +68,7 @@ public class ThirdPersonCameraController : MonoBehaviour
     /// </summary>
     void RotateCamera()
     {
-        yaw   += lookInput.x * sensitivity;
+        yaw += lookInput.x * sensitivity;
         pitch -= lookInput.y * sensitivity;
 
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
