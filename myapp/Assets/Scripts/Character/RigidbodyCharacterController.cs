@@ -3,37 +3,47 @@ using UnityEngine;
 public class RigidbodyCharacterController : MonoBehaviour
 {
     [Header("Main")]
-    [SerializeField] float moveSpeed = 5f;
-    [SerializeField] float moveSpeedAir = 0.05f;
-    [SerializeField] float jumpForce = 6f;
-    [SerializeField] float groundCheckDistance = 0.1f;
-    [SerializeField] float rotationSpeed = 10f;
-    [SerializeField] float gravity = 0.2f;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeedAir = 0.05f;
+    [SerializeField] private float jumpForce = 6f;
+    [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private float gravity = 0.2f;
+    [SerializeField] private float maxSlopeAngle = 40f;
 
     [Header("Ground")]
-    [Tooltip("地面と判断するためのマスク")][SerializeField] LayerMask groundLayer;
+    [Tooltip("地面と判断するためのマスク")][SerializeField] private LayerMask groundLayer;
 
     // private
 
-    Rigidbody rb;
+    private Rigidbody rb;
     private Animator animator;
 
     /// <summary> 移動方向 </summary>
-    Vector2 moveInput;
+    private Vector2 moveInput;
     /// <summary> ジャンプフラグ </summary>
-    bool jump;
+    private bool jump;
     /// <summary> ジャンプ直後カウント </summary>
-    int jumpCnt = 0;
-    /// <summary> 地面にいるときはtrue </summary>
-    bool isGrounded;
-    /// <summary> 地面の法線ベクトル </summary>
-    Vector3 groundNormal = Vector3.up;
+    private int jumpCnt = 0;
+
     /// <summary> 移動床の移動量 </summary>
-    Vector3 movingPlatformDeltaPos = Vector3.zero;
+    private Vector3 movingPlatformDeltaPos = Vector3.zero;
     /// <summary> 移動床の移動量有効カウント </summary>
-    int movingPlatformDeltaPosCnt = 0;
-    /// <summary> 地面にいるときの移動ベクトル </summary>
-    Vector3 moveVelocity = Vector3.zero;
+    private int movingPlatformDeltaPosCnt = 0;
+
+    /// <summary> 地面にいるときの移動ベクトル。ジャンプ時の補正に使う。 </summary>
+    private Vector3 moveVelocity = Vector3.zero;
+
+    /// <summary> 地面接触カウント </summary>
+    private int groundContactCount = 0;
+    /// <summary> 地面接触法線ベクトル </summary>
+    private Vector3 groundContactCountNormal = Vector3.zero;
+    /// <summary> 地面接触コライダー </summary>
+    private Collider groundContactCollider = null;
+
+    /// <summary> 地面にいるときはtrue </summary>
+    private bool isGrounded => (groundContactCount > 0 && jumpCnt <= 0);
+    /// <summary> 地面の法線ベクトル </summary>
+    private Vector3 groundNormal => isGrounded ? groundContactCountNormal : Vector3.up;
 
     void Awake()
     {
@@ -45,17 +55,18 @@ public class RigidbodyCharacterController : MonoBehaviour
     {
         bool noMove = moveInput.sqrMagnitude < 0.01f;
 
-        CheckGround();
-        ExecMove(noMove);
-        ExecJump();
+        MoveProccess(noMove);
+        JumpProccess();
 
         SetAnimator(noMove);
+
+        Debug.Log("isGrounded " + isGrounded + ", groundNormal " + groundNormal);
     }
 
     /// <summary>
     /// 移動処理
     /// </summary>
-    void ExecMove(bool noMove)
+    void MoveProccess(bool noMove)
     {
         // 重力の影響を与えたあとの、Velocity.y
         float nextVY = rb.linearVelocity.y - gravity;
@@ -64,7 +75,7 @@ public class RigidbodyCharacterController : MonoBehaviour
         {
             // 入力なしの時
 
-            StopProccesInMove(nextVY);
+            StopInMoveProcces(nextVY);
         }
         else
         {
@@ -72,16 +83,16 @@ public class RigidbodyCharacterController : MonoBehaviour
 
             Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
-            MoveProccesInMove(nextVY, moveDir);
+            MoveInMoveProcces(nextVY, moveDir);
 
-            RotationProccesInMove(moveDir);
+            RotationInMoveProcces(moveDir);
         }
     }
 
     /// <summary>
     /// 移動処理の移動プロセス
     /// </summary>
-    void MoveProccesInMove(float nextVY, Vector3 moveDir)
+    void MoveInMoveProcces(float nextVY, Vector3 moveDir)
     {
         if (isGrounded)
         {
@@ -110,7 +121,7 @@ public class RigidbodyCharacterController : MonoBehaviour
     /// <summary>
     /// 移動処理の停止プロセス
     /// </summary>
-    void StopProccesInMove(float nextVY)
+    void StopInMoveProcces(float nextVY)
     {
         if (isGrounded)
         {
@@ -134,7 +145,7 @@ public class RigidbodyCharacterController : MonoBehaviour
     /// <summary>
     /// 移動処理の回転プロセス
     /// </summary>
-    void RotationProccesInMove(Vector3 moveDir)
+    void RotationInMoveProcces(Vector3 moveDir)
     {
         if (isGrounded)
         {
@@ -155,7 +166,7 @@ public class RigidbodyCharacterController : MonoBehaviour
     /// <summary>
     /// ジャンプ処理
     /// </summary>
-    void ExecJump()
+    void JumpProccess()
     {
         if (jumpCnt > 0) jumpCnt--;
         if (movingPlatformDeltaPosCnt > 0) movingPlatformDeltaPosCnt--;
@@ -166,22 +177,9 @@ public class RigidbodyCharacterController : MonoBehaviour
             {
                 // 地面にいるとき
 
-                Vector3 velocity = new Vector3(
-                    moveVelocity.x,
-                    jumpForce,
-                    moveVelocity.z
-                );
-
-                // 動く床の影響を足す
-                if (movingPlatformDeltaPosCnt > 0)
-                {
-                    velocity += movingPlatformDeltaPos * 50f;
-                }
-
-                rb.linearVelocity = velocity;
+                ExecJump();
 
                 jumpCnt = 5;
-
             }
 
             jump = false;
@@ -189,46 +187,94 @@ public class RigidbodyCharacterController : MonoBehaviour
     }
 
     /// <summary>
-    /// 地面判定
+    /// ジャンプ実行
     /// </summary>
-    void CheckGround()
+    void ExecJump()
     {
-        // ジャンプ直後は、判定をスキップ
-        if (jumpCnt > 0)
-        {
-            isGrounded = false;
-            groundNormal = Vector3.up;
+        Vector3 velocity = new Vector3(
+            moveVelocity.x,
+            jumpForce,
+            moveVelocity.z
+        );
 
-            return;
+        // 動く床の影響を足す
+        if (movingPlatformDeltaPosCnt > 0)
+        {
+            velocity += movingPlatformDeltaPos * 50f;
         }
 
-        // 足元にレイを飛ばして検査
+        rb.linearVelocity = velocity;
+    }
 
-        float radius = 0.3f; // キャラの足の太さに合わせる
-        float space = (radius * 2f) + 0.05f;
-        float distance = groundCheckDistance + space - radius;
-        Vector3 origin = transform.position + Vector3.up * space;
+    /// <summary>
+    /// 接触開始時
+    /// </summary>
+    void OnCollisionEnter(Collision collision)
+    {
+        if (!IsGroundLayer(collision.gameObject)) return;
 
-        RaycastHit hit;
-        isGrounded = Physics.SphereCast(
-            origin, // 開始位置
-            radius, // 球の半径
-            Vector3.down, // 下方向
-            out hit,
-            distance, // 距離
-            groundLayer
-        );
+        if (IsGroundContact(collision))
+        {
+            groundContactCollider = collision.collider;
+            groundContactCount++;
+        }
+    }
 
-        // デバッグ描画（接地してたら緑、してなければ赤）
-        PhysicsDebugUtil.DrawSphereCast(
-            origin,
-            radius,
-            Vector3.down,
-            distance,
-            isGrounded ? Color.green : Color.red
-        );
+    /// <summary>
+    /// 接触継続時
+    /// </summary>
+    void OnCollisionStay(Collision collision)
+    {
+        if (!IsGroundLayer(collision.gameObject)) return;
 
-        groundNormal = isGrounded ? hit.normal : Vector3.up;
+        // 接触した時の地面以外は対象外
+        if (groundContactCollider != collision.collider) return;
+
+        if (IsGroundContact(collision))
+        {
+            groundContactCount = Mathf.Max(groundContactCount, 1);
+        }
+        else
+        {
+            groundContactCount = Mathf.Max(groundContactCount - 1, 0);
+        }
+    }
+
+    /// <summary>
+    /// 接触終了時
+    /// </summary>
+    void OnCollisionExit(Collision collision)
+    {
+        if (!IsGroundLayer(collision.gameObject)) return;
+
+        groundContactCount = Mathf.Max(groundContactCount - 1, 0);
+    }
+
+    /// <summary>
+    /// 接触点が「足元付近」かチェック
+    /// </summary>
+    bool IsGroundContact(Collision collision)
+    {
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            Debug.Log("contact.normal " + contact.normal);
+            // 上向きの面か？（坂も考慮）
+            if (Vector3.Angle(contact.normal, Vector3.up) <= maxSlopeAngle)
+            {
+                Debug.Log("contact valid");
+                groundContactCountNormal = contact.normal;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// 地面レイヤーかチェック
+    /// </summary>
+    bool IsGroundLayer(GameObject obj)
+    {
+        return (groundLayer.value & (1 << obj.layer)) != 0;
     }
 
     /// <summary>

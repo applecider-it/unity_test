@@ -834,9 +834,9 @@ MonoBehaviour:
   moveSpeed: 5
   moveSpeedAir: 0.05
   jumpForce: 6
-  groundCheckDistance: 0.1
   rotationSpeed: 10
   gravity: 0.2
+  maxSlopeAngle: 40
   groundLayer:
     serializedVersion: 2
     m_Bits: 9
