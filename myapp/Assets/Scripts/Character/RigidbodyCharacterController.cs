@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using Game.Character.RigidbodyCharacterControllerParts;
+
 namespace Game.Character
 {
     public class RigidbodyCharacterController : MonoBehaviour
@@ -16,6 +18,8 @@ namespace Game.Character
         [Tooltip("地面と判断するためのマスク")][SerializeField] private LayerMask groundLayer;
 
         // private
+
+        private RigidbodyCharacterControllerMove moveCtrl;
 
         private Rigidbody rb;
         private Animator animator;
@@ -51,118 +55,23 @@ namespace Game.Character
         {
             rb = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
+
+            moveCtrl = new RigidbodyCharacterControllerMove(rb);
         }
 
         void FixedUpdate()
         {
             bool noMove = moveInput.sqrMagnitude < 0.01f;
 
-            MoveProccess(noMove);
+            moveCtrl.MoveProccess(
+                noMove, gravity, moveInput, isGrounded, groundNormal,
+                ref moveVelocity, moveSpeed, moveSpeedAir, rotationSpeed
+            );
             JumpProccess();
 
             SetAnimator(noMove);
 
             Debug.Log("isGrounded " + isGrounded + ", groundNormal " + groundNormal);
-        }
-
-        /// <summary>
-        /// 移動処理
-        /// </summary>
-        void MoveProccess(bool noMove)
-        {
-            // 重力の影響を与えたあとの、Velocity.y
-            float nextVY = rb.linearVelocity.y - gravity;
-
-            if (noMove)
-            {
-                // 入力なしの時
-
-                StopInMoveProcces(nextVY);
-            }
-            else
-            {
-                // 入力ありの時
-
-                Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
-
-                MoveInMoveProcces(nextVY, moveDir);
-
-                RotationInMoveProcces(moveDir);
-            }
-        }
-
-        /// <summary>
-        /// 移動処理の移動プロセス
-        /// </summary>
-        void MoveInMoveProcces(float nextVY, Vector3 moveDir)
-        {
-            if (isGrounded)
-            {
-                // 地面にいるとき
-
-                Vector3 slopeMoveDir = Vector3.ProjectOnPlane(moveDir, groundNormal).normalized;
-
-                moveVelocity = slopeMoveDir * moveSpeed;
-
-                Vector3 stickVelocity = -groundNormal * 1f;
-
-                rb.linearVelocity = moveVelocity + stickVelocity;
-            }
-            else
-            {
-                // 地面にいないとき
-
-                rb.linearVelocity = new Vector3(
-                    rb.linearVelocity.x,
-                    nextVY,
-                    rb.linearVelocity.z
-                ) + (moveDir * moveSpeedAir);
-            }
-        }
-
-        /// <summary>
-        /// 移動処理の停止プロセス
-        /// </summary>
-        void StopInMoveProcces(float nextVY)
-        {
-            if (isGrounded)
-            {
-                Vector3 stickVelocity = -groundNormal * 1f;
-
-                moveVelocity = Vector3.zero;
-
-                // こうすることで、上り坂で止まった時に跳ねないようになる
-                rb.linearVelocity = moveVelocity + stickVelocity;
-            }
-            else
-            {
-                rb.linearVelocity = new Vector3(
-                    rb.linearVelocity.x,
-                    nextVY,
-                    rb.linearVelocity.z
-                );
-            }
-        }
-
-        /// <summary>
-        /// 移動処理の回転プロセス
-        /// </summary>
-        void RotationInMoveProcces(Vector3 moveDir)
-        {
-            if (isGrounded)
-            {
-                // 移動方向を向く回転
-                Quaternion targetRotation = Quaternion.LookRotation(moveDir);
-
-                // 現在の向きからスムーズに補間
-                rb.MoveRotation(
-                    Quaternion.Slerp(
-                        rb.rotation,
-                        targetRotation,
-                        rotationSpeed * Time.fixedDeltaTime
-                    )
-                );
-            }
         }
 
         /// <summary>
