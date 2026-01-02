@@ -11,6 +11,7 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         {
             rb = argRb;
         }
+
         /// <summary>
         /// 移動処理
         /// </summary>

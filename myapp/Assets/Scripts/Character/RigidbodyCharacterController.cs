@@ -21,9 +21,9 @@ namespace Game.Character
 
         private RigidbodyCharacterControllerMove moveCtrl;
         private RigidbodyCharacterControllerJump jumpCtrl;
+        private RigidbodyCharacterControllerAnimation animCtrl;
 
         private Rigidbody rb;
-        private Animator animator;
 
         /// <summary> 移動方向 </summary>
         private Vector2 moveInput;
@@ -55,10 +55,11 @@ namespace Game.Character
         void Awake()
         {
             rb = GetComponent<Rigidbody>();
-            animator = GetComponent<Animator>();
+            Animator animator = GetComponent<Animator>();
 
             moveCtrl = new RigidbodyCharacterControllerMove(rb);
             jumpCtrl = new RigidbodyCharacterControllerJump(rb);
+            animCtrl = new RigidbodyCharacterControllerAnimation(animator);
         }
 
         void FixedUpdate()
@@ -78,7 +79,7 @@ namespace Game.Character
                 isGrounded, moveVelocity, jumpForce, movingPlatformDeltaPos
             );
 
-            SetAnimator(noMove);
+            animCtrl.SetAnimator(noMove, isGrounded);
 
             Debug.Log("isGrounded " + isGrounded + ", groundNormal " + groundNormal);
         }
@@ -152,25 +153,6 @@ namespace Game.Character
         bool IsGroundLayer(GameObject obj)
         {
             return (groundLayer.value & (1 << obj.layer)) != 0;
-        }
-
-        /// <summary>
-        /// アニメーター指定
-        /// </summary>
-        void SetAnimator(bool noMove)
-        {
-            if (noMove)
-            {
-                // 入力なしの時
-
-                animator.SetBool("move", false);
-            }
-            else
-            {
-                // 入力ありの時
-
-                animator.SetBool("move", isGrounded);
-            }
         }
 
         // setter
