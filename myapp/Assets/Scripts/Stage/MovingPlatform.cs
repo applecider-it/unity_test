@@ -1,84 +1,89 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingPlatform : MonoBehaviour
+using Game.Character;
+
+namespace Game.Stage
 {
-    private Vector3 lastPosition;
-    private Quaternion lastRotation;
-
-    // 上に乗っている Rigidbody 一覧
-    private HashSet<Rigidbody> ridingBodies = new HashSet<Rigidbody>();
-
-    void Start()
+    public class MovingPlatform : MonoBehaviour
     {
-        lastPosition = transform.position;
-        lastRotation = transform.rotation;
-    }
+        private Vector3 lastPosition;
+        private Quaternion lastRotation;
 
-    void LateUpdate()
-    {
-        Vector3 positionDelta = transform.position - lastPosition;
-        Quaternion rotationDelta = transform.rotation * Quaternion.Inverse(lastRotation);
+        // 上に乗っている Rigidbody 一覧
+        private HashSet<Rigidbody> ridingBodies = new HashSet<Rigidbody>();
 
-        if (positionDelta != Vector3.zero || rotationDelta != Quaternion.identity)
+        void Start()
         {
-            foreach (var rb in ridingBodies)
+            lastPosition = transform.position;
+            lastRotation = transform.rotation;
+        }
+
+        void LateUpdate()
+        {
+            Vector3 positionDelta = transform.position - lastPosition;
+            Quaternion rotationDelta = transform.rotation * Quaternion.Inverse(lastRotation);
+
+            if (positionDelta != Vector3.zero || rotationDelta != Quaternion.identity)
             {
-                // 回転による位置変化
-                Vector3 relativePos = rb.position - transform.position;
-                Vector3 rotatedPos = rotationDelta * relativePos;
+                foreach (var rb in ridingBodies)
+                {
+                    // 回転による位置変化
+                    Vector3 relativePos = rb.position - transform.position;
+                    Vector3 rotatedPos = rotationDelta * relativePos;
 
-                Vector3 deltaPos = (transform.position + rotatedPos + positionDelta) - rb.position;
+                    Vector3 deltaPos = (transform.position + rotatedPos + positionDelta) - rb.position;
 
-                SetDeltaPosToCharacter(rb, deltaPos);
+                    SetDeltaPosToCharacter(rb, deltaPos);
 
-                rb.position += deltaPos;
+                    rb.position += deltaPos;
 
-                // 足場の回転に合わせて Rigidbody も回転させたい場合
-                rb.rotation = rotationDelta * rb.rotation;
+                    // 足場の回転に合わせて Rigidbody も回転させたい場合
+                    rb.rotation = rotationDelta * rb.rotation;
+                }
+            }
+
+            lastPosition = transform.position;
+            lastRotation = transform.rotation;
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            Debug.Log("OnCollisionEnter");
+
+            var rb = collision.rigidbody;
+            if (rb == null) return;
+
+            foreach (var contact in collision.contacts)
+            {
+                if (Vector3.Dot(-contact.normal, Vector3.up) > 0.5f)
+                {
+                    // 接触面の法線が上向きなら「上に乗っている」と判断
+
+                    ridingBodies.Add(rb);
+                    break;
+                }
             }
         }
 
-        lastPosition = transform.position;
-        lastRotation = transform.rotation;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("OnCollisionEnter");
-
-        var rb = collision.rigidbody;
-        if (rb == null) return;
-
-        foreach (var contact in collision.contacts)
+        private void OnCollisionExit(Collision collision)
         {
-            if (Vector3.Dot(-contact.normal, Vector3.up) > 0.5f)
-            {
-                // 接触面の法線が上向きなら「上に乗っている」と判断
+            Debug.Log("OnCollisionExit");
 
-                ridingBodies.Add(rb);
-                break;
+            var rb = collision.rigidbody;
+            if (rb != null)
+            {
+                ridingBodies.Remove(rb);
             }
         }
-    }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        Debug.Log("OnCollisionExit");
-
-        var rb = collision.rigidbody;
-        if (rb != null)
+        private void SetDeltaPosToCharacter(Rigidbody rb, Vector3 value)
         {
-            ridingBodies.Remove(rb);
-        }
-    }
-
-    private void SetDeltaPosToCharacter(Rigidbody rb, Vector3 value)
-    {
-        var controller = rb.GetComponent<RigidbodyCharacterController>();
-        if (controller != null)
-        {
-            controller.MovingPlatformDeltaPos = value;
+            var controller = rb.GetComponent<RigidbodyCharacterController>();
+            if (controller != null)
+            {
+                controller.MovingPlatformDeltaPos = value;
+            }
         }
     }
 }
