@@ -808,72 +808,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!1 &185552125
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 185552126}
-  - component: {fileID: 185552127}
-  - component: {fileID: 185552128}
-  m_Layer: 2
-  m_Name: Top
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &185552126
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 185552125}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.61, z: 0}
-  m_LocalScale: {x: 0.9657884, y: 0.45049745, z: 0.9657884}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1265541366}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &185552127
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 185552125}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &185552128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 185552125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e02c3682802429c499b489d0caac424f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
 --- !u!1 &274214517
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,7 +837,7 @@ Transform:
   m_GameObject: {fileID: 274214517}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.85, y: 0.83, z: -7.01}
+  m_LocalPosition: {x: -6.52, y: 4.67, z: -1.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1915,6 +1849,7 @@ GameObject:
   - component: {fileID: 817338013}
   - component: {fileID: 817338012}
   - component: {fileID: 817338011}
+  - component: {fileID: 817338015}
   m_Layer: 0
   m_Name: Block
   m_TagString: Untagged
@@ -1931,7 +1866,7 @@ Transform:
   m_GameObject: {fileID: 817338009}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.88, y: 1.6, z: -1.44}
+  m_LocalPosition: {x: -6.72, y: 3.81, z: -1.73}
   m_LocalScale: {x: 1.4101, y: 1.4101, z: 1.4101}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2042,6 +1977,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 817338009}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &817338015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817338009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02c3682802429c499b489d0caac424f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -2517,13 +2464,13 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1137595755}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!43 &1205824715
+--- !u!43 &1186548508
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-98554
+  m_Name: pb_Mesh-98554(Clone)
   serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
@@ -2725,6 +2672,7 @@ GameObject:
   - component: {fileID: 1265541367}
   - component: {fileID: 1265541371}
   - component: {fileID: 1265541372}
+  - component: {fileID: 1265541373}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -2744,8 +2692,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 8, y: 0.5, z: 8}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 185552126}
+  m_Children: []
   m_Father: {fileID: 170751667}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1265541367
@@ -2848,7 +2795,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265541365}
-  m_Mesh: {fileID: 1205824715}
+  m_Mesh: {fileID: 1186548508}
 --- !u!54 &1265541371
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3207,12 +3154,24 @@ MonoBehaviour:
     m_AreaError: 15
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
-  m_Mesh: {fileID: 1205824715}
+  m_Mesh: {fileID: 1186548508}
   m_VersionIndex: 74
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &1265541373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265541365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02c3682802429c499b489d0caac424f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
 --- !u!1 &1290061544
 GameObject:
   m_ObjectHideFlags: 0
@@ -8637,6 +8596,7 @@ GameObject:
   - component: {fileID: 1804704880}
   - component: {fileID: 1804704879}
   - component: {fileID: 1804704878}
+  - component: {fileID: 1804704882}
   m_Layer: 0
   m_Name: HavyBlock
   m_TagString: Untagged
@@ -8653,7 +8613,7 @@ Transform:
   m_GameObject: {fileID: 1804704876}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.31, y: 1.85, z: -0.45}
+  m_LocalPosition: {x: -6.91, y: 1.85, z: -1.68}
   m_LocalScale: {x: 2.2917163, y: 2.2917163, z: 2.2917163}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8764,6 +8724,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1804704876}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1804704882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804704876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02c3682802429c499b489d0caac424f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
 --- !u!1 &1815737528
 GameObject:
   m_ObjectHideFlags: 0

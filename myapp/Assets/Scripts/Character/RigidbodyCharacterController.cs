@@ -11,7 +11,7 @@ public class RigidbodyCharacterController : MonoBehaviour
     [SerializeField] float gravity = 0.2f;
 
     [Header("Ground")]
-    [Tooltip("地面と判断するためのマスク")] [SerializeField] LayerMask groundLayer;
+    [Tooltip("地面と判断するためのマスク")][SerializeField] LayerMask groundLayer;
 
     // private
 
@@ -85,11 +85,9 @@ public class RigidbodyCharacterController : MonoBehaviour
 
             Vector3 targetVelocity = slopeMoveDir * moveSpeed;
 
-            rb.linearVelocity = new Vector3(
-                targetVelocity.x,
-                targetVelocity.y,
-                targetVelocity.z
-            );
+            Vector3 stickVelocity = -groundNormal * 1f;
+
+            rb.linearVelocity = targetVelocity + stickVelocity;
         }
         else
         {
@@ -110,8 +108,10 @@ public class RigidbodyCharacterController : MonoBehaviour
     {
         if (isGrounded)
         {
-            // Velocity.yを0にすることで、上り坂で止まった時に跳ねないようになる
-            rb.linearVelocity = new Vector3(0f, 0f, 0f);
+            Vector3 stickVelocity = -groundNormal * 1f;
+
+            // こうすることで、上り坂で止まった時に跳ねないようになる
+            rb.linearVelocity = stickVelocity;
         }
         else
         {

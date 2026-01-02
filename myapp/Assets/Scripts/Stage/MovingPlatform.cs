@@ -39,18 +39,25 @@ public class MovingPlatform : MonoBehaviour
         lastRotation = transform.rotation;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        var rb = other.attachedRigidbody;
-        if (rb != null)
+        var rb = collision.rigidbody;
+        if (rb == null) return;
+
+        // 接触面の法線が上向きなら「上に乗っている」と判断
+        foreach (var contact in collision.contacts)
         {
-            ridingBodies.Add(rb);
+            if (Vector3.Dot(-contact.normal, Vector3.up) > 0.5f)
+            {
+                ridingBodies.Add(rb);
+                break;
+            }
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision collision)
     {
-        var rb = other.attachedRigidbody;
+        var rb = collision.rigidbody;
         if (rb != null)
         {
             ridingBodies.Remove(rb);
