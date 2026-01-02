@@ -22,6 +22,7 @@ namespace Game.Character
         private RigidbodyCharacterControllerMove moveCtrl;
         private RigidbodyCharacterControllerJump jumpCtrl;
         private RigidbodyCharacterControllerAnimation animCtrl;
+        private RigidbodyCharacterControllerGround groundCtrl;
 
         private Rigidbody rb;
 
@@ -40,17 +41,10 @@ namespace Game.Character
         /// <summary> 地面にいるときの移動ベクトル。ジャンプ時の補正に使う。 </summary>
         private Vector3 moveVelocity = Vector3.zero;
 
-        /// <summary> 地面接触カウント </summary>
-        private int groundContactCount = 0;
-        /// <summary> 地面接触法線ベクトル </summary>
-        private Vector3 groundContactCountNormal = Vector3.zero;
-        /// <summary> 地面接触コライダー </summary>
-        private Collider groundContactCollider = null;
-
         /// <summary> 地面にいるときはtrue </summary>
-        private bool isGrounded => (groundContactCount > 0 && jumpCnt <= 0);
+        private bool isGrounded => (groundCtrl.GroundContactCount > 0 && jumpCnt <= 0);
         /// <summary> 地面の法線ベクトル </summary>
-        private Vector3 groundNormal => isGrounded ? groundContactCountNormal : Vector3.up;
+        private Vector3 groundNormal => isGrounded ? groundCtrl.GroundContactCountNormal : Vector3.up;
 
         void Awake()
         {
@@ -60,6 +54,7 @@ namespace Game.Character
             moveCtrl = new RigidbodyCharacterControllerMove(rb);
             jumpCtrl = new RigidbodyCharacterControllerJump(rb);
             animCtrl = new RigidbodyCharacterControllerAnimation(animator);
+            groundCtrl = new RigidbodyCharacterControllerGround();
         }
 
         void FixedUpdate()
@@ -89,13 +84,7 @@ namespace Game.Character
         /// </summary>
         void OnCollisionEnter(Collision collision)
         {
-            if (!IsGroundLayer(collision.gameObject)) return;
-
-            if (IsGroundContact(collision))
-            {
-                groundContactCollider = collision.collider;
-                groundContactCount++;
-            }
+            groundCtrl.OnCollisionEnter(collision, groundLayer, maxSlopeAngle);
         }
 
         /// <summary>
@@ -103,19 +92,7 @@ namespace Game.Character
         /// </summary>
         void OnCollisionStay(Collision collision)
         {
-            if (!IsGroundLayer(collision.gameObject)) return;
-
-            // 接触した時の地面以外は対象外
-            if (groundContactCollider != collision.collider) return;
-
-            if (IsGroundContact(collision))
-            {
-                groundContactCount = Mathf.Max(groundContactCount, 1);
-            }
-            else
-            {
-                groundContactCount = Mathf.Max(groundContactCount - 1, 0);
-            }
+            groundCtrl.OnCollisionStay(collision, groundLayer, maxSlopeAngle);
         }
 
         /// <summary>
@@ -123,36 +100,7 @@ namespace Game.Character
         /// </summary>
         void OnCollisionExit(Collision collision)
         {
-            if (!IsGroundLayer(collision.gameObject)) return;
-
-            groundContactCount = Mathf.Max(groundContactCount - 1, 0);
-        }
-
-        /// <summary>
-        /// 接触点が「足元付近」かチェック
-        /// </summary>
-        bool IsGroundContact(Collision collision)
-        {
-            foreach (ContactPoint contact in collision.contacts)
-            {
-                Debug.Log("contact.normal " + contact.normal);
-                // 上向きの面か？（坂も考慮）
-                if (Vector3.Angle(contact.normal, Vector3.up) <= maxSlopeAngle)
-                {
-                    Debug.Log("contact valid");
-                    groundContactCountNormal = contact.normal;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 地面レイヤーかチェック
-        /// </summary>
-        bool IsGroundLayer(GameObject obj)
-        {
-            return (groundLayer.value & (1 << obj.layer)) != 0;
+            groundCtrl.OnCollisionExit(collision, groundLayer);
         }
 
         // setter
