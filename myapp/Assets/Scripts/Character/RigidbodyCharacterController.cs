@@ -20,6 +20,7 @@ namespace Game.Character
         // private
 
         private RigidbodyCharacterControllerMove moveCtrl;
+        private RigidbodyCharacterControllerJump jumpCtrl;
 
         private Rigidbody rb;
         private Animator animator;
@@ -57,6 +58,7 @@ namespace Game.Character
             animator = GetComponent<Animator>();
 
             moveCtrl = new RigidbodyCharacterControllerMove(rb);
+            jumpCtrl = new RigidbodyCharacterControllerJump(rb);
         }
 
         void FixedUpdate()
@@ -67,54 +69,18 @@ namespace Game.Character
                 noMove, gravity, moveInput, isGrounded, groundNormal,
                 ref moveVelocity, moveSpeed, moveSpeedAir, rotationSpeed
             );
-            JumpProccess();
+
+            if (jumpCnt > 0) jumpCnt--;
+            if (movingPlatformDeltaPosCnt > 0) movingPlatformDeltaPosCnt--;
+
+            jumpCtrl.JumpProccess(
+                ref jump, ref jumpCnt, movingPlatformDeltaPosCnt,
+                isGrounded, moveVelocity, jumpForce, movingPlatformDeltaPos
+            );
 
             SetAnimator(noMove);
 
             Debug.Log("isGrounded " + isGrounded + ", groundNormal " + groundNormal);
-        }
-
-        /// <summary>
-        /// ジャンプ処理
-        /// </summary>
-        void JumpProccess()
-        {
-            if (jumpCnt > 0) jumpCnt--;
-            if (movingPlatformDeltaPosCnt > 0) movingPlatformDeltaPosCnt--;
-
-            if (jump)
-            {
-                if (isGrounded)
-                {
-                    // 地面にいるとき
-
-                    ExecJump();
-
-                    jumpCnt = 5;
-                }
-
-                jump = false;
-            }
-        }
-
-        /// <summary>
-        /// ジャンプ実行
-        /// </summary>
-        void ExecJump()
-        {
-            Vector3 velocity = new Vector3(
-                moveVelocity.x,
-                jumpForce,
-                moveVelocity.z
-            );
-
-            // 動く床の影響を足す
-            if (movingPlatformDeltaPosCnt > 0)
-            {
-                velocity += movingPlatformDeltaPos * 50f;
-            }
-
-            rb.linearVelocity = velocity;
         }
 
         /// <summary>
