@@ -49,7 +49,7 @@ namespace Game.Stage
 
         private void OnCollisionEnter(Collision collision)
         {
-            Debug.Log("OnCollisionEnter");
+            //Debug.Log("OnCollisionEnter");
 
             var rb = collision.rigidbody;
             if (rb == null) return;
@@ -68,7 +68,7 @@ namespace Game.Stage
 
         private void OnCollisionExit(Collision collision)
         {
-            Debug.Log("OnCollisionExit");
+            //Debug.Log("OnCollisionExit");
 
             var rb = collision.rigidbody;
             if (rb != null)

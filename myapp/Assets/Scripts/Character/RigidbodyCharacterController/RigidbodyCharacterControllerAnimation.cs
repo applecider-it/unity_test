@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Game.Character.RigidbodyCharacterControllerParts
 {
+    /// <summary>
+    /// アニメーション処理
+    /// </summary>
     public class RigidbodyCharacterControllerAnimation
     {
         private Animator animator;

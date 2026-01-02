@@ -4,17 +4,22 @@ using Game.Character.RigidbodyCharacterControllerParts;
 
 namespace Game.Character
 {
+    /// <summary>
+    /// Rigidbodyキャラクター管理
+    /// </summary>
     public class RigidbodyCharacterController : MonoBehaviour
     {
-        [Header("Main")]
+        [Header("Character")]
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private float moveSpeedAir = 0.05f;
         [SerializeField] private float jumpForce = 6f;
         [SerializeField] private float rotationSpeed = 10f;
+
+        [Header("Physics")]
         [SerializeField] private float gravity = 0.2f;
-        [SerializeField] private float maxSlopeAngle = 40f;
 
         [Header("Ground")]
+        [Tooltip("地面と認識する最大角度")][SerializeField] private float maxSlopeAngle = 40f;
         [Tooltip("地面と判断するためのマスク")][SerializeField] private LayerMask groundLayer;
 
         // private
@@ -24,31 +29,19 @@ namespace Game.Character
         private RigidbodyCharacterControllerAnimation animCtrl;
         private RigidbodyCharacterControllerGround groundCtrl;
 
-        private Rigidbody rb;
-
-        /// <summary> 移動方向 </summary>
-        private Vector2 moveInput;
-        /// <summary> ジャンプフラグ </summary>
-        private bool jump;
-        /// <summary> ジャンプ直後カウント </summary>
-        private int jumpCnt = 0;
-
         /// <summary> 移動床の移動量 </summary>
         private Vector3 movingPlatformDeltaPos = Vector3.zero;
         /// <summary> 移動床の移動量有効カウント </summary>
         private int movingPlatformDeltaPosCnt = 0;
 
-        /// <summary> 地面にいるときの移動ベクトル。ジャンプ時の補正に使う。 </summary>
-        private Vector3 moveVelocity = Vector3.zero;
-
         /// <summary> 地面にいるときはtrue </summary>
-        private bool isGrounded => (groundCtrl.GroundContactCount > 0 && jumpCnt <= 0);
+        private bool isGrounded => (groundCtrl.GroundContactCount > 0 && jumpCtrl.JumpCnt <= 0);
         /// <summary> 地面の法線ベクトル </summary>
-        private Vector3 groundNormal => isGrounded ? groundCtrl.GroundContactCountNormal : Vector3.up;
+        private Vector3 groundNormal => isGrounded ? groundCtrl.GroundContactNormal : Vector3.up;
 
         void Awake()
         {
-            rb = GetComponent<Rigidbody>();
+            Rigidbody rb = GetComponent<Rigidbody>();
             Animator animator = GetComponent<Animator>();
 
             moveCtrl = new RigidbodyCharacterControllerMove(rb);
@@ -59,24 +52,25 @@ namespace Game.Character
 
         void FixedUpdate()
         {
-            bool noMove = moveInput.sqrMagnitude < 0.01f;
+            bool noMove = moveCtrl.NoMove();
 
-            moveCtrl.MoveProccess(
-                noMove, gravity, moveInput, isGrounded, groundNormal,
-                ref moveVelocity, moveSpeed, moveSpeedAir, rotationSpeed
-            );
-
-            if (jumpCnt > 0) jumpCnt--;
             if (movingPlatformDeltaPosCnt > 0) movingPlatformDeltaPosCnt--;
 
+            Vector3 movingPlatformDelta = (movingPlatformDeltaPosCnt > 0) ? movingPlatformDeltaPos : Vector3.zero;
+
+            moveCtrl.MoveProccess(
+                noMove, gravity, isGrounded, groundNormal,
+                moveSpeed, moveSpeedAir, rotationSpeed
+            );
+
             jumpCtrl.JumpProccess(
-                ref jump, ref jumpCnt, movingPlatformDeltaPosCnt,
-                isGrounded, moveVelocity, jumpForce, movingPlatformDeltaPos
+                movingPlatformDelta,
+                isGrounded, moveCtrl.MoveVelocity, jumpForce
             );
 
             animCtrl.SetAnimator(noMove, isGrounded);
 
-            Debug.Log("isGrounded " + isGrounded + ", groundNormal " + groundNormal);
+            //Debug.Log("isGrounded " + isGrounded + ", groundNormal " + groundNormal);
         }
 
         /// <summary>
@@ -105,8 +99,8 @@ namespace Game.Character
 
         // setter
 
-        public Vector2 MoveInput { set => moveInput = value; }
-        public bool Jump { set => jump = value; }
+        public Vector2 MoveInput { set => moveCtrl.MoveInput = value; }
+        public bool Jump { set => jumpCtrl.Jump = value; }
         public Vector3 MovingPlatformDeltaPos
         {
             set

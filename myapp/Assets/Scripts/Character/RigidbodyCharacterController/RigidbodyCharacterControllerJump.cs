@@ -2,9 +2,17 @@ using UnityEngine;
 
 namespace Game.Character.RigidbodyCharacterControllerParts
 {
+    /// <summary>
+    /// ジャンプ処理
+    /// </summary>
     public class RigidbodyCharacterControllerJump
     {
         private Rigidbody rb;
+
+        /// <summary> ジャンプフラグ </summary>
+        private bool jump;
+        /// <summary> ジャンプ直後カウント </summary>
+        private int jumpCnt = 0;
 
         // コンストラクタ
         public RigidbodyCharacterControllerJump(Rigidbody argRb)
@@ -16,10 +24,12 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         /// ジャンプ処理
         /// </summary>
         public void JumpProccess(
-            ref bool jump, ref int jumpCnt, int movingPlatformDeltaPosCnt,
-            bool isGrounded, Vector3 moveVelocity, float jumpForce, Vector3 movingPlatformDeltaPos
+            Vector3 movingPlatformDelta,
+            bool isGrounded, Vector3 moveVelocity, float jumpForce
         )
         {
+            if (jumpCnt > 0) jumpCnt--;
+
             if (jump)
             {
                 if (isGrounded)
@@ -27,8 +37,8 @@ namespace Game.Character.RigidbodyCharacterControllerParts
                     // 地面にいるとき
 
                     ExecJump(
-                        movingPlatformDeltaPosCnt, moveVelocity, jumpForce,
-                        movingPlatformDeltaPos
+                        moveVelocity, jumpForce,
+                        movingPlatformDelta
                     );
 
                     jumpCnt = 5;
@@ -41,10 +51,7 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         /// <summary>
         /// ジャンプ実行
         /// </summary>
-        void ExecJump(
-            int movingPlatformDeltaPosCnt, Vector3 moveVelocity, float jumpForce,
-            Vector3 movingPlatformDeltaPos
-        )
+        void ExecJump(Vector3 moveVelocity, float jumpForce, Vector3 movingPlatformDelta)
         {
             Vector3 velocity = new Vector3(
                 moveVelocity.x,
@@ -53,12 +60,14 @@ namespace Game.Character.RigidbodyCharacterControllerParts
             );
 
             // 動く床の影響を足す
-            if (movingPlatformDeltaPosCnt > 0)
-            {
-                velocity += movingPlatformDeltaPos * 50f;
-            }
+            velocity += movingPlatformDelta * 50f;
 
             rb.linearVelocity = velocity;
         }
+
+        // getter setter
+
+        public bool Jump { set => jump = value; }
+        public int JumpCnt { get => jumpCnt; }
     }
 }

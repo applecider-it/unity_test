@@ -2,9 +2,18 @@ using UnityEngine;
 
 namespace Game.Character.RigidbodyCharacterControllerParts
 {
+    /// <summary>
+    /// 移動処理
+    /// </summary>
     public class RigidbodyCharacterControllerMove
     {
         private Rigidbody rb;
+
+        /// <summary> 移動方向 </summary>
+        private Vector2 moveInput;
+
+        /// <summary> 地面にいるときの移動ベクトル。ジャンプ時の補正に使う。 </summary>
+        private Vector3 moveVelocity = Vector3.zero;
 
         // コンストラクタ
         public RigidbodyCharacterControllerMove(Rigidbody argRb)
@@ -13,11 +22,19 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         }
 
         /// <summary>
+        /// 方向キーが有効か返す
+        /// </summary>
+        public bool NoMove()
+        {
+            return moveInput.sqrMagnitude < 0.01f;
+        }
+
+        /// <summary>
         /// 移動処理
         /// </summary>
         public void MoveProccess(
-            bool noMove, float gravity, Vector2 moveInput, bool isGrounded, Vector3 groundNormal,
-            ref Vector3 moveVelocity, float moveSpeed, float moveSpeedAir, float rotationSpeed
+            bool noMove, float gravity, bool isGrounded, Vector3 groundNormal,
+            float moveSpeed, float moveSpeedAir, float rotationSpeed
         )
         {
             // 重力の影響を与えたあとの、Velocity.y
@@ -27,7 +44,7 @@ namespace Game.Character.RigidbodyCharacterControllerParts
             {
                 // 入力なしの時
 
-                StopInMoveProcces(nextVY, isGrounded, groundNormal, ref moveVelocity);
+                StopInMoveProcces(nextVY, isGrounded, groundNormal);
             }
             else
             {
@@ -37,7 +54,7 @@ namespace Game.Character.RigidbodyCharacterControllerParts
 
                 MoveInMoveProcces(
                     nextVY, moveDir, isGrounded, groundNormal,
-                    ref moveVelocity, moveSpeed, moveSpeedAir
+                    moveSpeed, moveSpeedAir
                 );
 
                 RotationInMoveProcces(moveDir, isGrounded, rotationSpeed);
@@ -49,7 +66,7 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         /// </summary>
         void MoveInMoveProcces(
             float nextVY, Vector3 moveDir, bool isGrounded, Vector3 groundNormal,
-            ref Vector3 moveVelocity, float moveSpeed, float moveSpeedAir
+            float moveSpeed, float moveSpeedAir
         )
         {
             if (isGrounded)
@@ -80,8 +97,7 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         /// 移動処理の停止プロセス
         /// </summary>
         void StopInMoveProcces(
-            float nextVY, bool isGrounded, Vector3 groundNormal,
-            ref Vector3 moveVelocity
+            float nextVY, bool isGrounded, Vector3 groundNormal
         )
         {
             if (isGrounded)
@@ -124,5 +140,9 @@ namespace Game.Character.RigidbodyCharacterControllerParts
             }
         }
 
+        // setter getter
+
+        public Vector2 MoveInput { set => moveInput = value; }
+        public Vector3 MoveVelocity { get => moveVelocity; }
     }
 }
