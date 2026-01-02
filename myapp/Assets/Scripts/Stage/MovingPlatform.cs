@@ -4,6 +4,7 @@ using UnityEngine;
 public class MovingPlatform : MonoBehaviour
 {
     private Vector3 lastPosition;
+    private Quaternion lastRotation;
 
     // 上に乗っている Rigidbody 一覧
     private HashSet<Rigidbody> ridingBodies = new HashSet<Rigidbody>();
@@ -11,22 +12,31 @@ public class MovingPlatform : MonoBehaviour
     void Start()
     {
         lastPosition = transform.position;
+        lastRotation = transform.rotation;
     }
 
     void LateUpdate()
     {
-        Vector3 delta = transform.position - lastPosition;
+        Vector3 positionDelta = transform.position - lastPosition;
+        Quaternion rotationDelta = transform.rotation * Quaternion.Inverse(lastRotation);
 
-        if (delta != Vector3.zero)
+        if (positionDelta != Vector3.zero || rotationDelta != Quaternion.identity)
         {
             foreach (var rb in ridingBodies)
             {
-                // Rigidbody を直接動かす方が安全
-                rb.position += delta;
+                // 回転による位置変化
+                Vector3 relativePos = rb.position - lastPosition;
+                Vector3 rotatedPos = rotationDelta * relativePos;
+
+                rb.position = lastPosition + rotatedPos + positionDelta;
+
+                // 足場の回転に合わせて Rigidbody も回転させたい場合
+                rb.rotation = rotationDelta * rb.rotation;
             }
         }
 
         lastPosition = transform.position;
+        lastRotation = transform.rotation;
     }
 
     private void OnTriggerEnter(Collider other)
