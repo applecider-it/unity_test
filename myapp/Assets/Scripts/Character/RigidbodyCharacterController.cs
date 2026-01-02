@@ -29,6 +29,9 @@ public class RigidbodyCharacterController : MonoBehaviour
     /// <summary> 地面の法線ベクトル </summary>
     Vector3 groundNormal = Vector3.up;
 
+    Vector3 movingPlatformDeltaPos = Vector3.zero;
+    int movingPlatformDeltaPosCnt = 0;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -150,6 +153,7 @@ public class RigidbodyCharacterController : MonoBehaviour
     void ExecJump()
     {
         if (jumpCnt > 0) jumpCnt--;
+        if (movingPlatformDeltaPosCnt > 0) movingPlatformDeltaPosCnt--;
 
         if (jump)
         {
@@ -157,11 +161,19 @@ public class RigidbodyCharacterController : MonoBehaviour
             {
                 // 地面にいるとき
 
-                rb.linearVelocity = new Vector3(
+                Vector3 velocity = new Vector3(
                     rb.linearVelocity.x,
                     jumpForce,
                     rb.linearVelocity.z
                 );
+
+                // 動く床の影響を足す
+                if (movingPlatformDeltaPosCnt > 0)
+                {
+                    velocity += movingPlatformDeltaPos * 50f;
+                }
+
+                rb.linearVelocity = velocity;
 
                 jumpCnt = 5;
 
@@ -226,4 +238,12 @@ public class RigidbodyCharacterController : MonoBehaviour
 
     public Vector2 MoveInput { set => moveInput = value; }
     public bool Jump { set => jump = value; }
+    public Vector3 MovingPlatformDeltaPos
+    {
+        set
+        {
+            movingPlatformDeltaPos = value;
+            movingPlatformDeltaPosCnt = 5;
+        }
+    }
 }

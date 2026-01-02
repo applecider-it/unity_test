@@ -25,10 +25,14 @@ public class MovingPlatform : MonoBehaviour
             foreach (var rb in ridingBodies)
             {
                 // 回転による位置変化
-                Vector3 relativePos = rb.position - lastPosition;
+                Vector3 relativePos = rb.position - transform.position;
                 Vector3 rotatedPos = rotationDelta * relativePos;
 
-                rb.position = lastPosition + rotatedPos + positionDelta;
+                Vector3 deltaPos = (transform.position + rotatedPos + positionDelta) - rb.position;
+
+                SetDeltaPosToCharacter(rb, deltaPos);
+
+                rb.position += deltaPos;
 
                 // 足場の回転に合わせて Rigidbody も回転させたい場合
                 rb.rotation = rotationDelta * rb.rotation;
@@ -44,11 +48,12 @@ public class MovingPlatform : MonoBehaviour
         var rb = collision.rigidbody;
         if (rb == null) return;
 
-        // 接触面の法線が上向きなら「上に乗っている」と判断
         foreach (var contact in collision.contacts)
         {
             if (Vector3.Dot(-contact.normal, Vector3.up) > 0.5f)
             {
+                // 接触面の法線が上向きなら「上に乗っている」と判断
+
                 ridingBodies.Add(rb);
                 break;
             }
@@ -61,6 +66,15 @@ public class MovingPlatform : MonoBehaviour
         if (rb != null)
         {
             ridingBodies.Remove(rb);
+        }
+    }
+
+    private void SetDeltaPosToCharacter(Rigidbody rb, Vector3 value)
+    {
+        var controller = rb.GetComponent<RigidbodyCharacterController>();
+        if (controller != null)
+        {
+            controller.MovingPlatformDeltaPos = value;
         }
     }
 }
