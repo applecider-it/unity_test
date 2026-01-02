@@ -28,9 +28,12 @@ public class RigidbodyCharacterController : MonoBehaviour
     bool isGrounded;
     /// <summary> 地面の法線ベクトル </summary>
     Vector3 groundNormal = Vector3.up;
-
+    /// <summary> 移動床の移動量 </summary>
     Vector3 movingPlatformDeltaPos = Vector3.zero;
+    /// <summary> 移動床の移動量有効カウント </summary>
     int movingPlatformDeltaPosCnt = 0;
+    /// <summary> 地面にいるときの移動ベクトル </summary>
+    Vector3 moveVelocity = Vector3.zero;
 
     void Awake()
     {
@@ -86,11 +89,11 @@ public class RigidbodyCharacterController : MonoBehaviour
 
             Vector3 slopeMoveDir = Vector3.ProjectOnPlane(moveDir, groundNormal).normalized;
 
-            Vector3 targetVelocity = slopeMoveDir * moveSpeed;
+            moveVelocity = slopeMoveDir * moveSpeed;
 
             Vector3 stickVelocity = -groundNormal * 1f;
 
-            rb.linearVelocity = targetVelocity + stickVelocity;
+            rb.linearVelocity = moveVelocity + stickVelocity;
         }
         else
         {
@@ -113,8 +116,10 @@ public class RigidbodyCharacterController : MonoBehaviour
         {
             Vector3 stickVelocity = -groundNormal * 1f;
 
+            moveVelocity = Vector3.zero;
+
             // こうすることで、上り坂で止まった時に跳ねないようになる
-            rb.linearVelocity = stickVelocity;
+            rb.linearVelocity = moveVelocity + stickVelocity;
         }
         else
         {
@@ -162,9 +167,9 @@ public class RigidbodyCharacterController : MonoBehaviour
                 // 地面にいるとき
 
                 Vector3 velocity = new Vector3(
-                    rb.linearVelocity.x,
+                    moveVelocity.x,
                     jumpForce,
-                    rb.linearVelocity.z
+                    moveVelocity.z
                 );
 
                 // 動く床の影響を足す
@@ -199,17 +204,28 @@ public class RigidbodyCharacterController : MonoBehaviour
 
         // 足元にレイを飛ばして検査
 
-        float space = 0.5f;
         float radius = 0.3f; // キャラの足の太さに合わせる
+        float space = (radius * 2f) + 0.05f;
+        float distance = groundCheckDistance + space - radius;
+        Vector3 origin = transform.position + Vector3.up * space;
 
         RaycastHit hit;
         isGrounded = Physics.SphereCast(
-            transform.position + Vector3.up * space, // 開始位置
+            origin, // 開始位置
             radius, // 球の半径
             Vector3.down, // 下方向
             out hit,
-            groundCheckDistance + space - radius, // 距離
+            distance, // 距離
             groundLayer
+        );
+
+        // デバッグ描画（接地してたら緑、してなければ赤）
+        PhysicsDebugUtil.DrawSphereCast(
+            origin,
+            radius,
+            Vector3.down,
+            distance,
+            isGrounded ? Color.green : Color.red
         );
 
         groundNormal = isGrounded ? hit.normal : Vector3.up;

@@ -45,6 +45,8 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("OnCollisionEnter");
+
         var rb = collision.rigidbody;
         if (rb == null) return;
 
@@ -62,6 +64,8 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
+        Debug.Log("OnCollisionExit");
+
         var rb = collision.rigidbody;
         if (rb != null)
         {
