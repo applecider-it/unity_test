@@ -1,4 +1,5 @@
 using UnityEngine;
+using Game.Util;
 
 namespace Game.Character.RigidbodyCharacterControllerParts
 {
@@ -83,7 +84,7 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         /// </summary>
         bool IsGroundLayer(GameObject obj, LayerMask groundLayer)
         {
-            return (groundLayer.value & (1 << obj.layer)) != 0;
+            return LayerMaskUtil.checkLayerMask(obj, groundLayer);
         }
 
         // getter
