@@ -35,7 +35,7 @@ namespace Game.Character
         private int movingPlatformDeltaPosCnt = 0;
 
         /// <summary> 地面にいるときはtrue </summary>
-        private bool isGrounded => (groundCtrl.GroundContactCount > 0 && jumpCtrl.JumpCnt <= 0);
+        private bool isGrounded => (groundCtrl.IsGrounded && !jumpCtrl.JumpWait);
         /// <summary> 地面の法線ベクトル </summary>
         private Vector3 groundNormal => isGrounded ? groundCtrl.GroundContactNormal : Vector3.up;
 
@@ -52,6 +52,8 @@ namespace Game.Character
 
         void FixedUpdate()
         {
+            groundCtrl.CleanupDestroyedGround();
+
             bool noMove = moveCtrl.NoMove();
 
             if (movingPlatformDeltaPosCnt > 0) movingPlatformDeltaPosCnt--;

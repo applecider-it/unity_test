@@ -68,6 +68,6 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         // getter setter
 
         public bool Jump { set => jump = value; }
-        public int JumpCnt { get => jumpCnt; }
+        public bool JumpWait { get => jumpCnt > 0;}
     }
 }

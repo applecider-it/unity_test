@@ -70,6 +70,11 @@ namespace Game.Camera
         /// </summary>
         void RotateCamera()
         {
+            if (lookInput.sqrMagnitude < 0.01f)
+            {
+                return;
+            }
+
             yaw += lookInput.x * sensitivity;
             pitch -= lookInput.y * sensitivity;
 

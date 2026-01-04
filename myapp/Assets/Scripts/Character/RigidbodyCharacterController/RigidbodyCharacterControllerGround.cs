@@ -1,20 +1,24 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Game.Util;
 
 namespace Game.Character.RigidbodyCharacterControllerParts
 {
     /// <summary>
+    /// 地面判定結果情報
+    /// </summary>
+    class GroundContactInfo
+    {
+        public bool isGrounded;
+        public Vector3 normal;
+    }
+
+    /// <summary>
     /// 地面判定処理
     /// </summary>
     public class RigidbodyCharacterControllerGround
     {
-        /// <summary> 地面接触コライダー </summary>
-        private Collider groundContactCollider = null;
-
-        /// <summary> 地面接触カウント </summary>
-        private int groundContactCount = 0;
-        /// <summary> 地面接触法線ベクトル </summary>
-        private Vector3 groundContactNormal = Vector3.zero;
+        private Dictionary<Collider, GroundContactInfo> groundContacts = new Dictionary<Collider, GroundContactInfo>();
 
         /// <summary>
         /// 接触開始時
@@ -23,11 +27,17 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         {
             if (!IsGroundLayer(collision.gameObject, groundLayer)) return;
 
-            if (IsGroundContact(collision, maxSlopeAngle))
+            CheckGroundContact(collision, maxSlopeAngle, out var result, out var normal);
+
+            var info = new GroundContactInfo
             {
-                groundContactCollider = collision.collider;
-                groundContactCount++;
-            }
+                isGrounded = result,
+                normal = normal
+            };
+
+            groundContacts[collision.collider] = info;
+
+            //Debug.Log("OnCollisionEnter: groundContacts.Count: " + groundContacts.Count);
         }
 
         /// <summary>
@@ -37,17 +47,15 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         {
             if (!IsGroundLayer(collision.gameObject, groundLayer)) return;
 
-            // 接触した時の地面以外は対象外
-            if (groundContactCollider != collision.collider) return;
+            CheckGroundContact(collision, maxSlopeAngle, out var result, out var normal);
 
-            if (IsGroundContact(collision, maxSlopeAngle))
+            if (groundContacts.TryGetValue(collision.collider, out var info))
             {
-                groundContactCount = Mathf.Max(groundContactCount, 1);
+                info.isGrounded = result;
+                info.normal = normal;
             }
-            else
-            {
-                groundContactCount = Mathf.Max(groundContactCount - 1, 0);
-            }
+
+            //Debug.Log("OnCollisionStay: groundContacts.Count: " + groundContacts.Count);
         }
 
         /// <summary>
@@ -57,14 +65,19 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         {
             if (!IsGroundLayer(collision.gameObject, groundLayer)) return;
 
-            groundContactCount = Mathf.Max(groundContactCount - 1, 0);
+            groundContacts.Remove(collision.collider);
+
+            //Debug.Log("OnCollisionExit: groundContacts.Count: " + groundContacts.Count);
         }
 
         /// <summary>
         /// 接触点が「足元付近」かチェック
         /// </summary>
-        bool IsGroundContact(Collision collision, float maxSlopeAngle)
+        void CheckGroundContact(Collision collision, float maxSlopeAngle, out bool result, out Vector3 normal)
         {
+            normal = Vector3.up;
+            result = false;
+
             foreach (ContactPoint contact in collision.contacts)
             {
                 //Debug.Log("contact.normal " + contact.normal);
@@ -72,11 +85,11 @@ namespace Game.Character.RigidbodyCharacterControllerParts
                 if (Vector3.Angle(contact.normal, Vector3.up) <= maxSlopeAngle)
                 {
                     //Debug.Log("contact valid");
-                    groundContactNormal = contact.normal;
-                    return true;
+                    normal = contact.normal;
+                    result = true;
+                    return;
                 }
             }
-            return false;
         }
 
         /// <summary>
@@ -87,9 +100,48 @@ namespace Game.Character.RigidbodyCharacterControllerParts
             return LayerMaskUtil.checkLayerMask(obj, groundLayer);
         }
 
+        /// <summary>
+        /// 消滅する地面が残るので消す処理
+        /// </summary>
+        public void CleanupDestroyedGround()
+        {
+            if (groundContacts.Count == 0) return;
+
+            var removeList = new List<Collider>();
+
+            foreach (var col in groundContacts.Keys)
+            {
+                if (col == null)
+                    removeList.Add(col);
+            }
+
+            foreach (var col in removeList)
+                groundContacts.Remove(col);
+        }
+
         // getter
 
-        public int GroundContactCount { get => groundContactCount; }
-        public Vector3 GroundContactNormal { get => groundContactNormal; }
+        public bool IsGrounded
+        {
+            get
+            {
+                foreach (var info in groundContacts.Values)
+                {
+                    if (info.isGrounded) return true;
+                }
+                return false;
+            }
+        }
+        public Vector3 GroundContactNormal
+        {
+            get
+            {
+                foreach (var info in groundContacts.Values)
+                {
+                    if (info.isGrounded) return info.normal;
+                }
+                return Vector3.up;
+            }
+        }
     }
 }
