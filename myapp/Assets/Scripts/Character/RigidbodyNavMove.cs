@@ -8,19 +8,20 @@ namespace Game.Character
     /// </summary>
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(RigidbodyCharacterController))]
     public class RigidbodyNavMove : MonoBehaviour
     {
         public Transform target;
-        public float moveSpeed = 3f;
-        public float rotateSpeed = 10f; // 回転の速さ
 
         NavMeshAgent agent;
         Rigidbody rb;
+        RigidbodyCharacterController ch;
 
         void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
             rb = GetComponent<Rigidbody>();
+            ch = GetComponent<RigidbodyCharacterController>();
 
             agent.updatePosition = false;
             agent.updateRotation = false;
@@ -36,26 +37,18 @@ namespace Game.Character
             Vector3 desired = agent.desiredVelocity;
             desired.y = 0;
 
-            // --- 移動 ---
-            Vector3 velocity = desired.normalized * moveSpeed;
-            rb.linearVelocity = new Vector3(
-                velocity.x,
-                rb.linearVelocity.y,
-                velocity.z
-            );
+            desired.Normalize();
 
-            // --- 回転 ---
-            if (desired.sqrMagnitude > 0.001f)
+            Vector2 moveAxis = Vector2.zero;
+
+            if (desired.sqrMagnitude > 0.01f)
             {
-                Quaternion targetRot = Quaternion.LookRotation(desired);
-                Quaternion newRot = Quaternion.Slerp(
-                    rb.rotation,
-                    targetRot,
-                    rotateSpeed * Time.fixedDeltaTime
-                );
-
-                rb.MoveRotation(newRot);
+                moveAxis = new Vector2(desired.x, desired.z);
             }
+
+            Debug.Log(moveAxis);
+
+            ch.MoveInput = moveAxis;
         }
     }
 }

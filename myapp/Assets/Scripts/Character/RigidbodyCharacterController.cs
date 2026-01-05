@@ -1,6 +1,8 @@
 using UnityEngine;
 
 using Game.Character.RigidbodyCharacterControllerParts;
+using Game.Util;
+using Game.System;
 
 namespace Game.Character
 {
@@ -20,7 +22,6 @@ namespace Game.Character
 
         [Header("Ground")]
         [Tooltip("地面と認識する最大角度")][SerializeField] private float maxSlopeAngle = 40f;
-        [Tooltip("地面と判断するためのマスク")][SerializeField] private LayerMask groundLayer;
 
         // private
 
@@ -38,6 +39,8 @@ namespace Game.Character
         private bool isGrounded => (groundCtrl.IsGrounded && !jumpCtrl.JumpWait);
         /// <summary> 地面の法線ベクトル </summary>
         private Vector3 groundNormal => isGrounded ? groundCtrl.GroundContactNormal : Vector3.up;
+        /// <summary> 地面と判断するためのマスク </summary>
+        private LayerMask groundLayer;
 
         void Awake()
         {
@@ -48,6 +51,9 @@ namespace Game.Character
             jumpCtrl = new RigidbodyCharacterControllerJump(rb);
             animCtrl = new RigidbodyCharacterControllerAnimation(animator);
             groundCtrl = new RigidbodyCharacterControllerGround();
+
+            CommonData cd = DataUtil.getCommonData();
+            groundLayer = cd.GroundLayer;
         }
 
         void FixedUpdate()
