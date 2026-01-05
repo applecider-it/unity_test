@@ -56,9 +56,13 @@ namespace Game.Stage
 
             rb.position += deltaPos;
 
-            // 足場の回転に合わせて Rigidbody も回転させたい場合
-            rb.rotation = rotationDelta * rb.rotation;
+            // Y軸だけ回転を適用
+            Vector3 euler = rotationDelta.eulerAngles;
+            Quaternion yRotation = Quaternion.Euler(0f, euler.y, 0f);
+
+            rb.rotation = yRotation * rb.rotation;
         }
+
 
         /// <summary>
         /// 上に乗っているRigidbodyが、RigidbodyCharacterControllerの場合の処理
