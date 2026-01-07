@@ -46,7 +46,7 @@ namespace Game.Character
                 moveAxis = new Vector2(desired.x, desired.z);
             }
 
-            Debug.Log(moveAxis);
+            //Debug.Log(moveAxis);
 
             ch.MoveInput = moveAxis;
         }

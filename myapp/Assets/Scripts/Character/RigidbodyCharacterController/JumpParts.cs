@@ -5,7 +5,7 @@ namespace Game.Character.RigidbodyCharacterControllerParts
     /// <summary>
     /// ジャンプ処理
     /// </summary>
-    public class RigidbodyCharacterControllerJump
+    public class JumpParts
     {
         private Rigidbody rb;
 
@@ -15,7 +15,7 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         private int jumpCnt = 0;
 
         // コンストラクタ
-        public RigidbodyCharacterControllerJump(Rigidbody argRb)
+        public JumpParts(Rigidbody argRb)
         {
             rb = argRb;
         }

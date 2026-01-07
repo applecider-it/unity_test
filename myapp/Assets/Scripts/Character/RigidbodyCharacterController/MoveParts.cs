@@ -5,7 +5,7 @@ namespace Game.Character.RigidbodyCharacterControllerParts
     /// <summary>
     /// 移動処理
     /// </summary>
-    public class RigidbodyCharacterControllerMove
+    public class MoveParts
     {
         private Rigidbody rb;
 
@@ -16,7 +16,7 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         private Vector3 moveVelocity = Vector3.zero;
 
         // コンストラクタ
-        public RigidbodyCharacterControllerMove(Rigidbody argRb)
+        public MoveParts(Rigidbody argRb)
         {
             rb = argRb;
         }

@@ -1,8 +1,6 @@
 using UnityEngine;
 
 using Game.Character.RigidbodyCharacterControllerParts;
-using Game.Util;
-using Game.System;
 
 namespace Game.Character
 {
@@ -25,10 +23,11 @@ namespace Game.Character
 
         // private
 
-        private RigidbodyCharacterControllerMove moveCtrl;
-        private RigidbodyCharacterControllerJump jumpCtrl;
-        private RigidbodyCharacterControllerAnimation animCtrl;
-        private RigidbodyCharacterControllerGround groundCtrl;
+        private MoveParts moveCtrl;
+        private JumpParts jumpCtrl;
+        private AnimationParts animCtrl;
+        private GroundParts groundCtrl;
+        private AttackParts attackCtrl;
 
         /// <summary> 移動床の移動量 </summary>
         private Vector3 movingPlatformDeltaPos = Vector3.zero;
@@ -39,21 +38,20 @@ namespace Game.Character
         private bool isGrounded => (groundCtrl.IsGrounded && !jumpCtrl.JumpWait);
         /// <summary> 地面の法線ベクトル </summary>
         private Vector3 groundNormal => isGrounded ? groundCtrl.GroundContactNormal : Vector3.up;
-        /// <summary> 地面と判断するためのマスク </summary>
-        private LayerMask groundLayer;
 
         void Awake()
         {
             Rigidbody rb = GetComponent<Rigidbody>();
             Animator animator = GetComponent<Animator>();
 
-            moveCtrl = new RigidbodyCharacterControllerMove(rb);
-            jumpCtrl = new RigidbodyCharacterControllerJump(rb);
-            animCtrl = new RigidbodyCharacterControllerAnimation(animator);
-            groundCtrl = new RigidbodyCharacterControllerGround();
+            moveCtrl = new MoveParts(rb);
+            jumpCtrl = new JumpParts(rb);
+            animCtrl = new AnimationParts(animator);
+            groundCtrl = new GroundParts();
+            attackCtrl = new AttackParts(transform);
 
-            CommonData cd = DataUtil.getCommonData();
-            groundLayer = cd.GroundLayer;
+            groundCtrl.Awake();
+            attackCtrl.Awake();
         }
 
         void FixedUpdate()
@@ -78,6 +76,8 @@ namespace Game.Character
 
             animCtrl.SetAnimator(noMove, isGrounded);
 
+            attackCtrl.AttackProccess(this);
+
             //Debug.Log("isGrounded " + isGrounded + ", groundNormal " + groundNormal);
         }
 
@@ -86,7 +86,7 @@ namespace Game.Character
         /// </summary>
         void OnCollisionEnter(Collision collision)
         {
-            groundCtrl.OnCollisionEnter(collision, groundLayer, maxSlopeAngle);
+            groundCtrl.OnCollisionEnter(collision, maxSlopeAngle);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Game.Character
         /// </summary>
         void OnCollisionStay(Collision collision)
         {
-            groundCtrl.OnCollisionStay(collision, groundLayer, maxSlopeAngle);
+            groundCtrl.OnCollisionStay(collision, maxSlopeAngle);
         }
 
         /// <summary>
@@ -102,13 +102,14 @@ namespace Game.Character
         /// </summary>
         void OnCollisionExit(Collision collision)
         {
-            groundCtrl.OnCollisionExit(collision, groundLayer);
+            groundCtrl.OnCollisionExit(collision);
         }
 
         // setter
 
         public Vector2 MoveInput { set => moveCtrl.MoveInput = value; }
         public bool Jump { set => jumpCtrl.Jump = value; }
+        public bool Attack { set => attackCtrl.Attack = value; }
         public Vector3 MovingPlatformDeltaPos
         {
             set

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-using Game.System;
+using Game.GameSystem;
 
 namespace Game.Util
 {

@@ -5,12 +5,12 @@ namespace Game.Character.RigidbodyCharacterControllerParts
     /// <summary>
     /// アニメーション処理
     /// </summary>
-    public class RigidbodyCharacterControllerAnimation
+    public class AnimationParts
     {
         private Animator animator;
 
         // コンストラクタ
-        public RigidbodyCharacterControllerAnimation(Animator argAnimator)
+        public AnimationParts(Animator argAnimator)
         {
             animator = argAnimator;
         }

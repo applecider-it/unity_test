@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+
 using Game.Util;
+using Game.GameSystem;
 
 namespace Game.Character.RigidbodyCharacterControllerParts
 {
@@ -16,16 +18,26 @@ namespace Game.Character.RigidbodyCharacterControllerParts
     /// <summary>
     /// 地面判定処理
     /// </summary>
-    public class RigidbodyCharacterControllerGround
+    public class GroundParts
     {
         private Dictionary<Collider, GroundContactInfo> groundContacts = new Dictionary<Collider, GroundContactInfo>();
+
+        /// <summary> 地面と判断するためのマスク </summary>
+        private LayerMask groundLayer;
+
+        public void Awake()
+        {
+            CommonData cd = DataUtil.getCommonData();
+
+            groundLayer = cd.GroundLayer;
+        }
 
         /// <summary>
         /// 接触開始時
         /// </summary>
-        public void OnCollisionEnter(Collision collision, LayerMask groundLayer, float maxSlopeAngle)
+        public void OnCollisionEnter(Collision collision, float maxSlopeAngle)
         {
-            if (!IsGroundLayer(collision.gameObject, groundLayer)) return;
+            if (!IsGroundLayer(collision.gameObject)) return;
 
             CheckGroundContact(collision, maxSlopeAngle, out var result, out var normal);
 
@@ -43,9 +55,9 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         /// <summary>
         /// 接触継続時
         /// </summary>
-        public void OnCollisionStay(Collision collision, LayerMask groundLayer, float maxSlopeAngle)
+        public void OnCollisionStay(Collision collision, float maxSlopeAngle)
         {
-            if (!IsGroundLayer(collision.gameObject, groundLayer)) return;
+            if (!IsGroundLayer(collision.gameObject)) return;
 
             CheckGroundContact(collision, maxSlopeAngle, out var result, out var normal);
 
@@ -61,9 +73,9 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         /// <summary>
         /// 接触終了時
         /// </summary>
-        public void OnCollisionExit(Collision collision, LayerMask groundLayer)
+        public void OnCollisionExit(Collision collision)
         {
-            if (!IsGroundLayer(collision.gameObject, groundLayer)) return;
+            if (!IsGroundLayer(collision.gameObject)) return;
 
             groundContacts.Remove(collision.collider);
 
@@ -95,7 +107,7 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         /// <summary>
         /// 地面レイヤーかチェック
         /// </summary>
-        bool IsGroundLayer(GameObject obj, LayerMask groundLayer)
+        bool IsGroundLayer(GameObject obj)
         {
             return LayerMaskUtil.checkLayerMask(obj, groundLayer);
         }

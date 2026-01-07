@@ -3,13 +3,14 @@ using UnityEngine.InputSystem; // ★ 新Input System
 
 using Game.Character;
 
-namespace Game.System
+namespace Game.GameSystem
 {
     public class InputController : MonoBehaviour
     {
         // Input System 用の変数
         Vector2 moveInput;   // WASD / 左スティック
         bool jumpPressed;   // ジャンプ入力
+        bool attackPressed;   // アタック入力
 
         Vector2 moveAxis; // ← カメラ方向変換後（XZ）
 
@@ -36,6 +37,13 @@ namespace Game.System
                 ch.Jump = true;
 
                 jumpPressed = false;
+            }
+
+            if (attackPressed)
+            {
+                ch.Attack = true;
+
+                attackPressed = false;
             }
         }
 
@@ -88,6 +96,17 @@ namespace Game.System
             }
 
             //Debug.Log($"OnJump {isGrounded}, {jumpPressed}");
+        }
+
+        // あった句入力
+        public void OnAttack(InputValue value)
+        {
+            if (value.isPressed)
+            {
+                attackPressed = true;
+
+                //Debug.Log("OnAttack isPressed");
+            }
         }
     }
 }
