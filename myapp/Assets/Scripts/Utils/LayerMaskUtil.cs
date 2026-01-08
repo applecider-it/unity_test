@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Util
+namespace Game.Utils
 {
     /// <summary>
     /// Layer用ユーティリティ

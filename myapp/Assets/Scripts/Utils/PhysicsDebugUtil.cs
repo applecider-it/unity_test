@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Util
+namespace Game.Utils
 {
     /// <summary>
     /// Physics系の判定を Sceneビューに可視化するためのデバッグ用ユーティリティ

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Character.RigidbodyCharacterControllerParts
+namespace Game.Characters.RigidbodyCharacterControllerParts
 {
     /// <summary>
     /// 移動処理

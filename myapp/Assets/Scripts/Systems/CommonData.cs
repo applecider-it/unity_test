@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.GameSystem
+namespace Game.Systems
 {
     public class CommonData : MonoBehaviour
     {

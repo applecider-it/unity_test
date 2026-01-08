@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Game.Character
+namespace Game.Characters
 {
     /// <summary>
     /// Rigidbodyナビゲーション管理

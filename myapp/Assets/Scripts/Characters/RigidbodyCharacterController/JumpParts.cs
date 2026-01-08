@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Character.RigidbodyCharacterControllerParts
+namespace Game.Characters.RigidbodyCharacterControllerParts
 {
     /// <summary>
     /// ジャンプ処理

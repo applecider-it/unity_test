@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem; // ★ 新Input System
 
-using Game.Character;
+using Game.Characters;
 
-namespace Game.GameSystem
+namespace Game.Systems
 {
     public class InputController : MonoBehaviour
     {

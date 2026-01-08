@@ -2,7 +2,7 @@ using UnityEngine;
 
 using Game.ScriptableObjects;
 
-namespace Game.GameSystem
+namespace Game.Systems
 {
     public static class GameBootstrap
     {

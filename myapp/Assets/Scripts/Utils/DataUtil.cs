@@ -1,8 +1,8 @@
 using UnityEngine;
 
-using Game.GameSystem;
+using Game.Systems;
 
-namespace Game.Util
+namespace Game.Utils
 {
     /// <summary>
     /// データ管理用ユーティリティ

@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-using Game.GameSystem;
+using Game.Systems;
 
-namespace Game.Util
+namespace Game.Utils
 {
     /// <summary>
     /// コールバック関連管理ユーティリティ

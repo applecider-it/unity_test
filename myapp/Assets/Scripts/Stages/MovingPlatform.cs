@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Game.Character;
+using Game.Characters;
 
-namespace Game.Stage
+namespace Game.Stages
 {
     /// <summary>
     /// 移動床管理

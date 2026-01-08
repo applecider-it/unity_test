@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Game.Util;
-using Game.GameSystem;
+using Game.Utils;
+using Game.Systems;
 
-namespace Game.Character.RigidbodyCharacterControllerParts
+namespace Game.Characters.RigidbodyCharacterControllerParts
 {
     /// <summary>
     /// 地面判定結果情報

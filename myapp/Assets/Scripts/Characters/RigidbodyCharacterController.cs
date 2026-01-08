@@ -1,8 +1,8 @@
 using UnityEngine;
 
-using Game.Character.RigidbodyCharacterControllerParts;
+using Game.Characters.RigidbodyCharacterControllerParts;
 
-namespace Game.Character
+namespace Game.Characters
 {
     /// <summary>
     /// Rigidbodyキャラクター管理

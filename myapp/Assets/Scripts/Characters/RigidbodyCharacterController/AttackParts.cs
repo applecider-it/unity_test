@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-using Game.Util;
-using Game.GameSystem;
+using Game.Utils;
+using Game.Systems;
 
-namespace Game.Character.RigidbodyCharacterControllerParts
+namespace Game.Characters.RigidbodyCharacterControllerParts
 {
     /// <summary>
     /// アタック処理
