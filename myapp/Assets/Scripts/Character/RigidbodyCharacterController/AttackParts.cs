@@ -36,50 +36,66 @@ namespace Game.Character.RigidbodyCharacterControllerParts
         /// <summary>
         /// アタック処理
         /// </summary>
+        /// <param name="owner">クロージャーでMonoBehaviourを利用</param>
         public void AttackProccess(MonoBehaviour owner)
         {
             if (attack)
             {
                 attack = false;
 
-                Debug.Log("Attack!!");
+                //Debug.Log("Attack!!");
 
                 ShootPKFire(owner);
             }
 
         }
 
+        /// <summary>
+        /// PKファイアー発射
+        /// </summary>
         void ShootPKFire(MonoBehaviour owner)
         {
-            Vector3 position = transform.position + transform.forward * 1.5f + (new Vector3(0, 1f, 0));
+            Vector3 position = transform.position + transform.forward * 0.5f + Vector3.up * 1.5f;
+
+            // ファイアー生成
             GameObject fire = UnityEngine.Object.Instantiate(pkFire, position, Quaternion.identity);
+
+            // ファイアーに指向性を持たせる
             Rigidbody rb = fire.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.linearVelocity = transform.forward * 10f; // 前方向に発射
+                // 前方向で、少し上に発射
+                rb.linearVelocity = transform.forward * 10f + Vector3.up * 1f;
             }
 
-            owner.StartCoroutine(CallAfterSeconds(3f, () =>
+            DestroyDelayPKFire(owner, fire);
+        }
+
+        /// <summary>
+        /// PKファイアー消去予定を設定
+        /// </summary>
+        void DestroyDelayPKFire(MonoBehaviour owner, GameObject fire)
+        {
+            // 一定時間経過したときに、消去処理を設定
+            owner.StartCoroutine(CallbackUtil.CallAfterSeconds(3f, () =>
             {
-                Debug.Log("3秒経過した！");
-                // パーティクルを子から切り離す
+                // パーティクルを切り離して、自然に消す
                 ParticleSystem ps = fire.GetComponentInChildren<ParticleSystem>();
                 if (ps != null)
                 {
-                    ps.transform.parent = null;       // 親を外す
-                    ps.Stop(false, ParticleSystemStopBehavior.StopEmitting); // 生成は止める
-                    UnityEngine.Object.Destroy(ps.gameObject, ps.main.startLifetime.constantMax); // 既存パーティクルが自然に消えるまで破棄
+                    // 親を外す
+                    ps.transform.parent = null;
 
-                    Debug.Log("パーティクル停止");
+                    // 生成は止める
+                    ps.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+
+                    // 既存パーティクルが自然に消えたら消す
+                    UnityEngine.Object.Destroy(ps.gameObject, ps.main.startLifetime.constantMax);
                 }
+
+                // ファイアーはすぐ消す
                 UnityEngine.Object.Destroy(fire);
             }));
-        }
-
-        IEnumerator CallAfterSeconds(float seconds, System.Action callback)
-        {
-            yield return new WaitForSeconds(seconds);
-            callback?.Invoke();
         }
 
         // getter setter
