@@ -9,3 +9,35 @@ RigidbodyCharacterController追加時
 
 
 -----------------------------------
+
+ナビゲーション
+
+
+ウィンドウズ > AI > ナビゲーション
+
+段差の指定など
+
+
+ヒエラルキー
+Game > Stage > NavMesh
+
+ベイクで生成
+
+
+対象のレイヤーでかつ、NavMeshModifierがあるのが対象
+メッシュを張らないようにするにも、これが必要
+    この場合は、Override Areaを有効にして、Not Walkableにする
+
+-----------------------------------
+
+Proビルダー
+
+
+面ごとに、マテリアルを変える。
+
+ツール > ProBuilder > Editors > Open Material Editor
+
+ここに追加して、面を選択した状態で、apply
+
+
+-----------------------------------
