@@ -17,9 +17,14 @@ namespace Game.Systems
         [SerializeField] Transform cameraTransform;
         public RigidbodyCharacterController ch;
 
+        float lookTimer;
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
+            // 開始直後の入力暴れ対策
+            CommonData cd = CommonData.getCommonData();
+            lookTimer = cd.LookIgnoreTime;
         }
 
         // Update is called once per frame
@@ -29,6 +34,13 @@ namespace Game.Systems
 
         void FixedUpdate()
         {
+            // 少しの間更新をしない
+            if (lookTimer > 0f)
+            {
+                lookTimer -= Time.deltaTime;
+                return;
+            }
+
             ConvertInputToMoveAxis();
             ch.MoveInput = moveAxis;
 

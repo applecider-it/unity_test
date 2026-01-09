@@ -28,9 +28,6 @@ namespace Game.Systems
         [SerializeField] float cameraRadius = 0.3f;          // カメラの当たり判定サイズ
         [SerializeField] LayerMask obstacleLayer;             // 障害物レイヤー
 
-        [Header("Input")]
-        [SerializeField] float lookIgnoreTime = 0.2f; // 開始直後にLookを無視する時間
-
         // Input System から受け取るマウス入力
         Vector2 lookInput;
 
@@ -49,7 +46,8 @@ namespace Game.Systems
             Cursor.visible = false;
 
             // 開始直後の入力暴れ対策
-            lookTimer = lookIgnoreTime;
+            CommonData cd = CommonData.getCommonData();
+            lookTimer = cd.LookIgnoreTime;
 
             FollowTarget();
         }

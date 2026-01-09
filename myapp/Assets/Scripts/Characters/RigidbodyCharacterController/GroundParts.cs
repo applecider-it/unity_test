@@ -27,7 +27,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
         public void Awake()
         {
-            CommonData cd = DataUtil.getCommonData();
+            CommonData cd = CommonData.getCommonData();
 
             groundLayer = cd.GroundLayer;
         }

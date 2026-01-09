@@ -7,23 +7,29 @@ using Game.Systems;
 
 namespace Game.Stages
 {
+    [System.Serializable]
+    public class SceneConnectorInfoClass
+    {
+        public Vector3 startPosition;
+        public string sceneName;
+        public float cameraAngleY;
+    }
+
     /// <summary>
     /// シーン接続管理
     /// </summary>
     public class SceneConnector : MonoBehaviour
     {
-        [SerializeField] private Vector3 startPosition;
-        [SerializeField] private string sceneName;
+        [SerializeField] private SceneConnectorInfoClass info;
 
         void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                string name = "Scenes/" + sceneName + "Scene";
-                Debug.Log("Player が入ってきた。" + name + " " + startPosition);
+                string name = "Scenes/" + info.sceneName + "Scene";
+                Debug.Log("Player が入ってきた。" + name + " " + info);
 
-                StaticData.startPosition = startPosition;
-                StaticData.validStartPosition = true;
+                StaticData.SceneConnectorInfo = info;
 
                 SceneManager.LoadScene(name);
             }

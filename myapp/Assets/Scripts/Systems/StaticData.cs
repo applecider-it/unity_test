@@ -1,10 +1,16 @@
 using UnityEngine;
 
+using Game.Stages;
+
 namespace Game.Systems
 {
     public class StaticData
     {
-        public static Vector3 startPosition;
-        public static bool validStartPosition = false;
+        // シーン接続管理
+        private static SceneConnectorInfoClass sceneConnectorInfo = null;
+
+        // getter setter
+
+        public static SceneConnectorInfoClass SceneConnectorInfo { get => sceneConnectorInfo; set => sceneConnectorInfo = value; }
     }
 }

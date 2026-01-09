@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.SceneSetup
   ch: {fileID: 0}
+  targetCamera: {fileID: 4759867671003035888}
 --- !u!1 &4127569474225001438
 GameObject:
   m_ObjectHideFlags: 0
