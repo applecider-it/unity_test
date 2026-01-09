@@ -20,6 +20,7 @@ namespace Game.Systems
         {
             if (cd == null)
             {
+                Debug.Log("getCommonData: SetIncetance");
                 GameObject obj = GameObject.Find("System/Script");
                 cd = obj.GetComponent<CommonData>();
             }
