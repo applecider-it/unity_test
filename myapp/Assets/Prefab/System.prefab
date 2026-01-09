@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4429892817303126812}
   - component: {fileID: 1335048578388376650}
   - component: {fileID: 4363003056997417988}
+  - component: {fileID: 7197614017581757021}
   m_Layer: 0
   m_Name: Script
   m_TagString: Untagged
@@ -119,6 +120,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 9
   pkFire: {fileID: 9087154942113874597, guid: 71cc045e35c1a8b4b9ad271418e658ad, type: 3}
+--- !u!114 &7197614017581757021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2805165366635184329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e7deb0df6d4c244a7079f236eabae1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.SceneSetup
+  ch: {fileID: 0}
 --- !u!1 &4127569474225001438
 GameObject:
   m_ObjectHideFlags: 0

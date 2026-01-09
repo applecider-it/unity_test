@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using Game.Characters;
+using Game.Systems;
 
 namespace Game.Stages
 {
@@ -20,6 +21,9 @@ namespace Game.Stages
             {
                 string name = "Scenes/" + sceneName + "Scene";
                 Debug.Log("Player が入ってきた。" + name + " " + startPosition);
+
+                StaticData.startPosition = startPosition;
+                StaticData.validStartPosition = true;
 
                 SceneManager.LoadScene(name);
             }

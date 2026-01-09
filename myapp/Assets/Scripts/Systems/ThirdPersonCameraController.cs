@@ -50,6 +50,8 @@ namespace Game.Systems
 
             // 開始直後の入力暴れ対策
             lookTimer = lookIgnoreTime;
+
+            FollowTarget();
         }
 
         void LateUpdate()

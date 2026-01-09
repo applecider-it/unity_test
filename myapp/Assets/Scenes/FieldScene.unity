@@ -19960,6 +19960,18 @@ PrefabInstance:
       propertyPath: sceneName
       value: Cave
       objectReference: {fileID: 0}
+    - target: {fileID: 3612676217960917808, guid: 354be492b0ea1ad4d92b1be9e186c243, type: 3}
+      propertyPath: startPosition.x
+      value: -4.5258183
+      objectReference: {fileID: 0}
+    - target: {fileID: 3612676217960917808, guid: 354be492b0ea1ad4d92b1be9e186c243, type: 3}
+      propertyPath: startPosition.y
+      value: 0.54427326
+      objectReference: {fileID: 0}
+    - target: {fileID: 3612676217960917808, guid: 354be492b0ea1ad4d92b1be9e186c243, type: 3}
+      propertyPath: startPosition.z
+      value: 10.082118
+      objectReference: {fileID: 0}
     - target: {fileID: 4606223071507086110, guid: 354be492b0ea1ad4d92b1be9e186c243, type: 3}
       propertyPath: m_LocalPosition.x
       value: -35.76
@@ -20065,6 +20077,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: System
       objectReference: {fileID: 0}
+    - target: {fileID: 7197614017581757021, guid: d9f8df46ad0d46c458e2cd237ea61f72, type: 3}
+      propertyPath: ch
+      value: 
+      objectReference: {fileID: 274214519}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
