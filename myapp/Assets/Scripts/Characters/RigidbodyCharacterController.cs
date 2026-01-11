@@ -2,6 +2,8 @@ using UnityEngine;
 
 using Game.Characters.RigidbodyCharacterControllerParts;
 
+using Game.Systems;
+
 namespace Game.Characters
 {
     /// <summary>
@@ -20,6 +22,10 @@ namespace Game.Characters
 
         [Header("Ground")]
         [Tooltip("地面と認識する最大角度")][SerializeField] private float maxSlopeAngle = 40f;
+
+        [Header("Audio")]
+        [SerializeField] private AudioClipContainer attackAudio;
+        [SerializeField] private AudioClipContainer jumpAudio;
 
         // private
 
@@ -43,12 +49,13 @@ namespace Game.Characters
         {
             Rigidbody rb = GetComponent<Rigidbody>();
             Animator animator = GetComponent<Animator>();
+            AudioSource audioSource = GetComponent<AudioSource>();
 
             moveCtrl = new MoveParts(rb);
-            jumpCtrl = new JumpParts(rb);
+            jumpCtrl = new JumpParts(rb, audioSource, jumpAudio);
             animCtrl = new AnimationParts(animator);
             groundCtrl = new GroundParts();
-            attackCtrl = new AttackParts(transform);
+            attackCtrl = new AttackParts(transform, audioSource, attackAudio);
 
             groundCtrl.Awake();
             attackCtrl.Awake();

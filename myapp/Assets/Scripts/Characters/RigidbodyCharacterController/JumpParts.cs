@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using Game.Systems;
+
 namespace Game.Characters.RigidbodyCharacterControllerParts
 {
     /// <summary>
@@ -14,10 +16,19 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// <summary> ジャンプ直後カウント </summary>
         private int jumpCnt = 0;
 
+        private AudioSource audioSource;
+        private AudioClipContainer jumpAudio;
+
         // コンストラクタ
-        public JumpParts(Rigidbody argRb)
+        public JumpParts(
+            Rigidbody argRb,
+            AudioSource argAudioSource,
+            AudioClipContainer argJumpAudio
+        )
         {
             rb = argRb;
+            audioSource = argAudioSource;
+            jumpAudio = argJumpAudio;
         }
 
         /// <summary>
@@ -40,6 +51,8 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
                         moveVelocity, jumpForce,
                         movingPlatformDelta
                     );
+
+                    audioSource.PlayOneShot(jumpAudio.clip, jumpAudio.volume);
 
                     jumpCnt = 5;
                 }
@@ -68,6 +81,6 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         // getter setter
 
         public bool Jump { set => jump = value; }
-        public bool JumpWait { get => jumpCnt > 0;}
+        public bool JumpWait { get => jumpCnt > 0; }
     }
 }

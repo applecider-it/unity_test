@@ -20,10 +20,19 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// <summary> PKファイアー </summary>
         private GameObject pkFire;
 
+        private AudioSource audioSource;
+        private AudioClipContainer attackAudio;
+
         // コンストラクタ
-        public AttackParts(Transform argTransform)
+        public AttackParts(
+            Transform argTransform,
+            AudioSource argAudioSource,
+            AudioClipContainer argAttackAudio
+            )
         {
             transform = argTransform;
+            audioSource = argAudioSource;
+            attackAudio = argAttackAudio;
         }
 
         public void Awake()
@@ -46,6 +55,8 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
                 //Debug.Log("Attack!!");
 
                 ShootPKFire(owner);
+
+                audioSource.PlayOneShot(attackAudio.clip, attackAudio.volume);
             }
 
         }
