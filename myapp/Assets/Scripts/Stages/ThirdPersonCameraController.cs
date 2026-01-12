@@ -16,7 +16,7 @@ namespace Game.Stages
         [SerializeField] float height = 2f;
 
         [Header("Rotation")]
-        [SerializeField] float sensitivity = 0.1f;
+        [SerializeField] float sensitivity = 90f;
         [SerializeField] float minPitch = -30f;
         [SerializeField] float maxPitch = 70f;
 
@@ -45,9 +45,6 @@ namespace Game.Stages
             Vector3 angles = targetCamera.transform.eulerAngles;
             yaw = angles.y;
             pitch = angles.x;
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
 
             // 開始直後の入力暴れ対策
             lookTimer = cd.LookIgnoreTime;
@@ -78,8 +75,8 @@ namespace Game.Stages
                 return;
             }
 
-            yaw += lookInput.x * sensitivity;
-            pitch -= lookInput.y * sensitivity;
+            yaw += lookInput.x * sensitivity * Time.deltaTime;
+            pitch -= lookInput.y * sensitivity * Time.deltaTime;
 
             pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
         }
@@ -131,6 +128,28 @@ namespace Game.Stages
         public void OnLook(InputValue value)
         {
             lookInput = value.Get<Vector2>();
+        }
+
+        // キャンセル入力
+        public void OnCancel(InputValue value)
+        {
+            if (value.isPressed)
+            {
+                Debug.Log("OnCancel isPressed");
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+        }
+
+        // 画面クリック
+        public void OnClick(InputValue value)
+        {
+            if (value.isPressed)
+            {
+                Debug.Log("OnClick isPressed");
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
     }
 }

@@ -441,7 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ThirdPersonCameraController
   distance: 9
   height: 2
-  sensitivity: 1
+  sensitivity: 90
   minPitch: -30
   maxPitch: 70
   cameraRadius: 0.3
@@ -1054,7 +1054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0b1bb6af22e85b47819b168d4767dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.CommonSetup
-  firstStage: 0
+  firstStage: 1
 --- !u!114 &8977162130171578018
 MonoBehaviour:
   m_ObjectHideFlags: 0
