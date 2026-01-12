@@ -25,8 +25,9 @@ namespace Game.Systems
             if (cd == null)
             {
                 Debug.Log("getCommonData: SetIncetance");
-                GameObject obj = GameObject.Find("System/Script");
+                GameObject obj = GameObject.Find("Common/Script");
                 cd = obj.GetComponent<CommonData>();
+                Debug.Log(cd);
             }
             return cd;
         }
