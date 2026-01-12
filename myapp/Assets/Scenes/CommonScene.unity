@@ -231,9 +231,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 9ffcc6fdb09b2264a9611fcf02c4e8fd, type: 3}
+  m_Resource: {fileID: 8300000, guid: 7113c48bc09099748bd226b373c017f5, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -520,15 +520,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 252164316328604501, guid: 4062dd5ac144c564f98d8c28ddce3adc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.313198
+      value: -8.363481
       objectReference: {fileID: 0}
     - target: {fileID: 252164316328604501, guid: 4062dd5ac144c564f98d8c28ddce3adc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7539122
+      value: 3.2
       objectReference: {fileID: 0}
     - target: {fileID: 252164316328604501, guid: 4062dd5ac144c564f98d8c28ddce3adc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -24.696146
+      value: -17.228142
       objectReference: {fileID: 0}
     - target: {fileID: 252164316328604501, guid: 4062dd5ac144c564f98d8c28ddce3adc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -660,13 +660,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9037647614199673124}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.28411907, y: -0, z: -0, w: 0.95878905}
-  m_LocalPosition: {x: 0, y: 7.68, z: -12.76}
+  m_LocalRotation: {x: 0.056848355, y: -0, z: -0, w: 0.99838287}
+  m_LocalPosition: {x: 0, y: 21.3, z: -3.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2445895099251225366}
-  m_LocalEulerAnglesHint: {x: 33.012, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 6.518, y: 0, z: 0}
 --- !u!1 &5166308468503255931
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,8 +710,8 @@ Camera:
   m_GameObject: {fileID: 9037647614199673124}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.35545027, g: 0.40652776, b: 0.4867924, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

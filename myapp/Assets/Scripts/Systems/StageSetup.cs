@@ -13,6 +13,9 @@ namespace Game.Systems
         Transform targetCamera;
         RigidbodyCharacterController ch;
 
+        [SerializeField] CameraClearFlags cameraClearFlag = CameraClearFlags.Skybox;
+        [SerializeField] Color backgroundColor  = Color.black;
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
@@ -21,13 +24,26 @@ namespace Game.Systems
             ch = cd.Player.GetComponent<RigidbodyCharacterController>();
             targetCamera = cd.Camera.transform;
 
-            SetupCharacterAndCamera();
+            SetupCamera();
+            SetupCharacter();
         }
 
         /// <summary>
-        /// キャラクターとカメラの初期状態変更
+        /// カメラのセットアップ
         /// </summary>
-        void SetupCharacterAndCamera()
+        void SetupCamera()
+        {
+            Camera cam = targetCamera.GetComponent<Camera>();
+            cam.clearFlags = cameraClearFlag;
+            cam.backgroundColor  = backgroundColor;
+        }
+
+        /// <summary>
+        /// キャラクターのセットアップ
+        /// 
+        /// 初期状態変更
+        /// </summary>
+        void SetupCharacter()
         {
             var info = StaticData.SceneConnectorInfo;
             Debug.Log("シーンのセットアップ " + info);

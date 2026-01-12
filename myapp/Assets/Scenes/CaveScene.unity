@@ -753,6 +753,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e7deb0df6d4c244a7079f236eabae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.StageSetup
+  cameraClearFlag: 2
+  backgroundColor: {r: 0.11367028, g: 0.19771463, b: 0.3886792, a: 1}
 --- !u!4 &1475677586
 Transform:
   m_ObjectHideFlags: 0
