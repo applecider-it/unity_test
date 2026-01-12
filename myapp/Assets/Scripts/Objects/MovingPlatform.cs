@@ -3,7 +3,7 @@ using UnityEngine;
 
 using Game.Characters;
 
-namespace Game.Stages
+namespace Game.Objects
 {
     /// <summary>
     /// 移動床管理

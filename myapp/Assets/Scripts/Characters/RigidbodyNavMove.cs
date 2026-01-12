@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+using Game.Systems;
+
 namespace Game.Characters
 {
     /// <summary>
@@ -11,7 +13,7 @@ namespace Game.Characters
     [RequireComponent(typeof(RigidbodyCharacterController))]
     public class RigidbodyNavMove : MonoBehaviour
     {
-        public Transform target;
+        Transform target;
 
         NavMeshAgent agent;
         Rigidbody rb;
@@ -19,9 +21,13 @@ namespace Game.Characters
 
         void Awake()
         {
+            CommonData cd = CommonData.getCommonData();
+
             agent = GetComponent<NavMeshAgent>();
             rb = GetComponent<Rigidbody>();
             ch = GetComponent<RigidbodyCharacterController>();
+
+            target = cd.Player.transform;
 
             agent.updatePosition = false;
             agent.updateRotation = false;

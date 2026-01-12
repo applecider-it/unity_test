@@ -1,6 +1,6 @@
 using UnityEngine;
 
-using Game.Stages;
+using Game.Objects;
 
 namespace Game.Systems
 {

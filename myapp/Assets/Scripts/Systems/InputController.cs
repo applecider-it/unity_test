@@ -14,8 +14,8 @@ namespace Game.Systems
 
         Vector2 moveAxis; // ← カメラ方向変換後（XZ）
 
-        [SerializeField] Transform cameraTransform;
-        public RigidbodyCharacterController ch;
+        RigidbodyCharacterController ch;
+        Transform cameraTransform;
 
         float lookTimer;
 
@@ -25,6 +25,8 @@ namespace Game.Systems
             // 開始直後の入力暴れ対策
             CommonData cd = CommonData.getCommonData();
             lookTimer = cd.LookIgnoreTime;
+            ch = cd.Player.GetComponent<RigidbodyCharacterController>();
+            cameraTransform = cd.Camera.transform;
         }
 
         // Update is called once per frame

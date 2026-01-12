@@ -6,16 +6,21 @@ using Game.Characters;
 namespace Game.Systems
 {
     /// <summary>
-    /// シーンのセットアップ
+    /// ステージのセットアップ
     /// </summary>
-    public class SceneSetup : MonoBehaviour
+    public class StageSetup : MonoBehaviour
     {
-        [SerializeField] RigidbodyCharacterController ch;
-        [SerializeField] Transform targetCamera;
+        Transform targetCamera;
+        RigidbodyCharacterController ch;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
+            CommonData cd = CommonData.getCommonData();
+
+            ch = cd.Player.GetComponent<RigidbodyCharacterController>();
+            targetCamera = cd.Camera.transform;
+
             SetupCharacterAndCamera();
         }
 
@@ -30,14 +35,6 @@ namespace Game.Systems
             if (info != null)
             {
                 ch.transform.position = info.startPosition;
-
-                Vector3 euler = targetCamera.transform.rotation.eulerAngles;
-                euler.y = info.cameraAngleY;
-                targetCamera.transform.rotation = Quaternion.Euler(euler);
-
-                euler = ch.transform.rotation.eulerAngles;
-                euler.y = info.cameraAngleY;
-                ch.transform.rotation = Quaternion.Euler(euler);
 
                 StaticData.SceneConnectorInfo = null;
 

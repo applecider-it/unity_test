@@ -11,10 +11,6 @@ namespace Game.Systems
     /// </summary>
     public class ThirdPersonCameraController : MonoBehaviour
     {
-        [Header("Target")]
-        [SerializeField] Transform target; // 追従するキャラクター
-        [SerializeField] Transform targetCamera;
-
         [Header("Camera Settings")]
         [SerializeField] float distance = 9f;
         [SerializeField] float height = 2f;
@@ -28,6 +24,9 @@ namespace Game.Systems
         [SerializeField] float cameraRadius = 0.3f;          // カメラの当たり判定サイズ
         [SerializeField] LayerMask obstacleLayer;             // 障害物レイヤー
 
+        Transform target; // 追従するキャラクター
+        Transform targetCamera;
+
         // Input System から受け取るマウス入力
         Vector2 lookInput;
 
@@ -38,6 +37,11 @@ namespace Game.Systems
 
         void Start()
         {
+            CommonData cd = CommonData.getCommonData();
+
+            target = cd.Player.transform;
+            targetCamera = cd.Camera.transform;
+
             Vector3 angles = targetCamera.transform.eulerAngles;
             yaw = angles.y;
             pitch = angles.x;
@@ -46,7 +50,6 @@ namespace Game.Systems
             Cursor.visible = false;
 
             // 開始直後の入力暴れ対策
-            CommonData cd = CommonData.getCommonData();
             lookTimer = cd.LookIgnoreTime;
 
             FollowTarget();

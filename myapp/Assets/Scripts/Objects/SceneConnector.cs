@@ -5,14 +5,13 @@ using UnityEngine.SceneManagement;
 using Game.Characters;
 using Game.Systems;
 
-namespace Game.Stages
+namespace Game.Objects
 {
     [System.Serializable]
     public class SceneConnectorInfoClass
     {
         public Vector3 startPosition;
         public string sceneName;
-        public float cameraAngleY;
     }
 
     /// <summary>
@@ -31,7 +30,28 @@ namespace Game.Stages
 
                 StaticData.SceneConnectorInfo = info;
 
-                SceneManager.LoadScene(name);
+                UnloadAllExcept("Scenes/CommonScene");
+                SceneManager.LoadScene(name, LoadSceneMode.Additive);
+            }
+        }
+
+        void UnloadAllExcept(string sceneName)
+        {
+            Scene keep = SceneManager.GetSceneByName(sceneName);
+
+            if (!keep.isLoaded)
+            {
+                Debug.LogError($"Scene {sceneName} is not loaded");
+                return;
+            }
+
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                Scene s = SceneManager.GetSceneAt(i);
+                if (s != keep)
+                {
+                    SceneManager.UnloadSceneAsync(s);
+                }
             }
         }
     }
