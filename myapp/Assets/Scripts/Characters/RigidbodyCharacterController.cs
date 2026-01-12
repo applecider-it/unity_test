@@ -51,11 +51,14 @@ namespace Game.Characters
             Animator animator = GetComponent<Animator>();
             AudioSource audioSource = GetComponent<AudioSource>();
 
+            jumpAudio.TargetAudioSource = audioSource;
+            attackAudio.TargetAudioSource = audioSource;
+
             moveCtrl = new MoveParts(rb);
-            jumpCtrl = new JumpParts(rb, audioSource, jumpAudio);
+            jumpCtrl = new JumpParts(rb, jumpAudio);
             animCtrl = new AnimationParts(animator);
             groundCtrl = new GroundParts();
-            attackCtrl = new AttackParts(transform, audioSource, attackAudio);
+            attackCtrl = new AttackParts(transform, attackAudio);
 
             groundCtrl.Awake();
             attackCtrl.Awake();

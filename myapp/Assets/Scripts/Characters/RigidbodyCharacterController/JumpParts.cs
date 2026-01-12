@@ -16,18 +16,16 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// <summary> ジャンプ直後カウント </summary>
         private int jumpCnt = 0;
 
-        private AudioSource audioSource;
         private AudioClipContainer jumpAudio;
 
         // コンストラクタ
         public JumpParts(
             Rigidbody argRb,
-            AudioSource argAudioSource,
             AudioClipContainer argJumpAudio
         )
         {
             rb = argRb;
-            audioSource = argAudioSource;
+
             jumpAudio = argJumpAudio;
         }
 
@@ -52,7 +50,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
                         movingPlatformDelta
                     );
 
-                    audioSource.PlayOneShot(jumpAudio.clip, jumpAudio.volume);
+                    jumpAudio.PlayOneShot();
 
                     jumpCnt = 5;
                 }

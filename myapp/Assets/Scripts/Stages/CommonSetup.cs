@@ -1,15 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Game.Systems
+namespace Game.Stages
 {
-    public enum GameStages
-    {
-        None,
-        Field,
-        Cave
-    }
-
     /// <summary>
     /// 共通シーンのセットアップ
     /// </summary>

@@ -3,7 +3,7 @@ using UnityEngine.InputSystem; // ★ 新Input System
 
 using Game.Characters;
 
-namespace Game.Systems
+namespace Game.Stages
 {
     /// <summary>
     /// ステージのセットアップ
@@ -45,15 +45,16 @@ namespace Game.Systems
         /// </summary>
         void SetupCharacter()
         {
-            var info = StaticData.SceneConnectorInfo;
+            CommonStatus cs = CommonStatus.getCommonStatus();
+
+            var info = cs.NextSceneConnectorInfo;
             Debug.Log("シーンのセットアップ " + info);
 
             if (info != null)
             {
                 ch.transform.position = info.startPosition;
 
-                StaticData.SceneConnectorInfo = null;
-
+                cs.NextSceneConnectorInfo = null;
             }
         }
     }

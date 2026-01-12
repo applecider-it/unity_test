@@ -3,7 +3,7 @@ using UnityEngine.InputSystem; // ★ 新Input System
 
 using Game.Characters;
 
-namespace Game.Systems
+namespace Game.Stages
 {
     public class InputController : MonoBehaviour
     {

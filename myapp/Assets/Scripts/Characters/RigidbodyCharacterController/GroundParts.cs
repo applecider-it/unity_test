@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Game.Utils;
-using Game.Systems;
+using Game.Stages;
 
 namespace Game.Characters.RigidbodyCharacterControllerParts
 {

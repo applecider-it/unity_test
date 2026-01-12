@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Game.Systems
+namespace Game.Stages
 {
     /// <summary>
     /// New Input System 対応 TPS カメラ

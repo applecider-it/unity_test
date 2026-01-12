@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-using Game.Systems;
+using Game.Stages;
 
 namespace Game.Characters
 {

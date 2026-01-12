@@ -1,6 +1,8 @@
 using UnityEngine;
 
-namespace Game.Systems
+using Game.Utils;
+
+namespace Game.Stages
 {
     public class CommonData : MonoBehaviour
     {
@@ -15,21 +17,22 @@ namespace Game.Systems
         [Tooltip("プレイヤーのヒエラルキーパス")][SerializeField] private string playerPath;
         [Tooltip("カメラのヒエラルキーパス")][SerializeField] private string cameraPath;
 
-        private static CommonData cd = null;
+        // このクラスのインスタンス
+        private static CommonData instance = null;
 
         /// <summary>
         /// 共通データを返す
         /// </summary>
         public static CommonData getCommonData()
         {
-            if (cd == null)
+            if (instance == null)
             {
                 Debug.Log("getCommonData: SetIncetance");
-                GameObject obj = GameObject.Find("Common/Script");
-                cd = obj.GetComponent<CommonData>();
-                Debug.Log(cd);
+                GameObject obj = StageUtil.GetCommonScriptGameObject();
+                instance = obj.GetComponent<CommonData>();
+                Debug.Log(instance);
             }
-            return cd;
+            return instance;
         }
 
         // getter

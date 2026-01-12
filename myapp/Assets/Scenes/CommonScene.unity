@@ -470,6 +470,7 @@ GameObject:
   - component: {fileID: 1373335383196444021}
   - component: {fileID: 4396809495798013243}
   - component: {fileID: 8977162130171578017}
+  - component: {fileID: 8977162130171578018}
   m_Layer: 0
   m_Name: Script
   m_TagString: Untagged
@@ -1054,6 +1055,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.CommonSetup
   firstStage: 0
+--- !u!114 &8977162130171578018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2838932233494485494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b0f0da371ac6db4a8a0c8ceb79de092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.CommonStatus
 --- !u!1 &9037647614199673124
 GameObject:
   m_ObjectHideFlags: 0

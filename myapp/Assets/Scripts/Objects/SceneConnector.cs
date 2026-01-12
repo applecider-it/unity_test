@@ -3,37 +3,41 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using Game.Characters;
-using Game.Systems;
+using Game.Stages;
 using Game.Utils;
 
 namespace Game.Objects
 {
-    [System.Serializable]
-    public class SceneConnectorInfoClass
-    {
-        public Vector3 startPosition;
-        public string sceneName;
-    }
-
     /// <summary>
     /// シーン接続管理
     /// </summary>
     public class SceneConnector : MonoBehaviour
     {
-        [SerializeField] private SceneConnectorInfoClass info;
+        [SerializeField] private SceneConnectorInfo info;
 
         void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                string name = "Scenes/" + info.sceneName + "Scene";
-                Debug.Log("Player が入ってきた。" + name + " " + info);
-
-                StaticData.SceneConnectorInfo = info;
-
-                SceneUtil.UnloadAllExcept("Scenes/CommonScene");
-                SceneManager.LoadScene(name, LoadSceneMode.Additive);
+                LoadNextStage();
             }
+        }
+
+        /// <summary>
+        /// 現在のステージのアンロード。
+        /// 次のステージのロード。
+        /// 接続情報を残す。
+        /// </summary>
+        void LoadNextStage()
+        {
+            string name = "Scenes/" + info.sceneName + "Scene";
+            Debug.Log("Player が入ってきた。" + name + " " + info);
+
+            CommonStatus cs = CommonStatus.getCommonStatus();
+            cs.NextSceneConnectorInfo = info;
+
+            SceneUtil.UnloadAllExcept("Scenes/CommonScene");
+            SceneManager.LoadScene(name, LoadSceneMode.Additive);
         }
     }
 }
