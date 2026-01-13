@@ -236,7 +236,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 7113c48bc09099748bd226b373c017f5, type: 3}
+  m_Resource: {fileID: 8300000, guid: 058ffbeb76adb5647a8ddd16e4440ce7, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -507,15 +507,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 252164316328604501, guid: 4062dd5ac144c564f98d8c28ddce3adc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.44
+      value: -4.778748
       objectReference: {fileID: 0}
     - target: {fileID: 252164316328604501, guid: 4062dd5ac144c564f98d8c28ddce3adc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.9758587
+      value: 5.40505
       objectReference: {fileID: 0}
     - target: {fileID: 252164316328604501, guid: 4062dd5ac144c564f98d8c28ddce3adc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.09
+      value: -1.839653
       objectReference: {fileID: 0}
     - target: {fileID: 252164316328604501, guid: 4062dd5ac144c564f98d8c28ddce3adc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1054,7 +1054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0b1bb6af22e85b47819b168d4767dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.CommonSetup
-  firstStage: 1
+  firstStage: 0
 --- !u!114 &8977162130171578018
 MonoBehaviour:
   m_ObjectHideFlags: 0

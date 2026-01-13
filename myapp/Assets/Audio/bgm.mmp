@@ -1,0 +1,302 @@
+<?xml version="1.0"?>
+<!DOCTYPE lmms-project>
+<lmms-project type="song" creatorversion="1.2.2" version="1.0" creator="LMMS">
+  <head mastervol="100" timesig_denominator="4" bpm="200" masterpitch="0" timesig_numerator="4"/>
+  <song>
+    <trackcontainer type="song" height="451" width="691" maximized="0" x="175" visible="1" minimized="0" y="34">
+      <track type="0" muted="0" solo="0" name="bassdrum01.ogg">
+        <instrumenttrack vol="135.2" fxch="0" pitchrange="1" pitch="0" usemasterpitch="1" pan="0" basenote="57">
+          <instrument name="audiofileprocessor">
+            <audiofileprocessor eframe="1" amp="100" reversed="0" lframe="0" interp="1" stutter="0" sframe="0" src="drums/bassdrum01.ogg" looped="0"/>
+          </instrument>
+          <eldata fres="0.5" fwet="0" ftype="0" fcut="14000">
+            <elvol lspd_syncmode="0" sustain="0.5" pdel="0" lamt="0" dec="0.5" latt="0" amt="0" att="0" x100="0" lspd="0.1" lspd_denominator="4" hold="0.5" ctlenvamt="0" lspd_numerator="4" userwavefile="" lpdel="0" lshp="0" rel="0.1"/>
+            <elcut lspd_syncmode="0" sustain="0.5" pdel="0" lamt="0" dec="0.5" latt="0" amt="0" att="0" x100="0" lspd="0.1" lspd_denominator="4" hold="0.5" ctlenvamt="0" lspd_numerator="4" userwavefile="" lpdel="0" lshp="0" rel="0.1"/>
+            <elres lspd_syncmode="0" sustain="0.5" pdel="0" lamt="0" dec="0.5" latt="0" amt="0" att="0" x100="0" lspd="0.1" lspd_denominator="4" hold="0.5" ctlenvamt="0" lspd_numerator="4" userwavefile="" lpdel="0" lshp="0" rel="0.1"/>
+          </eldata>
+          <chordcreator chord-enabled="0" chordrange="1" chord="0"/>
+          <arpeggiator arptime="200" arpskip="0" arptime_numerator="4" arp-enabled="0" arp="0" arpmiss="0" arprange="1" arptime_syncmode="0" arpgate="100" arpcycle="0" arpdir="0" arpmode="0" arptime_denominator="4"/>
+          <midiport inputchannel="0" outputcontroller="0" fixedoutputvelocity="-1" outputchannel="1" outputprogram="1" writable="0" readable="0" inputcontroller="0" fixedoutputnote="-1" fixedinputvelocity="-1" basevelocity="63"/>
+          <fxchain numofeffects="0" enabled="0"/>
+        </instrumenttrack>
+        <pattern type="1" muted="0" steps="16" pos="0" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="1344" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="192" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="384" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="576" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="768" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="960" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="1152" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="1536" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="1728" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="1920" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="2112" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="2304" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="2496" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="2688" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="2880" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="3072" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="3264" name="bassdrum01.ogg">
+          <note vol="100" len="48" key="60" pan="0" pos="0"/>
+        </pattern>
+      </track>
+      <track type="0" muted="0" solo="0" name="bassslap02.ogg">
+        <instrumenttrack vol="100" fxch="0" pitchrange="1" pitch="0" usemasterpitch="1" pan="0" basenote="57">
+          <instrument name="audiofileprocessor">
+            <audiofileprocessor eframe="1" amp="100" reversed="0" lframe="0" interp="1" stutter="0" sframe="0" src="instruments/bassslap02.ogg" looped="0"/>
+          </instrument>
+          <eldata fres="0.5" fwet="0" ftype="0" fcut="14000">
+            <elvol lspd_syncmode="0" sustain="0.5" pdel="0" lamt="0" dec="0.5" latt="0" amt="0" att="0" x100="0" lspd="0.1" lspd_denominator="4" hold="0.5" ctlenvamt="0" lspd_numerator="4" userwavefile="" lpdel="0" lshp="0" rel="0.1"/>
+            <elcut lspd_syncmode="0" sustain="0.5" pdel="0" lamt="0" dec="0.5" latt="0" amt="0" att="0" x100="0" lspd="0.1" lspd_denominator="4" hold="0.5" ctlenvamt="0" lspd_numerator="4" userwavefile="" lpdel="0" lshp="0" rel="0.1"/>
+            <elres lspd_syncmode="0" sustain="0.5" pdel="0" lamt="0" dec="0.5" latt="0" amt="0" att="0" x100="0" lspd="0.1" lspd_denominator="4" hold="0.5" ctlenvamt="0" lspd_numerator="4" userwavefile="" lpdel="0" lshp="0" rel="0.1"/>
+          </eldata>
+          <chordcreator chord-enabled="0" chordrange="1" chord="0"/>
+          <arpeggiator arptime="200" arpskip="0" arptime_numerator="4" arp-enabled="0" arp="0" arpmiss="0" arprange="1" arptime_syncmode="0" arpgate="100" arpcycle="0" arpdir="0" arpmode="0" arptime_denominator="4"/>
+          <midiport inputchannel="0" outputcontroller="0" fixedoutputvelocity="-1" outputchannel="1" outputprogram="1" writable="0" readable="0" inputcontroller="0" fixedoutputnote="-1" fixedinputvelocity="-1" basevelocity="63"/>
+          <fxchain numofeffects="0" enabled="0"/>
+        </instrumenttrack>
+        <pattern type="1" muted="0" steps="16" pos="0" name="bassslap02.ogg">
+          <note vol="100" len="48" key="81" pan="0" pos="0"/>
+          <note vol="100" len="48" key="81" pan="0" pos="48"/>
+          <note vol="100" len="48" key="83" pan="0" pos="96"/>
+          <note vol="100" len="48" key="85" pan="0" pos="144"/>
+          <note vol="100" len="48" key="90" pan="0" pos="192"/>
+          <note vol="100" len="48" key="87" pan="0" pos="288"/>
+          <note vol="100" len="48" key="88" pan="0" pos="336"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="1536" name="bassslap02.ogg">
+          <note vol="100" len="48" key="87" pan="0" pos="0"/>
+          <note vol="100" len="48" key="85" pan="0" pos="48"/>
+          <note vol="100" len="48" key="84" pan="0" pos="96"/>
+          <note vol="100" len="48" key="86" pan="0" pos="144"/>
+          <note vol="100" len="48" key="87" pan="0" pos="192"/>
+          <note vol="100" len="48" key="85" pan="0" pos="240"/>
+          <note vol="100" len="48" key="84" pan="0" pos="288"/>
+          <note vol="100" len="48" key="86" pan="0" pos="336"/>
+          <note vol="100" len="48" key="87" pan="0" pos="384"/>
+          <note vol="100" len="48" key="85" pan="0" pos="432"/>
+          <note vol="100" len="48" key="84" pan="0" pos="480"/>
+          <note vol="100" len="48" key="86" pan="0" pos="528"/>
+          <note vol="100" len="48" key="87" pan="0" pos="576"/>
+          <note vol="100" len="48" key="82" pan="0" pos="672"/>
+          <note vol="100" len="48" key="82" pan="0" pos="720"/>
+          <note vol="100" len="48" key="87" pan="0" pos="768"/>
+          <note vol="100" len="48" key="85" pan="0" pos="816"/>
+          <note vol="100" len="48" key="84" pan="0" pos="864"/>
+          <note vol="100" len="48" key="86" pan="0" pos="912"/>
+          <note vol="100" len="48" key="87" pan="0" pos="960"/>
+          <note vol="100" len="48" key="85" pan="0" pos="1008"/>
+          <note vol="100" len="48" key="84" pan="0" pos="1056"/>
+          <note vol="100" len="48" key="86" pan="0" pos="1104"/>
+          <note vol="100" len="48" key="87" pan="0" pos="1152"/>
+          <note vol="100" len="48" key="87" pan="0" pos="1200"/>
+          <note vol="100" len="48" key="87" pan="0" pos="1248"/>
+          <note vol="100" len="48" key="87" pan="0" pos="1296"/>
+          <note vol="100" len="48" key="91" pan="0" pos="1344"/>
+          <note vol="100" len="48" key="87" pan="0" pos="1392"/>
+          <note vol="100" len="96" key="87" pan="0" pos="1488"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="768" name="bassslap02.ogg">
+          <note vol="100" len="48" key="88" pan="0" pos="0"/>
+          <note vol="100" len="48" key="88" pan="0" pos="48"/>
+          <note vol="100" len="48" key="90" pan="0" pos="96"/>
+          <note vol="100" len="48" key="92" pan="0" pos="144"/>
+          <note vol="100" len="48" key="97" pan="0" pos="192"/>
+          <note vol="100" len="48" key="94" pan="0" pos="288"/>
+          <note vol="100" len="48" key="95" pan="0" pos="336"/>
+          <note vol="100" len="48" key="92" pan="0" pos="480"/>
+          <note vol="100" len="48" key="90" pan="0" pos="528"/>
+        </pattern>
+      </track>
+      <track type="0" muted="0" height="32" solo="0" name="bass01.ogg">
+        <instrumenttrack vol="32.8" fxch="0" pitchrange="1" pitch="0" usemasterpitch="1" pan="0" basenote="57">
+          <instrument name="audiofileprocessor">
+            <audiofileprocessor eframe="1" amp="100" reversed="0" lframe="0" interp="1" stutter="0" sframe="0" src="basses/bass01.ogg" looped="0"/>
+          </instrument>
+          <eldata fres="0.5" fwet="0" ftype="0" fcut="14000">
+            <elvol lspd_syncmode="0" sustain="0.5" pdel="0" lamt="0" dec="0.5" latt="0" amt="0" att="0" x100="0" lspd="0.1" lspd_denominator="4" hold="0.5" ctlenvamt="0" lspd_numerator="4" userwavefile="" lpdel="0" lshp="0" rel="0.1"/>
+            <elcut lspd_syncmode="0" sustain="0.5" pdel="0" lamt="0" dec="0.5" latt="0" amt="0" att="0" x100="0" lspd="0.1" lspd_denominator="4" hold="0.5" ctlenvamt="0" lspd_numerator="4" userwavefile="" lpdel="0" lshp="0" rel="0.1"/>
+            <elres lspd_syncmode="0" sustain="0.5" pdel="0" lamt="0" dec="0.5" latt="0" amt="0" att="0" x100="0" lspd="0.1" lspd_denominator="4" hold="0.5" ctlenvamt="0" lspd_numerator="4" userwavefile="" lpdel="0" lshp="0" rel="0.1"/>
+          </eldata>
+          <chordcreator chord-enabled="0" chordrange="1" chord="0"/>
+          <arpeggiator arptime="200" arpskip="0" arptime_numerator="4" arp-enabled="0" arp="0" arpmiss="0" arprange="1" arptime_syncmode="0" arpgate="100" arpcycle="0" arpdir="0" arpmode="0" arptime_denominator="4"/>
+          <midiport inputchannel="0" outputcontroller="0" fixedoutputvelocity="-1" outputchannel="1" outputprogram="1" writable="0" readable="0" inputcontroller="0" fixedoutputnote="-1" fixedinputvelocity="-1" basevelocity="63"/>
+          <fxchain numofeffects="0" enabled="0"/>
+        </instrumenttrack>
+        <pattern type="1" muted="0" steps="16" pos="0" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="192" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="384" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="576" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="768" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="960" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="1152" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="1344" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="1536" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="1728" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="1920" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="2112" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="2304" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="2496" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="2688" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="2880" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="3072" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="3264" name="bass01.ogg">
+          <note vol="100" len="48" key="64" pan="0" pos="0"/>
+          <note vol="100" len="48" key="65" pan="0" pos="48"/>
+          <note vol="100" len="48" key="67" pan="0" pos="96"/>
+        </pattern>
+      </track>
+      <track type="0" muted="0" solo="0" name="bass_acid02.ogg">
+        <instrumenttrack vol="50.4" fxch="0" pitchrange="1" pitch="0" usemasterpitch="1" pan="0" basenote="57">
+          <instrument name="audiofileprocessor">
+            <audiofileprocessor eframe="1" amp="100" reversed="0" lframe="0" interp="1" stutter="0" sframe="0" src="basses/bass_acid02.ogg" looped="0"/>
+          </instrument>
+          <eldata fres="0.5" fwet="0" ftype="0" fcut="14000">
+            <elvol lspd_syncmode="0" sustain="0.5" pdel="0" lamt="0" dec="0.5" latt="0" amt="0" att="0" x100="0" lspd="0.1" lspd_denominator="4" hold="0.5" ctlenvamt="0" lspd_numerator="4" userwavefile="" lpdel="0" lshp="0" rel="0.1"/>
+            <elcut lspd_syncmode="0" sustain="0.5" pdel="0" lamt="0" dec="0.5" latt="0" amt="0" att="0" x100="0" lspd="0.1" lspd_denominator="4" hold="0.5" ctlenvamt="0" lspd_numerator="4" userwavefile="" lpdel="0" lshp="0" rel="0.1"/>
+            <elres lspd_syncmode="0" sustain="0.5" pdel="0" lamt="0" dec="0.5" latt="0" amt="0" att="0" x100="0" lspd="0.1" lspd_denominator="4" hold="0.5" ctlenvamt="0" lspd_numerator="4" userwavefile="" lpdel="0" lshp="0" rel="0.1"/>
+          </eldata>
+          <chordcreator chord-enabled="0" chordrange="1" chord="0"/>
+          <arpeggiator arptime="200" arpskip="0" arptime_numerator="4" arp-enabled="0" arp="0" arpmiss="0" arprange="1" arptime_syncmode="0" arpgate="100" arpcycle="0" arpdir="0" arpmode="0" arptime_denominator="4"/>
+          <midiport inputchannel="0" outputcontroller="0" fixedoutputvelocity="-1" outputchannel="1" outputprogram="1" writable="0" readable="0" inputcontroller="0" fixedoutputnote="-1" fixedinputvelocity="-1" basevelocity="63"/>
+          <fxchain numofeffects="0" enabled="0"/>
+        </instrumenttrack>
+        <pattern type="1" muted="0" steps="16" pos="384" name="bass_acid02.ogg">
+          <note vol="100" len="48" key="57" pan="0" pos="0"/>
+          <note vol="100" len="48" key="58" pan="0" pos="48"/>
+          <note vol="100" len="48" key="61" pan="0" pos="96"/>
+        </pattern>
+        <pattern type="1" muted="0" steps="16" pos="576" name="bass_acid02.ogg">
+          <note vol="100" len="48" key="57" pan="0" pos="0"/>
+          <note vol="100" len="48" key="58" pan="0" pos="48"/>
+          <note vol="100" len="48" key="61" pan="0" pos="96"/>
+        </pattern>
+      </track>
+    </trackcontainer>
+    <track type="6" muted="0" solo="0" name="Automation track">
+      <automationtrack/>
+      <automationpattern prog="0" len="192" mute="0" pos="0" name="Numerator" tens="1"/>
+      <automationpattern prog="0" len="192" mute="0" pos="0" name="Denominator" tens="1"/>
+      <automationpattern prog="0" len="192" mute="0" pos="0" name="Tempo" tens="1"/>
+      <automationpattern prog="0" len="192" mute="0" pos="0" name="Master volume" tens="1"/>
+      <automationpattern prog="0" len="192" mute="0" pos="0" name="Master pitch" tens="1"/>
+    </track>
+    <fxmixer height="333" width="543" maximized="0" x="5" visible="1" minimized="0" y="310">
+      <fxchannel muted="0" volume="1" soloed="0" num="0" name="Master">
+        <fxchain numofeffects="0" enabled="0"/>
+      </fxchannel>
+    </fxmixer>
+    <ControllerRackView height="200" width="350" maximized="0" x="680" visible="1" minimized="0" y="310"/>
+    <pianoroll height="480" width="1185" maximized="0" x="58" visible="1" minimized="0" y="154"/>
+    <automationeditor height="400" width="860" maximized="0" x="1" visible="0" minimized="0" y="1"/>
+    <projectnotes height="400" width="703" maximized="0" x="700" visible="0" minimized="0" y="10"><![CDATA[<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html><head><meta name="qrichtext" content="1" /><style type="text/css">
+p, li { white-space: pre-wrap; }
+</style></head><body style=" font-family:'MS UI Gothic'; font-size:9pt; font-weight:400; font-style:normal;">
+<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p></body></html>]]></projectnotes>
+    <timeline lp0pos="0" lp1pos="192" lpstate="0"/>
+    <controllers/>
+  </song>
+</lmms-project>
