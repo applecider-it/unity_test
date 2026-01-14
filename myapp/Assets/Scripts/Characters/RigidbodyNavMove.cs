@@ -19,6 +19,8 @@ namespace Game.Characters
         Rigidbody rb;
         RigidbodyCharacterController ch;
 
+        bool jump;
+
         void Awake()
         {
             CommonData cd = CommonData.getCommonData();
@@ -31,6 +33,16 @@ namespace Game.Characters
 
             agent.updatePosition = false;
             agent.updateRotation = false;
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("入った: " + other.tag);
+
+            if (other.tag == "JumpArea")
+            {
+                jump = true;
+            }
         }
 
         void FixedUpdate()
@@ -55,6 +67,13 @@ namespace Game.Characters
             //Debug.Log(moveAxis);
 
             ch.MoveInput = moveAxis;
+
+            if (jump)
+            {
+                ch.Jump = true;
+
+                jump = false;
+            }
         }
     }
 }
