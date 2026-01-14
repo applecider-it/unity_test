@@ -21,6 +21,9 @@ namespace Game.Characters
 
         bool jump;
 
+        float resetIgnoreTime = 2f;
+        float resetTimer;
+
         void Awake()
         {
             CommonData cd = CommonData.getCommonData();
@@ -33,22 +36,13 @@ namespace Game.Characters
 
             agent.updatePosition = false;
             agent.updateRotation = false;
-        }
 
-        void OnTriggerEnter(Collider other)
-        {
-            Debug.Log("入った: " + other.tag);
-
-            if (other.tag == "JumpArea")
-            {
-                jump = true;
-            }
+            resetTimer = resetIgnoreTime;
         }
 
         void FixedUpdate()
         {
-            // Navメッシュエージェントの位置情報のずれを修正
-            agent.nextPosition = rb.position;
+            SyncAgentToBody();
 
             agent.SetDestination(target.position);
 
@@ -73,6 +67,48 @@ namespace Game.Characters
                 ch.Jump = true;
 
                 jump = false;
+            }
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("入った: " + other.tag);
+
+            if (other.tag == "JumpArea")
+            {
+                jump = true;
+            }
+        }
+
+        /// <summary>
+        /// Navメッシュエージェントの位置情報のずれを修正
+        /// </summary>
+        void SyncAgentToBody()
+        {
+            float dist = Vector3.Distance(agent.nextPosition, rb.position);
+
+            if (dist > 1.5f)
+            {
+                // agentと大きくずれたとき（崖などを滑り落ちた時などに起きる）
+
+                // リセット直後は、少しの間リセットをしない
+                if (resetTimer > 0f)
+                {
+                    resetTimer -= Time.deltaTime;
+                    return;
+                }
+
+                resetTimer = resetIgnoreTime;
+
+                // リセット
+                agent.Warp(rb.position);
+
+                Debug.Log("Reset NavAgent: dist: " + dist);
+            }
+            else
+            {
+                // 通常時も少しづつずれるので、それを埋める
+                agent.nextPosition = rb.position;
             }
         }
     }

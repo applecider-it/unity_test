@@ -6210,8 +6210,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 331516115}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.08, y: 7.4409533, z: 9.16}
+  m_LocalRotation: {x: -0, y: -0.07524369, z: -0, w: 0.9971652}
+  m_LocalPosition: {x: 12.223761, y: 6.034809, z: 12.08671}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6231,15 +6231,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshLink
   m_SerializedVersion: 1
   m_AgentTypeID: 0
-  m_StartPoint: {x: 0.62463856, y: 0.0059957504, z: -0.24156189}
-  m_EndPoint: {x: -0.33711815, y: -2.818284, z: 6.094981}
+  m_StartPoint: {x: -0.0000008411758, y: 1.4121399, z: -3.2045577}
+  m_EndPoint: {x: -0.00000072384637, y: -1.4121399, z: 3.2045574}
   m_StartTransform: {fileID: 0}
   m_EndTransform: {fileID: 0}
   m_Activated: 1
   m_Width: 0
   m_CostModifier: 1
   m_IsOverridingCost: 0
-  m_Bidirectional: 1
+  m_Bidirectional: 0
   m_AutoUpdatePosition: 0
   m_Area: 0
 --- !u!1 &350529886
@@ -8069,8 +8069,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701420690}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.41, y: 7.4409533, z: 6.75}
+  m_LocalRotation: {x: -0, y: -0.08992793, z: -0, w: 0.9959483}
+  m_LocalPosition: {x: 12.837028, y: 7.0798616, z: 3.852041}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8090,15 +8090,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshLink
   m_SerializedVersion: 1
   m_AgentTypeID: 0
-  m_StartPoint: {x: 1.89295, y: -0.7636571, z: -5.4569607}
-  m_EndPoint: {x: 0.96110535, y: 0.04147339, z: -0.3389573}
+  m_StartPoint: {x: 0.42726487, y: 0.4161539, z: 2.5609622}
+  m_EndPoint: {x: 0.10273691, y: -0.31946182, z: -2.6594954}
   m_StartTransform: {fileID: 0}
   m_EndTransform: {fileID: 0}
   m_Activated: 1
   m_Width: 0
   m_CostModifier: 1
   m_IsOverridingCost: 0
-  m_Bidirectional: 1
+  m_Bidirectional: 0
   m_AutoUpdatePosition: 0
   m_Area: 0
 --- !u!1 &710050799
@@ -8904,6 +8904,7 @@ Transform:
   - {fileID: 331516116}
   - {fileID: 701420691}
   - {fileID: 1873646863}
+  - {fileID: 1752784341}
   m_Father: {fileID: 318604960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &894604746
@@ -8931,8 +8932,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894604746}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -33.006546, y: 0.003623023, z: 11.3}
+  m_LocalRotation: {x: -0, y: -0.059893303, z: -0, w: 0.9982048}
+  m_LocalPosition: {x: -37.153145, y: 5.456584, z: 4.809496}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8952,15 +8953,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshLink
   m_SerializedVersion: 1
   m_AgentTypeID: 0
-  m_StartPoint: {x: -1.1826706, y: 10.905576, z: -14.841737}
-  m_EndPoint: {x: 0.7108879, y: -0.0008590061, z: 0.75530624}
+  m_StartPoint: {x: 0.00000049836063, y: 5.448086, z: -8.035565}
+  m_EndPoint: {x: 0.0000009136379, y: -5.4480853, z: 8.035566}
   m_StartTransform: {fileID: 0}
   m_EndTransform: {fileID: 0}
   m_Activated: 1
   m_Width: 0
   m_CostModifier: 1
   m_IsOverridingCost: 0
-  m_Bidirectional: 1
+  m_Bidirectional: 0
   m_AutoUpdatePosition: 0
   m_Area: 0
 --- !u!43 &920431318
@@ -10145,8 +10146,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1158337034}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -35.605515, y: 0.007984161, z: -22.849558}
+  m_LocalRotation: {x: -0, y: 0.9987545, z: -0, w: -0.04989498}
+  m_LocalPosition: {x: -36.77509, y: 5.458847, z: -15.084381}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10166,15 +10167,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshLink
   m_SerializedVersion: 1
   m_AgentTypeID: 0
-  m_StartPoint: {x: -1.5201111, y: -0.008913304, z: 0.49339676}
-  m_EndPoint: {x: 0.05511093, y: 10.920409, z: 15.187392}
+  m_StartPoint: {x: 0.0000017141914, y: 5.462434, z: -6.8578353}
+  m_EndPoint: {x: 0.0000016712648, y: -5.462434, z: 6.857836}
   m_StartTransform: {fileID: 0}
   m_EndTransform: {fileID: 0}
   m_Activated: 1
   m_Width: 0
   m_CostModifier: 1
   m_IsOverridingCost: 0
-  m_Bidirectional: 1
+  m_Bidirectional: 0
   m_AutoUpdatePosition: 0
   m_Area: 0
 --- !u!43 &1189940342
@@ -23228,6 +23229,63 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &1752784340
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1752784341}
+  - component: {fileID: 1752784342}
+  m_Layer: 0
+  m_Name: house (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1752784341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752784340}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.968022, z: -0, w: -0.25086537}
+  m_LocalPosition: {x: 11.860899, y: 3.0765855, z: -11.726212}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 890164307}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1752784342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752784340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshLink
+  m_SerializedVersion: 1
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 0.00000029604962, y: 3.7763188, z: -3.454389}
+  m_EndPoint: {x: 0.000000038972985, y: -3.7763188, z: 3.4543889}
+  m_StartTransform: {fileID: 0}
+  m_EndTransform: {fileID: 0}
+  m_Activated: 1
+  m_Width: 0
+  m_CostModifier: 1
+  m_IsOverridingCost: 0
+  m_Bidirectional: 0
+  m_AutoUpdatePosition: 0
+  m_Area: 0
 --- !u!1 &1766990058
 GameObject:
   m_ObjectHideFlags: 0
@@ -24546,8 +24604,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1873646862}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 35.967632, y: -0.1786714, z: -3.7344806}
+  m_LocalRotation: {x: -0, y: 0.54118377, z: -0, w: 0.8409044}
+  m_LocalPosition: {x: 33.95941, y: 3.2360978, z: -2.378094}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24567,15 +24625,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshLink
   m_SerializedVersion: 1
   m_AgentTypeID: 0
-  m_StartPoint: {x: -5.1961308, y: 6.69523, z: -0.094511986}
-  m_EndPoint: {x: 1.1796875, y: 0.13430862, z: 2.8072853}
+  m_StartPoint: {x: 0.0000009670744, y: 3.2804608, z: -3.5025542}
+  m_EndPoint: {x: -0.0000005395443, y: -3.2804606, z: 3.5025496}
   m_StartTransform: {fileID: 0}
   m_EndTransform: {fileID: 0}
   m_Activated: 1
   m_Width: 0
   m_CostModifier: 1
   m_IsOverridingCost: 0
-  m_Bidirectional: 1
+  m_Bidirectional: 0
   m_AutoUpdatePosition: 0
   m_Area: 0
 --- !u!43 &1889492227
@@ -25181,15 +25239,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6353108870840267620, guid: 58df71c64fc52f3489e5068656080dc0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.893496
+      value: -17.297888
       objectReference: {fileID: 0}
     - target: {fileID: 6353108870840267620, guid: 58df71c64fc52f3489e5068656080dc0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.24017072
+      value: -0.09714413
       objectReference: {fileID: 0}
     - target: {fileID: 6353108870840267620, guid: 58df71c64fc52f3489e5068656080dc0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.370227
+      value: -7.5042
       objectReference: {fileID: 0}
     - target: {fileID: 6353108870840267620, guid: 58df71c64fc52f3489e5068656080dc0, type: 3}
       propertyPath: m_LocalRotation.w
