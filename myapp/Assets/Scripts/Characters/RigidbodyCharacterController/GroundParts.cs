@@ -96,9 +96,18 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
                 // 上向きの面か？（坂も考慮）
                 if (Vector3.Angle(contact.normal, Vector3.up) <= maxSlopeAngle)
                 {
-                    //Debug.Log("contact valid");
                     normal = contact.normal;
                     result = true;
+                    /*
+                    Debug.Log("contact valid: normal: " + normal + " count: " + collision.contactCount);
+                    if (collision.contactCount > 1)
+                    {
+                        foreach (ContactPoint contact2 in collision.contacts)
+                        {
+                            Debug.Log(" -> normal: " + contact2.normal);
+                        }
+                    }
+                    */
                     return;
                 }
             }
