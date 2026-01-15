@@ -24,6 +24,8 @@ namespace Game.Characters
         float resetIgnoreTime = 2f;
         float resetTimer;
 
+        float repathTimer;
+
         void Awake()
         {
             CommonData cd = CommonData.getCommonData();
@@ -44,18 +46,25 @@ namespace Game.Characters
         {
             SyncAgentToBody();
 
-            agent.SetDestination(target.position);
+            repathTimer -= Time.fixedDeltaTime;
+            if (repathTimer <= 0f)
+            {
+                agent.SetDestination(target.position);
+                repathTimer = 1f;
+
+                Debug.Log("SetDestination");
+            }
 
             Vector3 desired = agent.desiredVelocity;
-            desired.y = 0;
-
-            desired.Normalize();
+            //desired.y = 0;
 
             Vector2 moveAxis = Vector2.zero;
 
             if (desired.sqrMagnitude > 0.01f)
             {
                 moveAxis = new Vector2(desired.x, desired.z);
+
+                moveAxis.Normalize();
             }
 
             //Debug.Log(moveAxis);
