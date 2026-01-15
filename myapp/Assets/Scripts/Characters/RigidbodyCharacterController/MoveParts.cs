@@ -8,17 +8,21 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
     public class MoveParts
     {
         private Rigidbody rb;
+        private Transform transform;
 
         /// <summary> 移動方向 </summary>
         private Vector2 moveInput;
+        /// <summary> カーソル方向 </summary>
+        private Vector2 cursorInput;
 
         /// <summary> 地面にいるときの移動ベクトル。ジャンプ時の補正に使う。 </summary>
         private Vector3 moveVelocity = Vector3.zero;
 
         // コンストラクタ
-        public MoveParts(Rigidbody argRb)
+        public MoveParts(Rigidbody argRb, Transform tr)
         {
             rb = argRb;
+            transform = tr;
         }
 
         /// <summary>
@@ -35,7 +39,8 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         public void MoveProccess(
             bool noMove, float gravity, bool isGrounded, Vector3 groundNormal,
             float moveSpeed, float moveSpeedAir, float rotationSpeed,
-            bool inWater, bool inWaterBuoyancy, float buoyancy, float moveSpeedWater, float waterFriction, float rotationSpeedWater
+            bool inWater, bool inWaterBuoyancy, float buoyancy, float moveSpeedWater, float waterFriction, float rotationSpeedWater,
+            bool isHang, Vector3 hangNormal
         )
         {
             Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
@@ -43,13 +48,15 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
             MoveInMoveProcces(
                 moveDir, gravity, isGrounded, groundNormal,
                 moveSpeed, moveSpeedAir, noMove,
-                inWaterBuoyancy, buoyancy, moveSpeedWater, waterFriction
+                inWaterBuoyancy, buoyancy, moveSpeedWater, waterFriction,
+                isHang, hangNormal
             );
 
-            if (!noMove)
-            {
-                RotationInMoveProcces(moveDir, isGrounded, rotationSpeed, inWater, rotationSpeedWater);
-            }
+            RotationInMoveProcces(
+                moveDir, isGrounded, rotationSpeed,
+                inWater, rotationSpeedWater,
+                isHang, hangNormal, noMove
+            );
         }
 
         /// <summary>
@@ -58,7 +65,8 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         void MoveInMoveProcces(
             Vector3 moveDir, float gravity, bool isGrounded, Vector3 groundNormal,
             float moveSpeed, float moveSpeedAir, bool noMove,
-            bool inWaterBuoyancy, float buoyancy, float moveSpeedWater, float waterFriction
+            bool inWaterBuoyancy, float buoyancy, float moveSpeedWater, float waterFriction,
+            bool isHang, Vector3 hangNormal
         )
         {
             if (inWaterBuoyancy)
@@ -103,11 +111,46 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
                 {
                     // 地面にいないとき
 
-                    rb.linearVelocity = new Vector3(
-                        rb.linearVelocity.x,
-                        rb.linearVelocity.y - gravity,
-                        rb.linearVelocity.z
-                    ) + (moveDir * moveSpeedAir);
+                    if (isHang)
+                    {
+                        // つかまっているとき
+
+                        moveVelocity = Vector3.zero;
+
+                        Vector3 stickVelocity = -hangNormal * 1f;
+
+                        if (noMove)
+                        {
+                            // 入力がないとき
+
+                            rb.linearVelocity = stickVelocity;
+                        }
+                        else
+                        {
+                            // 入力があるとき
+
+                            Debug.Log("cursorInput: " + cursorInput);
+
+                            Vector3 move;
+
+                            Vector3 right = transform.right;   // キャラの右
+                            Vector3 up = Vector3.up;            // はしごは常にY軸
+
+                            move = right * cursorInput.x + up * cursorInput.y;
+
+                            rb.linearVelocity = move * moveSpeed + stickVelocity;
+                        }
+                    }
+                    else
+                    {
+                        // つかまっていないとき
+
+                        rb.linearVelocity = new Vector3(
+                            rb.linearVelocity.x,
+                            rb.linearVelocity.y - gravity,
+                            rb.linearVelocity.z
+                        ) + (moveDir * moveSpeedAir);
+                    }
                 }
             }
         }
@@ -117,28 +160,59 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// </summary>
         void RotationInMoveProcces(
             Vector3 moveDir, bool isGrounded, float rotationSpeed,
-            bool inWater, float rotationSpeedWater
+            bool inWater, float rotationSpeedWater,
+            bool isHang, Vector3 hangNormal, bool noMove
         )
         {
-            if (isGrounded || inWater)
+            if (isHang)
             {
-                // 移動方向を向く回転
-                Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+                // つかまっているとき
 
-                // 現在の向きからスムーズに補間
-                rb.MoveRotation(
-                    Quaternion.Slerp(
-                        rb.rotation,
-                        targetRotation,
-                        (inWater ? rotationSpeedWater : rotationSpeed) * Time.fixedDeltaTime
-                    )
+                Vector3 dir = new Vector3(
+                    hangNormal.x,
+                    0,
+                    hangNormal.z
                 );
+
+                dir.Normalize();
+
+                // 移動方向を向く回転
+                Quaternion targetRotation = Quaternion.LookRotation(-dir);
+
+                rb.MoveRotation(targetRotation);
+            }
+            else
+            {
+                // つかまっていないとき
+
+                if (!noMove)
+                {
+                    // 入力があるとき
+
+                    if (isGrounded || inWater)
+                    {
+                        // 地面にいるか水中のとき
+
+                        // 移動方向を向く回転
+                        Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+
+                        // 現在の向きからスムーズに補間
+                        rb.MoveRotation(
+                            Quaternion.Slerp(
+                                rb.rotation,
+                                targetRotation,
+                                (inWater ? rotationSpeedWater : rotationSpeed) * Time.fixedDeltaTime
+                            )
+                        );
+                    }
+                }
             }
         }
 
         // setter getter
 
         public Vector2 MoveInput { set => moveInput = value; }
+        public Vector2 CursorInput { set => cursorInput = value; }
         public Vector3 MoveVelocity { get => moveVelocity; }
     }
 }

@@ -8,17 +8,17 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
     /// </summary>
     public class WaterParts
     {
-        HashSet<Collider> inside = new HashSet<Collider>();
+        HashSet<Collider> colliders = new HashSet<Collider>();
 
         /// <summary>
         /// トリガー開始時
         /// </summary>
         public void OnTriggerEnter(Collider other)
         {
-            Debug.Log("入った: " + other.tag);
             if (other.tag == "Water")
             {
-                inside.Add(other);
+                Debug.Log("水に入った: " + other.tag);
+                colliders.Add(other);
             }
         }
 
@@ -27,10 +27,10 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// </summary>
         public void OnTriggerExit(Collider other)
         {
-            Debug.Log("出た: " + other.tag);
             if (other.tag == "Water")
             {
-                inside.Remove(other);
+                Debug.Log("水から出た: " + other.tag);
+                colliders.Remove(other);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// </summary>
         public bool PointCheck(Vector3 p)
         {
-            foreach (var col in inside)
+            foreach (var col in colliders)
             {
                 if (col == null) continue;
 
@@ -60,7 +60,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// </summary>
         public bool InsideCheck()
         {
-            return inside.Count > 0;
+            return colliders.Count > 0;
         }
     }
 }

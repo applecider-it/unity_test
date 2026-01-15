@@ -6,6 +6,7 @@ TagManager:
   tags:
   - JumpArea
   - Water
+  - Hang
   layers:
   - Default
   - TransparentFX

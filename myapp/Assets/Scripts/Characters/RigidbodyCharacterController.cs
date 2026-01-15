@@ -39,16 +39,12 @@ namespace Game.Characters
         private GroundParts groundCtrl;
         private AttackParts attackCtrl;
         private WaterParts waterCtrl;
+        private HangParts hangCtrl;
 
         /// <summary> 移動床の移動量 </summary>
         private Vector3 movingPlatformDeltaPos = Vector3.zero;
         /// <summary> 移動床の移動量有効カウント </summary>
         private int movingPlatformDeltaPosCnt = 0;
-
-        /// <summary> 地面にいるときはtrue </summary>
-        private bool isGrounded => (groundCtrl.IsGrounded && !jumpCtrl.JumpWait);
-        /// <summary> 地面の法線ベクトル </summary>
-        private Vector3 groundNormal => isGrounded ? groundCtrl.GroundContactNormal : Vector3.up;
 
         Collider myCol;
 
@@ -61,12 +57,13 @@ namespace Game.Characters
             jumpAudio.TargetAudioSource = audioSource;
             attackAudio.TargetAudioSource = audioSource;
 
-            moveCtrl = new MoveParts(rb);
+            moveCtrl = new MoveParts(rb, transform);
             jumpCtrl = new JumpParts(rb, jumpAudio);
             animCtrl = new AnimationParts(animator);
             groundCtrl = new GroundParts();
             attackCtrl = new AttackParts(transform, attackAudio);
             waterCtrl = new WaterParts();
+            hangCtrl = new HangParts();
 
             groundCtrl.Awake();
             attackCtrl.Awake();
@@ -78,9 +75,16 @@ namespace Game.Characters
         {
             groundCtrl.CleanupDestroyedGround();
 
+            // 地面にいるときはtrue
+            bool isGrounded = (groundCtrl.IsGrounded && !jumpCtrl.JumpWait);
+            // 地面の法線ベクトル
+            Vector3 groundNormal = isGrounded ? groundCtrl.GroundContactNormal : Vector3.up;
+
             bool noMove = moveCtrl.NoMove();
             bool inWater = waterCtrl.InsideCheck();
             bool inWaterBuoyancy = waterCtrl.PointCheck(myCol.bounds.center);
+            bool isHang = hangCtrl.IsHang();
+            Vector3 hangNormal = hangCtrl.Normal;
 
             if (movingPlatformDeltaPosCnt > 0) movingPlatformDeltaPosCnt--;
 
@@ -89,7 +93,8 @@ namespace Game.Characters
             moveCtrl.MoveProccess(
                 noMove, gravity, isGrounded, groundNormal,
                 moveSpeed, moveSpeedAir, rotationSpeed,
-                inWater, inWaterBuoyancy, buoyancy, moveSpeedWater, waterFriction, rotationSpeedWater
+                inWater, inWaterBuoyancy, buoyancy, moveSpeedWater, waterFriction, rotationSpeedWater,
+                isHang, hangNormal
             );
 
             jumpCtrl.JumpProccess(
@@ -102,7 +107,7 @@ namespace Game.Characters
             attackCtrl.AttackProccess(this);
 
             //Debug.Log("isGrounded " + isGrounded + ", groundNormal " + groundNormal);
-            //Debug.Log("inWater "  + inWater);
+            //Debug.Log("isHang " + isHang);
         }
 
         /// <summary>
@@ -111,6 +116,7 @@ namespace Game.Characters
         void OnCollisionEnter(Collision collision)
         {
             groundCtrl.OnCollisionEnter(collision, maxSlopeAngle);
+            hangCtrl.OnCollisionEnter(collision);
         }
 
         /// <summary>
@@ -119,6 +125,7 @@ namespace Game.Characters
         void OnCollisionStay(Collision collision)
         {
             groundCtrl.OnCollisionStay(collision, maxSlopeAngle);
+            hangCtrl.OnCollisionStay(collision);
         }
 
         /// <summary>
@@ -127,6 +134,7 @@ namespace Game.Characters
         void OnCollisionExit(Collision collision)
         {
             groundCtrl.OnCollisionExit(collision);
+            hangCtrl.OnCollisionExit(collision);
         }
 
         /// <summary>
@@ -148,6 +156,7 @@ namespace Game.Characters
         // setter
 
         public Vector2 MoveInput { set => moveCtrl.MoveInput = value; }
+        public Vector2 CursorInput { set => moveCtrl.CursorInput = value; }
         public bool Jump { set => jumpCtrl.Jump = value; }
         public bool Attack { set => attackCtrl.Attack = value; }
         public Vector3 MovingPlatformDeltaPos

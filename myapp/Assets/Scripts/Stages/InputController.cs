@@ -12,8 +12,6 @@ namespace Game.Stages
         bool jumpPressed;   // ジャンプ入力
         bool attackPressed;   // アタック入力
 
-        Vector2 moveAxis; // ← カメラ方向変換後（XZ）
-
         RigidbodyCharacterController ch;
         Transform cameraTransform;
 
@@ -43,8 +41,18 @@ namespace Game.Stages
                 return;
             }
 
-            ConvertInputToMoveAxis();
+            // カメラ方向変換後（XZ）
+            Vector2 moveAxis = Vector2.zero;
+            Vector2 cursorAxis = Vector2.zero;
+            
+            if (moveInput.sqrMagnitude > 0.01f)
+            {
+                moveAxis = ConvertInputToMoveAxis();
+                cursorAxis = moveInput.normalized;
+            }
+
             ch.MoveInput = moveAxis;
+            ch.CursorInput = cursorAxis;
 
             if (jumpPressed)
             {
@@ -61,14 +69,8 @@ namespace Game.Stages
             }
         }
 
-        void ConvertInputToMoveAxis()
+        Vector2 ConvertInputToMoveAxis()
         {
-            if (moveInput.sqrMagnitude < 0.01f)
-            {
-                moveAxis = Vector2.zero;
-                return;
-            }
-
             Vector3 camForward = cameraTransform.forward;
             Vector3 camRight = cameraTransform.right;
 
@@ -85,9 +87,11 @@ namespace Game.Stages
             worldDir.Normalize();
 
             // XZ平面に落とす
-            moveAxis = new Vector2(worldDir.x, worldDir.z);
+            Vector2 moveAxis = new Vector2(worldDir.x, worldDir.z);
 
             moveAxis.Normalize();
+
+            return moveAxis;
         }
 
         // ===== Input System から呼ばれる関数 =====
