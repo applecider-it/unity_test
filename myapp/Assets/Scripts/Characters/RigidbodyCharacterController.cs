@@ -34,6 +34,7 @@ namespace Game.Characters
         // private
 
         private MoveParts moveCtrl;
+        private RotationParts rotationCtrl;
         private JumpParts jumpCtrl;
         private AnimationParts animCtrl;
         private GroundParts groundCtrl;
@@ -48,6 +49,11 @@ namespace Game.Characters
 
         Collider myCol;
 
+        /// <summary> 移動方向 </summary>
+        private Vector2 moveInput;
+        /// <summary> カーソル方向 </summary>
+        private Vector2 cursorInput;
+
         void Awake()
         {
             Rigidbody rb = GetComponent<Rigidbody>();
@@ -58,6 +64,7 @@ namespace Game.Characters
             attackAudio.TargetAudioSource = audioSource;
 
             moveCtrl = new MoveParts(rb, transform);
+            rotationCtrl = new RotationParts(rb);
             jumpCtrl = new JumpParts(rb, jumpAudio);
             animCtrl = new AnimationParts(animator);
             groundCtrl = new GroundParts();
@@ -80,21 +87,28 @@ namespace Game.Characters
             // 地面の法線ベクトル
             Vector3 groundNormal = isGrounded ? groundCtrl.GroundContactNormal : Vector3.up;
 
-            bool noMove = moveCtrl.NoMove();
+            bool noMove = NoMove();
             bool inWater = waterCtrl.InsideCheck();
             bool inWaterBuoyancy = waterCtrl.PointCheck(myCol.bounds.center);
             bool isHang = hangCtrl.IsHang();
             Vector3 hangNormal = hangCtrl.Normal;
+            Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
             if (movingPlatformDeltaPosCnt > 0) movingPlatformDeltaPosCnt--;
 
             Vector3 movingPlatformDelta = (movingPlatformDeltaPosCnt > 0) ? movingPlatformDeltaPos : Vector3.zero;
 
-            moveCtrl.MoveProccess(
-                noMove, gravity, isGrounded, groundNormal,
-                moveSpeed, moveSpeedAir, rotationSpeed,
-                inWater, inWaterBuoyancy, buoyancy, moveSpeedWater, waterFriction, rotationSpeedWater,
+            moveCtrl.MoveProcces(
+                moveDir, cursorInput, gravity, isGrounded, groundNormal,
+                moveSpeed, moveSpeedAir, noMove,
+                inWaterBuoyancy, buoyancy, moveSpeedWater, waterFriction,
                 isHang, hangNormal
+            );
+
+            rotationCtrl.RotationProcces(
+                moveDir, isGrounded, rotationSpeed,
+                inWater, rotationSpeedWater,
+                isHang, hangNormal, noMove
             );
 
             jumpCtrl.JumpProccess(
@@ -153,10 +167,18 @@ namespace Game.Characters
             waterCtrl.OnTriggerExit(other);
         }
 
+        /// <summary>
+        /// 方向キーが有効か返す
+        /// </summary>
+        public bool NoMove()
+        {
+            return moveInput.sqrMagnitude < 0.01f;
+        }
+
         // setter
 
-        public Vector2 MoveInput { set => moveCtrl.MoveInput = value; }
-        public Vector2 CursorInput { set => moveCtrl.CursorInput = value; }
+        public Vector2 MoveInput { set => moveInput = value; }
+        public Vector2 CursorInput { set => cursorInput = value; }
         public bool Jump { set => jumpCtrl.Jump = value; }
         public bool Attack { set => attackCtrl.Attack = value; }
         public Vector3 MovingPlatformDeltaPos
