@@ -61,6 +61,7 @@ namespace Game.Characters
             //Debug.Log(moveAxis);
 
             ch.MoveInput = moveAxis;
+            ch.CursorInput = Vector2.down;
 
             if (jump)
             {

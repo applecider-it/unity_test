@@ -35,7 +35,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
             if (other.tag == "Hang")
             {
-                Debug.Log("つかんだ: " + other.tag);
+                //Debug.Log("つかんだ: " + other.tag);
                 normal = collision.contacts[0].normal;
             }
         }
