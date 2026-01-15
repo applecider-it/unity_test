@@ -34,30 +34,21 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// </summary>
         public void MoveProccess(
             bool noMove, float gravity, bool isGrounded, Vector3 groundNormal,
-            float moveSpeed, float moveSpeedAir, float rotationSpeed
+            float moveSpeed, float moveSpeedAir, float rotationSpeed,
+            bool inWater, bool inWaterBuoyancy, float buoyancy, float moveSpeedWater, float waterFriction, float rotationSpeedWater
         )
         {
-            // 重力の影響を与えたあとの、Velocity.y
-            float nextVY = rb.linearVelocity.y - gravity;
+            Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
-            if (noMove)
+            MoveInMoveProcces(
+                moveDir, gravity, isGrounded, groundNormal,
+                moveSpeed, moveSpeedAir, noMove,
+                inWaterBuoyancy, buoyancy, moveSpeedWater, waterFriction
+            );
+
+            if (!noMove)
             {
-                // 入力なしの時
-
-                StopInMoveProcces(nextVY, isGrounded, groundNormal);
-            }
-            else
-            {
-                // 入力ありの時
-
-                Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
-
-                MoveInMoveProcces(
-                    nextVY, moveDir, isGrounded, groundNormal,
-                    moveSpeed, moveSpeedAir
-                );
-
-                RotationInMoveProcces(moveDir, isGrounded, rotationSpeed);
+                RotationInMoveProcces(moveDir, isGrounded, rotationSpeed, inWater, rotationSpeedWater);
             }
         }
 
@@ -65,66 +56,71 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// 移動処理の移動プロセス
         /// </summary>
         void MoveInMoveProcces(
-            float nextVY, Vector3 moveDir, bool isGrounded, Vector3 groundNormal,
-            float moveSpeed, float moveSpeedAir
+            Vector3 moveDir, float gravity, bool isGrounded, Vector3 groundNormal,
+            float moveSpeed, float moveSpeedAir, bool noMove,
+            bool inWaterBuoyancy, float buoyancy, float moveSpeedWater, float waterFriction
         )
         {
-            if (isGrounded)
+            if (inWaterBuoyancy)
             {
-                // 地面にいるとき
+                // 水中にいるとき
 
-                Vector3 slopeMoveDir = Vector3.ProjectOnPlane(moveDir, groundNormal).normalized;
-
-                moveVelocity = slopeMoveDir * moveSpeed;
-
-                Vector3 stickVelocity = -groundNormal * 1f;
-
-                rb.linearVelocity = moveVelocity + stickVelocity;
+                rb.linearVelocity = (new Vector3(
+                    rb.linearVelocity.x,
+                    rb.linearVelocity.y + buoyancy,
+                    rb.linearVelocity.z
+                ) + (moveDir * moveSpeedWater)) * waterFriction;
             }
             else
             {
-                // 地面にいないとき
+                // 水中にいないとき
 
-                rb.linearVelocity = new Vector3(
-                    rb.linearVelocity.x,
-                    nextVY,
-                    rb.linearVelocity.z
-                ) + (moveDir * moveSpeedAir);
-            }
-        }
+                if (isGrounded)
+                {
+                    // 地面にいるとき
 
-        /// <summary>
-        /// 移動処理の停止プロセス
-        /// </summary>
-        void StopInMoveProcces(
-            float nextVY, bool isGrounded, Vector3 groundNormal
-        )
-        {
-            if (isGrounded)
-            {
-                Vector3 stickVelocity = -groundNormal * 1f;
+                    if (noMove)
+                    {
+                        // 入力がないとき
 
-                moveVelocity = Vector3.zero;
+                        moveVelocity = Vector3.zero;
+                    }
+                    else
+                    {
+                        // 入力があるとき
 
-                // こうすることで、上り坂で止まった時に跳ねないようになる
-                rb.linearVelocity = moveVelocity + stickVelocity;
-            }
-            else
-            {
-                rb.linearVelocity = new Vector3(
-                    rb.linearVelocity.x,
-                    nextVY,
-                    rb.linearVelocity.z
-                );
+                        Vector3 slopeMoveDir = Vector3.ProjectOnPlane(moveDir, groundNormal).normalized;
+
+                        moveVelocity = slopeMoveDir * moveSpeed;
+                    }
+
+                    Vector3 stickVelocity = -groundNormal * 1f;
+
+                    // こうすることで、上り坂で止まった時に跳ねないようになる
+                    rb.linearVelocity = moveVelocity + stickVelocity;
+                }
+                else
+                {
+                    // 地面にいないとき
+
+                    rb.linearVelocity = new Vector3(
+                        rb.linearVelocity.x,
+                        rb.linearVelocity.y - gravity,
+                        rb.linearVelocity.z
+                    ) + (moveDir * moveSpeedAir);
+                }
             }
         }
 
         /// <summary>
         /// 移動処理の回転プロセス
         /// </summary>
-        void RotationInMoveProcces(Vector3 moveDir, bool isGrounded, float rotationSpeed)
+        void RotationInMoveProcces(
+            Vector3 moveDir, bool isGrounded, float rotationSpeed,
+            bool inWater, float rotationSpeedWater
+        )
         {
-            if (isGrounded)
+            if (isGrounded || inWater)
             {
                 // 移動方向を向く回転
                 Quaternion targetRotation = Quaternion.LookRotation(moveDir);
@@ -134,7 +130,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
                     Quaternion.Slerp(
                         rb.rotation,
                         targetRotation,
-                        rotationSpeed * Time.fixedDeltaTime
+                        (inWater ? rotationSpeedWater : rotationSpeed) * Time.fixedDeltaTime
                     )
                 );
             }

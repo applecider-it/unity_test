@@ -7,6 +7,13 @@ RigidbodyCharacterController追加時
 物理マテリアルを0にする
 重力を無効化
 
+AudioSource追加
+ゲーム開始時に再生  無効化
+立体音響ブレンド    1
+ボリュームロールオフ    リニアロールオフ
+最長距離    50
+
+ジャンプはボリュームを0.4にする
 
 -----------------------------------
 
@@ -50,6 +57,26 @@ CommonScene
         Script
             CommonSetup
                 First Stage
-                    Fieldにする
+
+Fieldにする
+
+-----------------------------------
+
+犬を操作する
+
+CommonScene
+    Common
+        Script
+            CommonData
+                プレイヤーパス
+
+Common/Characters/Player
+↓
+Stage/Characters/Dog
+
+犬の
+NavMeshAgent
+Rigidbody Nav Move
+無効化
 
 -----------------------------------

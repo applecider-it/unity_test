@@ -14,11 +14,15 @@ namespace Game.Characters
         [Header("Character")]
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private float moveSpeedAir = 0.05f;
+        [SerializeField] private float moveSpeedWater = 0.08f;
         [SerializeField] private float jumpForce = 6f;
         [SerializeField] private float rotationSpeed = 10f;
+        [SerializeField] private float rotationSpeedWater = 1f;
 
         [Header("Physics")]
-        [SerializeField] private float gravity = 0.2f;
+        [Tooltip("重力")][SerializeField] private float gravity = 0.2f;
+        [Tooltip("浮力")][SerializeField] private float buoyancy = 0.1f;
+        [Tooltip("水の摩擦")][SerializeField] private float waterFriction = 0.98f;
 
         [Header("Ground")]
         [Tooltip("地面と認識する最大角度")][SerializeField] private float maxSlopeAngle = 40f;
@@ -34,6 +38,7 @@ namespace Game.Characters
         private AnimationParts animCtrl;
         private GroundParts groundCtrl;
         private AttackParts attackCtrl;
+        private WaterParts waterCtrl;
 
         /// <summary> 移動床の移動量 </summary>
         private Vector3 movingPlatformDeltaPos = Vector3.zero;
@@ -44,6 +49,8 @@ namespace Game.Characters
         private bool isGrounded => (groundCtrl.IsGrounded && !jumpCtrl.JumpWait);
         /// <summary> 地面の法線ベクトル </summary>
         private Vector3 groundNormal => isGrounded ? groundCtrl.GroundContactNormal : Vector3.up;
+
+        Collider myCol;
 
         void Awake()
         {
@@ -59,9 +66,12 @@ namespace Game.Characters
             animCtrl = new AnimationParts(animator);
             groundCtrl = new GroundParts();
             attackCtrl = new AttackParts(transform, attackAudio);
+            waterCtrl = new WaterParts();
 
             groundCtrl.Awake();
             attackCtrl.Awake();
+
+            myCol = GetComponent<Collider>();
         }
 
         void FixedUpdate()
@@ -69,6 +79,8 @@ namespace Game.Characters
             groundCtrl.CleanupDestroyedGround();
 
             bool noMove = moveCtrl.NoMove();
+            bool inWater = waterCtrl.InsideCheck();
+            bool inWaterBuoyancy = waterCtrl.PointCheck(myCol.bounds.center);
 
             if (movingPlatformDeltaPosCnt > 0) movingPlatformDeltaPosCnt--;
 
@@ -76,19 +88,21 @@ namespace Game.Characters
 
             moveCtrl.MoveProccess(
                 noMove, gravity, isGrounded, groundNormal,
-                moveSpeed, moveSpeedAir, rotationSpeed
+                moveSpeed, moveSpeedAir, rotationSpeed,
+                inWater, inWaterBuoyancy, buoyancy, moveSpeedWater, waterFriction, rotationSpeedWater
             );
 
             jumpCtrl.JumpProccess(
                 movingPlatformDelta,
-                isGrounded, moveCtrl.MoveVelocity, jumpForce
+                isGrounded, inWaterBuoyancy, moveCtrl.MoveVelocity, jumpForce
             );
 
-            animCtrl.SetAnimator(noMove, isGrounded);
+            animCtrl.SetAnimator(noMove, isGrounded, inWater);
 
             attackCtrl.AttackProccess(this);
 
             //Debug.Log("isGrounded " + isGrounded + ", groundNormal " + groundNormal);
+            //Debug.Log("inWater "  + inWater);
         }
 
         /// <summary>
@@ -113,6 +127,22 @@ namespace Game.Characters
         void OnCollisionExit(Collision collision)
         {
             groundCtrl.OnCollisionExit(collision);
+        }
+
+        /// <summary>
+        /// トリガー開始時
+        /// </summary>
+        void OnTriggerEnter(Collider other)
+        {
+            waterCtrl.OnTriggerEnter(other);
+        }
+
+        /// <summary>
+        /// トリガー終了時
+        /// </summary>
+        void OnTriggerExit(Collider other)
+        {
+            waterCtrl.OnTriggerExit(other);
         }
 
         // setter
