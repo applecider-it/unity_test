@@ -7,7 +7,7 @@ namespace Game.Objects
     public class BGMArea : MonoBehaviour
     {
         // このエリアで流すBGM
-        public AudioClip areaBGM;
+        public AudioClipContainer areaBGM;
 
         private void OnTriggerEnter(Collider other)
         {

@@ -8,56 +8,43 @@ namespace Game.Systems
     /// </summary>
     public class BGMManager : MonoBehaviour
     {
-        // どこからでもアクセスできるようにするシングルトン
-        public static BGMManager Instance;
+        public static BGMManager instance;
 
-        // クロスフェード用の2つのAudioSource
-        public AudioSource sourceA;
-        public AudioSource sourceB;
+        public AudioSource source;
 
-        // 今流れているBGM
-        AudioSource current;
-        // 次に流すBGM
-        AudioSource next;
-
-        // フェード処理のCoroutine
-        Coroutine fadeCoroutine;
+        private string step = "ready";
 
         void Awake()
         {
-            // インスタンス登録
-            Instance = this;
-
-            // 最初はAを再生用、Bを次用に設定
-            current = sourceA;
-            next = sourceB;
+            instance = this;
         }
 
         // 外部からBGMを再生するための関数
-        public void PlayBGM(AudioClip clip)
+        public void PlayBGM(AudioClipContainer clipContainer)
         {
-            // 同じBGMなら何もしない
-            if (current.clip == clip) return;
+            // 同じBGMなら終了
+            if (source.clip == clipContainer.Clip) return;
 
-            // すでにフェード中なら止める
-            if (fadeCoroutine != null)
-                StopCoroutine(fadeCoroutine);
+            // 変更受付状態以外では終了
+            if (step != "ready") return;
 
-            // 新しいフェードを開始
-            fadeCoroutine = StartCoroutine(FadeBGM(clip));
+            // フェードを開始
+            step = "start";
+            StartCoroutine(FadeBGM(clipContainer));
         }
 
         // 実際のフェード処理
-        IEnumerator FadeBGM(AudioClip clip)
+        IEnumerator FadeBGM(AudioClipContainer clipContainer)
         {
             float fadeTime = 3f;
+            float waitTime = 1f;
 
-            if (current.clip != null)
+            if (source.clip != null)
             {
                 // 再生中の場合
 
                 float t = 0;
-                float startVolume = current.volume;
+                float startVolume = source.volume;
 
                 // 指定した時間かけてフェード
                 while (t < fadeTime)
@@ -66,23 +53,26 @@ namespace Game.Systems
                     float rate = t / fadeTime;
 
                     // 今のBGMをだんだん小さく
-                    current.volume = Mathf.Lerp(startVolume, 0, rate);
+                    source.volume = Mathf.Lerp(startVolume, 0, rate);
 
                     yield return null;
                 }
 
-                current.Stop();
+                source.Stop();
             }
 
-            // 次のBGMを開始
-            next.clip = clip;
-            next.volume = 1;
-            next.Play();
+            yield return new WaitForSeconds(waitTime);
 
-            // current と next を入れ替える
-            var temp = current;
-            current = next;
-            next = temp;
+            // 新しいBGMを開始
+            source.clip = clipContainer.Clip;
+            source.volume = clipContainer.Volume;
+            source.Play();
+
+            step = "ready";
         }
+
+        // getter setter
+
+        public static BGMManager Instance { get => instance; }
     }
 }

@@ -8,23 +8,22 @@ namespace Game.Systems
         [SerializeField] private AudioClip clip;
         [Range(0, 1)][SerializeField] private float volume = 1f;
 
-        private AudioSource audioSource;
+        private AudioSource targetAudioSource;
 
         /// <summary>
         /// １回再生。データがないときは無視される。
         /// </summary>
         public void PlayOneShot()
         {
-            if (audioSource == null || clip == null) return;
+            if (targetAudioSource == null || clip == null) return;
 
-            audioSource.PlayOneShot(clip, volume);
+            targetAudioSource.PlayOneShot(clip, volume);
         }
 
-        // setter
+        // setter getter
 
-        public AudioSource TargetAudioSource
-        {
-            set => audioSource = value;
-        }
+        public AudioSource TargetAudioSource { set => targetAudioSource = value; }
+        public AudioClip Clip { get => clip; }
+        public float Volume { get => volume; }
     }
 }

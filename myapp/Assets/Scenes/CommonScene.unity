@@ -198,7 +198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1737533287}
   m_Layer: 0
-  m_Name: BGMs
+  m_Name: Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,138 +218,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2124814782}
-  - {fileID: 1804142942}
   m_Father: {fileID: 538794418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1804142941
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1804142942}
-  - component: {fileID: 1804142943}
-  m_Layer: 0
-  m_Name: sourceB
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1804142942
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1804142941}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1737533287}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &1804142943
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1804142941}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &2124814781
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +231,7 @@ GameObject:
   - component: {fileID: 2124814782}
   - component: {fileID: 2124814783}
   m_Layer: 0
-  m_Name: sourceA
+  m_Name: bgm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1033,15 +903,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1289159788885873809, guid: b766bdfab3a9f984f993d9767dd61b1c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -21.091103
+      value: 5.519476
       objectReference: {fileID: 0}
     - target: {fileID: 1289159788885873809, guid: b766bdfab3a9f984f993d9767dd61b1c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0000010728836
+      value: 4.1267543
       objectReference: {fileID: 0}
     - target: {fileID: 1289159788885873809, guid: b766bdfab3a9f984f993d9767dd61b1c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 15.325897
+      value: 17.956884
       objectReference: {fileID: 0}
     - target: {fileID: 1289159788885873809, guid: b766bdfab3a9f984f993d9767dd61b1c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1242,8 +1112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5ab56a19366a384e9f24a1494dd74e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.BGMManager
-  sourceA: {fileID: 2124814783}
-  sourceB: {fileID: 1804142943}
+  source: {fileID: 2124814783}
 --- !u!1 &9037647614199673124
 GameObject:
   m_ObjectHideFlags: 0
