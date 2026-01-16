@@ -100,5 +100,5 @@ InitTestScene*.unity*
 
 /Assets/TextMesh Pro
 /Assets/TextMesh Pro.meta
-/Assets/Audio/*.bak
-/Assets/Audio/*.bak.meta
+/Assets/Audio/**/*.bak
+/Assets/Audio/**/*.bak.meta
