@@ -102,3 +102,5 @@ InitTestScene*.unity*
 /Assets/TextMesh Pro.meta
 /Assets/Audio/**/*.bak
 /Assets/Audio/**/*.bak.meta
+
+/ProjectSettings/Packages/com.unity.probuilder/Settings.json
