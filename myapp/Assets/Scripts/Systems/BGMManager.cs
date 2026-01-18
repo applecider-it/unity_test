@@ -10,9 +10,9 @@ namespace Game.Systems
     /// </summary>
     public class BGMManager : MonoBehaviour
     {
-        public static BGMManager instance;
+        private static BGMManager instance;
 
-        public AudioSource source;
+        [SerializeField] private AudioSource source;
 
         private string step = "ready";
 
@@ -21,7 +21,9 @@ namespace Game.Systems
             instance = this;
         }
 
-        // 外部からBGMを再生するための関数
+        /// <summary>
+        /// BGMを再生する
+        /// </summary>
         public void PlayBGM(AudioClip clip)
         {
             // 同じBGMなら終了
@@ -35,7 +37,9 @@ namespace Game.Systems
             StartCoroutine(FadeBGM(clip));
         }
 
-        // 実際のフェード処理
+        /// <summary>
+        /// 実際のフェード処理
+        /// </summary>
         IEnumerator FadeBGM(AudioClip clip)
         {
             float fadeTime = 3f;
@@ -77,8 +81,9 @@ namespace Game.Systems
             step = "ready";
         }
 
-        // getter setter
-
-        public static BGMManager Instance { get => instance; }
+        public static BGMManager GetInstance()
+        {
+            return instance;
+        }
     }
 }

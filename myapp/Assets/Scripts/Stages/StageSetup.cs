@@ -3,6 +3,7 @@ using UnityEngine.InputSystem; // ★ 新Input System
 
 using Game.Characters;
 using Game.Commons;
+using Game.Systems;
 
 namespace Game.Stages
 {
@@ -14,8 +15,12 @@ namespace Game.Stages
         Transform targetCamera;
         RigidbodyCharacterController ch;
 
+        [Header("Background")]
         [SerializeField] CameraClearFlags cameraClearFlag = CameraClearFlags.Skybox;
         [SerializeField] Color backgroundColor  = Color.black;
+
+        [Header("Audio")]
+        [Tooltip("このステージで流すBGM")][SerializeField] private AudioClip bgmClip;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
@@ -25,8 +30,19 @@ namespace Game.Stages
             ch = cd.Player.GetComponent<RigidbodyCharacterController>();
             targetCamera = cd.Camera.transform;
 
+            SetupBGM();
             SetupCamera();
             SetupCharacter();
+        }
+
+        /// <summary>
+        /// BGMのセットアップ
+        /// </summary>
+        void SetupBGM()
+        {
+            if (bgmClip == null) return;
+
+            BGMManager.GetInstance().PlayBGM(bgmClip);
         }
 
         /// <summary>

@@ -5605,6 +5605,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.StageSetup
   cameraClearFlag: 1
   backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  bgmClip: {fileID: 8300000, guid: 058ffbeb76adb5647a8ddd16e4440ce7, type: 3}
 --- !u!1 &170751666
 GameObject:
   m_ObjectHideFlags: 0
