@@ -9,6 +9,13 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
     public class WaterParts
     {
         HashSet<Collider> colliders = new HashSet<Collider>();
+        private string name;
+
+        // コンストラクタ
+        public WaterParts(string argName)
+        {
+            name = argName;
+        }
 
         /// <summary>
         /// トリガー開始時
@@ -17,8 +24,8 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         {
             if (other.tag == "Water")
             {
-                Debug.Log("水に入った: " + other.tag);
                 colliders.Add(other);
+                Debug.Log(name + " が、水(" + other.name + ") に入った。cnt: " + colliders.Count);
             }
         }
 
@@ -29,8 +36,8 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         {
             if (other.tag == "Water")
             {
-                Debug.Log("水から出た: " + other.tag);
                 colliders.Remove(other);
+                Debug.Log(name + " が、水(" + other.name + ") から出た。cnt: " + colliders.Count);
             }
         }
 

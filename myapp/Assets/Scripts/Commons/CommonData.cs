@@ -34,7 +34,7 @@ namespace Game.Commons
         {
             if (instance == null)
             {
-                Debug.Log("GetInstance: SetIncetance");
+                Debug.Log("CommonData: GetInstance: Create");
                 GameObject obj = StageUtil.GetCommonScriptGameObject();
                 instance = obj.GetComponent<CommonData>();
             }

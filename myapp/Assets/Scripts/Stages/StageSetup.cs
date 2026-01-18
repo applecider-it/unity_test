@@ -3,7 +3,6 @@ using UnityEngine.InputSystem; // ★ 新Input System
 
 using Game.Characters;
 using Game.Commons;
-using Game.Systems;
 
 namespace Game.Stages
 {
@@ -65,7 +64,7 @@ namespace Game.Stages
             CommonStatus cs = CommonStatus.getCommonStatus();
 
             var info = cs.NextSceneConnectorInfo;
-            Debug.Log("シーンのセットアップ " + info);
+            Debug.Log("シーンのセットアップ。startPosition: " + info.startPosition);
 
             if (info != null)
             {

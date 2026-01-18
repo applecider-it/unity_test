@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-using Game.Commons;
+using Game.Utils;
+using Game.Systems;
 
-namespace Game.Systems
+namespace Game.Commons
 {
     /// <summary>
     /// 複数のBGMをフェードして切り替える処理
@@ -15,11 +16,6 @@ namespace Game.Systems
         [SerializeField] private AudioSource source;
 
         private string step = "ready";
-
-        void Awake()
-        {
-            instance = this;
-        }
 
         /// <summary>
         /// BGMを再生する
@@ -83,6 +79,12 @@ namespace Game.Systems
 
         public static BGMManager GetInstance()
         {
+            if (instance == null)
+            {
+                Debug.Log("BGMManager: GetInstance: Create");
+                GameObject obj = StageUtil.GetCommonScriptGameObject();
+                instance = obj.GetComponent<BGMManager>();
+            }
             return instance;
         }
     }

@@ -54,7 +54,7 @@ namespace Game.Characters
         /// <summary> カーソル方向 </summary>
         private Vector2 cursorInput;
 
-        void Awake()
+        void OnEnable()
         {
             Rigidbody rb = GetComponent<Rigidbody>();
             Animator animator = GetComponent<Animator>();
@@ -69,7 +69,7 @@ namespace Game.Characters
             animCtrl = new AnimationParts(animator);
             groundCtrl = new GroundParts();
             attackCtrl = new AttackParts(transform, attackAudio);
-            waterCtrl = new WaterParts();
+            waterCtrl = new WaterParts(name);
             hangCtrl = new HangParts();
 
             groundCtrl.Awake();

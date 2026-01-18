@@ -1,6 +1,6 @@
 using UnityEngine;
 
-using Game.Systems;
+using Game.Commons;
 
 namespace Game.Objects
 {
