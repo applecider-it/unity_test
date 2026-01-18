@@ -1,8 +1,9 @@
 using UnityEngine;
 
 using Game.Utils;
+using Game.Stages;
 
-namespace Game.Stages
+namespace Game.Commons
 {
     public class CommonStatus : MonoBehaviour
     {

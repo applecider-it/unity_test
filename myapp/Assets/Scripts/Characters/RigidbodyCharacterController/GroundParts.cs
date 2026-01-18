@@ -3,6 +3,7 @@ using UnityEngine;
 
 using Game.Utils;
 using Game.Stages;
+using Game.Commons;
 
 namespace Game.Characters.RigidbodyCharacterControllerParts
 {
@@ -27,7 +28,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
         public void Awake()
         {
-            CommonData cd = CommonData.getCommonData();
+            CommonData cd = CommonData.GetInstance();
 
             groundLayer = cd.GroundLayer;
         }

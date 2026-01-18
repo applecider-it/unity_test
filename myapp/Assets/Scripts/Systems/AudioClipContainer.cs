@@ -23,7 +23,5 @@ namespace Game.Systems
         // setter getter
 
         public AudioSource TargetAudioSource { set => targetAudioSource = value; }
-        public AudioClip Clip { get => clip; }
-        public float Volume { get => volume; }
     }
 }

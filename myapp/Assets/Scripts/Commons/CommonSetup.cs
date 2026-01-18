@@ -1,7 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Game.Stages
+using Game.Stages;
+
+namespace Game.Commons
 {
     /// <summary>
     /// 共通シーンのセットアップ

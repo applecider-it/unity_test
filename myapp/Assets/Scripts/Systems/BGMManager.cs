@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
+using Game.Commons;
+
 namespace Game.Systems
 {
     /// <summary>
@@ -20,24 +22,26 @@ namespace Game.Systems
         }
 
         // 外部からBGMを再生するための関数
-        public void PlayBGM(AudioClipContainer clipContainer)
+        public void PlayBGM(AudioClip clip)
         {
             // 同じBGMなら終了
-            if (source.clip == clipContainer.Clip) return;
+            if (source.clip == clip) return;
 
             // 変更受付状態以外では終了
             if (step != "ready") return;
 
             // フェードを開始
             step = "start";
-            StartCoroutine(FadeBGM(clipContainer));
+            StartCoroutine(FadeBGM(clip));
         }
 
         // 実際のフェード処理
-        IEnumerator FadeBGM(AudioClipContainer clipContainer)
+        IEnumerator FadeBGM(AudioClip clip)
         {
             float fadeTime = 3f;
             float waitTime = 1f;
+
+            BGMInfo info = CommonData.GetInstance().GetBGMInfo(clip.name);
 
             if (source.clip != null)
             {
@@ -64,9 +68,11 @@ namespace Game.Systems
             yield return new WaitForSeconds(waitTime);
 
             // 新しいBGMを開始
-            source.clip = clipContainer.Clip;
-            source.volume = clipContainer.Volume;
+            source.clip = clip;
+            source.volume = info.Volume;
             source.Play();
+
+            Debug.Log("Start BGM " + source.clip.name);
 
             step = "ready";
         }

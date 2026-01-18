@@ -7,7 +7,7 @@ namespace Game.Objects
     public class BGMArea : MonoBehaviour
     {
         // このエリアで流すBGM
-        public AudioClipContainer areaBGM;
+        [SerializeField] private AudioClip clip;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -15,7 +15,7 @@ namespace Game.Objects
             if (other.CompareTag("Player"))
             {
                 // BGMマネージャーに切り替えを依頼
-                BGMManager.Instance.PlayBGM(areaBGM);
+                BGMManager.Instance.PlayBGM(clip);
             }
         }
     }

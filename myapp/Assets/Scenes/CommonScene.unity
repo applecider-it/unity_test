@@ -595,6 +595,11 @@ MonoBehaviour:
   lookIgnoreTime: 0.2
   playerPath: Common/Characters/Player
   cameraPath: Common/Main Camera
+  bgmInfoList:
+  - name: bgm1
+    volume: 1
+  - name: bgm2
+    volume: 1
 --- !u!224 &4527799469693049789
 RectTransform:
   m_ObjectHideFlags: 0

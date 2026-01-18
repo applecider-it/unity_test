@@ -7246,9 +7246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce56ca491facf542b0c2818a585d77a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Objects.BGMArea
-  areaBGM:
-    clip: {fileID: 8300000, guid: d0910bc7f07297e4197fb0e8cceb9815, type: 3}
-    volume: 1
+  clip: {fileID: 8300000, guid: d0910bc7f07297e4197fb0e8cceb9815, type: 3}
 --- !u!65 &639946297
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28364,9 +28362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce56ca491facf542b0c2818a585d77a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Objects.BGMArea
-  areaBGM:
-    clip: {fileID: 8300000, guid: 058ffbeb76adb5647a8ddd16e4440ce7, type: 3}
-    volume: 1
+  clip: {fileID: 8300000, guid: 058ffbeb76adb5647a8ddd16e4440ce7, type: 3}
 --- !u!1001 &40370200684506703
 PrefabInstance:
   m_ObjectHideFlags: 0

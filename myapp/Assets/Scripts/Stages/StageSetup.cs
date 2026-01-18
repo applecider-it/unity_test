@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem; // ★ 新Input System
 
 using Game.Characters;
+using Game.Commons;
 
 namespace Game.Stages
 {
@@ -19,7 +20,7 @@ namespace Game.Stages
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
-            CommonData cd = CommonData.getCommonData();
+            CommonData cd = CommonData.GetInstance();
 
             ch = cd.Player.GetComponent<RigidbodyCharacterController>();
             targetCamera = cd.Camera.transform;

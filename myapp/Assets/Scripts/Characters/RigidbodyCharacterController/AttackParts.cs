@@ -4,6 +4,7 @@ using System.Collections;
 using Game.Utils;
 using Game.Systems;
 using Game.Stages;
+using Game.Commons;
 
 namespace Game.Characters.RigidbodyCharacterControllerParts
 {
@@ -36,7 +37,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
         public void Awake()
         {
-            CommonData cd = CommonData.getCommonData();
+            CommonData cd = CommonData.GetInstance();
 
             pkFire = cd.PKFire;
         }

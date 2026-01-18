@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 using Game.Stages;
+using Game.Commons;
 
 namespace Game.Characters
 {
@@ -28,7 +29,7 @@ namespace Game.Characters
 
         void Awake()
         {
-            CommonData cd = CommonData.getCommonData();
+            CommonData cd = CommonData.GetInstance();
 
             agent = GetComponent<NavMeshAgent>();
             rb = GetComponent<Rigidbody>();
@@ -52,7 +53,7 @@ namespace Game.Characters
                 agent.SetDestination(target.position);
                 repathTimer = 1f;
 
-                Debug.Log("SetDestination");
+                //Debug.Log("SetDestination");
             }
 
             Vector3 desired = agent.desiredVelocity;

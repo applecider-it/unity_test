@@ -3,7 +3,7 @@ using UnityEngine.InputSystem; // ★ 新Input System
 
 using Game.Characters;
 
-namespace Game.Stages
+namespace Game.Commons
 {
     public class InputController : MonoBehaviour
     {
@@ -21,7 +21,7 @@ namespace Game.Stages
         void Start()
         {
             // 開始直後の入力暴れ対策
-            CommonData cd = CommonData.getCommonData();
+            CommonData cd = CommonData.GetInstance();
             lookTimer = cd.LookIgnoreTime;
             ch = cd.Player.GetComponent<RigidbodyCharacterController>();
             cameraTransform = cd.Camera.transform;

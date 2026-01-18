@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Game.Stages
+namespace Game.Commons
 {
     /// <summary>
     /// New Input System 対応 TPS カメラ
@@ -37,7 +37,7 @@ namespace Game.Stages
 
         void Start()
         {
-            CommonData cd = CommonData.getCommonData();
+            CommonData cd = CommonData.GetInstance();
 
             target = cd.Player.transform;
             targetCamera = cd.Camera.transform;
