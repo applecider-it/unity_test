@@ -15,7 +15,10 @@ namespace Game.Commons
 
         [SerializeField] private AudioSource source;
 
-        private string step = "ready";
+        // フェード処理のCoroutine
+        Coroutine fadeCoroutine;
+
+        AudioClip targetClip;
 
         /// <summary>
         /// BGMを再生する
@@ -23,14 +26,16 @@ namespace Game.Commons
         public void PlayBGM(AudioClip clip)
         {
             // 同じBGMなら終了
-            if (source.clip == clip) return;
+            if (targetClip == clip) return;
 
-            // 変更受付状態以外では終了
-            if (step != "ready") return;
+            // すでにフェード中なら止める
+            if (fadeCoroutine != null)
+                StopCoroutine(fadeCoroutine);
+
+            targetClip = clip;
 
             // フェードを開始
-            step = "start";
-            StartCoroutine(FadeBGM(clip));
+            fadeCoroutine = StartCoroutine(FadeBGM(clip));
         }
 
         /// <summary>
@@ -73,8 +78,6 @@ namespace Game.Commons
             source.Play();
 
             Debug.Log("Start BGM " + source.clip.name);
-
-            step = "ready";
         }
 
         public static BGMManager GetInstance()
