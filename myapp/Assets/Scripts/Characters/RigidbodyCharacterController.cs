@@ -107,7 +107,7 @@ namespace Game.Characters
 
             rotationCtrl.RotationProcces(
                 moveDir, isGrounded, rotationSpeed,
-                inWater, rotationSpeedWater,
+                inWaterBuoyancy, rotationSpeedWater,
                 isHang, hangNormal, noMove
             );
 
