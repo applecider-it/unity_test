@@ -6,6 +6,14 @@ using Game.Characters;
 namespace Game.Objects
 {
     /// <summary>
+    /// 移動床判定結果情報
+    /// </summary>
+    class ContactInfo
+    {
+        public bool result;
+    }
+
+    /// <summary>
     /// 移動床管理
     /// </summary>
     public class MovingPlatform : MonoBehaviour
@@ -13,8 +21,8 @@ namespace Game.Objects
         private Vector3 lastPosition;
         private Quaternion lastRotation;
 
-        /// <summary> 上に乗っている Rigidbody 一覧 </summary>
-        private HashSet<Rigidbody> ridingBodies = new HashSet<Rigidbody>();
+        /// <summary> 上に乗っているすべてのオブジェクトのContactInfo </summary>
+        private Dictionary<Rigidbody, ContactInfo> contactInfos = new Dictionary<Rigidbody, ContactInfo>();
 
         void Start()
         {
@@ -31,14 +39,62 @@ namespace Game.Objects
             {
                 // 変化があった時
 
-                foreach (var rb in ridingBodies)
+                foreach (var (rb, info) in contactInfos)
                 {
-                    UpdateRidingBody(rb, positionDelta, rotationDelta);
+                    if (info.result)
+                    {
+                        UpdateRidingBody(rb, positionDelta, rotationDelta);
+                    }
                 }
             }
 
             lastPosition = transform.position;
             lastRotation = transform.rotation;
+        }
+
+        /// <summary>
+        /// 接触開始時
+        /// </summary>
+        private void OnCollisionEnter(Collision collision)
+        {
+            var rb = collision.rigidbody;
+            if (rb == null) return;
+
+            CheckContact(collision, out var result);
+
+            var info = new ContactInfo
+            {
+                result = result
+            };
+
+            contactInfos[rb] = info;
+        }
+
+        /// <summary>
+        /// 接触継続時
+        /// </summary>
+        private void OnCollisionStay(Collision collision)
+        {
+            var rb = collision.rigidbody;
+            if (rb == null) return;
+
+            CheckContact(collision, out var result);
+
+            if (contactInfos.TryGetValue(rb, out var info))
+            {
+                info.result = result;
+            }
+        }
+
+        /// <summary>
+        /// 接触終了時
+        /// </summary>
+        private void OnCollisionExit(Collision collision)
+        {
+            var rb = collision.rigidbody;
+            if (rb == null) return;
+
+            contactInfos.Remove(rb);
         }
 
         /// <summary>
@@ -63,7 +119,6 @@ namespace Game.Objects
             rb.rotation = yRotation * rb.rotation;
         }
 
-
         /// <summary>
         /// 上に乗っているRigidbodyが、RigidbodyCharacterControllerの場合の処理
         /// </summary>
@@ -77,14 +132,11 @@ namespace Game.Objects
         }
 
         /// <summary>
-        /// 接触開始時
+        /// 接触確認
         /// </summary>
-        private void OnCollisionEnter(Collision collision)
+        private void CheckContact(Collision collision, out bool result)
         {
-            //Debug.Log("OnCollisionEnter");
-
-            var rb = collision.rigidbody;
-            if (rb == null) return;
+            result = false;
 
             foreach (var contact in collision.contacts)
             {
@@ -92,23 +144,9 @@ namespace Game.Objects
                 {
                     // 接触面の法線が上向きなら「上に乗っている」と判断
 
-                    ridingBodies.Add(rb);
-                    break;
+                    result = true;
+                    return;
                 }
-            }
-        }
-
-        /// <summary>
-        /// 接触終了時
-        /// </summary>
-        private void OnCollisionExit(Collision collision)
-        {
-            //Debug.Log("OnCollisionExit");
-
-            var rb = collision.rigidbody;
-            if (rb != null)
-            {
-                ridingBodies.Remove(rb);
             }
         }
     }
