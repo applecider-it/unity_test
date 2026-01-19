@@ -28,13 +28,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
             {
                 // つかまっているとき
 
-                Vector3 dir = new Vector3(
-                    hangNormal.x,
-                    hangNormal.y,
-                    hangNormal.z
-                );
-
-                dir.Normalize();
+                Vector3 dir = hangNormal.normalized;
 
                 // 移動方向を向く回転
                 Quaternion targetRotation = Quaternion.LookRotation(-dir);
