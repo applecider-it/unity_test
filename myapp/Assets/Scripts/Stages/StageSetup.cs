@@ -64,7 +64,7 @@ namespace Game.Stages
             CommonStatus cs = CommonStatus.getCommonStatus();
 
             var info = cs.NextSceneConnectorInfo;
-            Debug.Log("シーンのセットアップ。startPosition: " + info.startPosition);
+            Debug.Log("シーンのセットアップ。");
 
             if (info != null)
             {

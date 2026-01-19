@@ -30,7 +30,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
                 Vector3 dir = new Vector3(
                     hangNormal.x,
-                    0,
+                    hangNormal.y,
                     hangNormal.z
                 );
 
@@ -44,6 +44,8 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
             else
             {
                 // つかまっていないとき
+
+                bool isTurn = false;
 
                 if (!noMove)
                 {
@@ -64,7 +66,24 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
                                 (inWater ? rotationSpeedWater : rotationSpeed) * Time.fixedDeltaTime
                             )
                         );
+
+                        isTurn = true;
                     }
+                }
+
+                if (!isTurn)
+                {
+                    // 傾きだけを戻す
+                    Quaternion uprightRotation =
+                        Quaternion.Euler(0f, rb.rotation.eulerAngles.y, 0f);
+
+                    rb.MoveRotation(
+                        Quaternion.Slerp(
+                            rb.rotation,
+                            uprightRotation,
+                            rotationSpeed * Time.fixedDeltaTime
+                        )
+                    );
                 }
             }
         }

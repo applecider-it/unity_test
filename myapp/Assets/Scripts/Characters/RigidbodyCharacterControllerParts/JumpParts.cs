@@ -34,10 +34,11 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// </summary>
         public void JumpProccess(
             Vector3 movingPlatformDelta,
-            bool isGrounded, bool inWaterBuoyancy, Vector3 moveVelocity, float jumpForce
+            bool isGrounded, bool inWaterBuoyancy, Vector3 moveVelocity, float jumpForce,
+            bool isHang
         )
         {
-            bool canJump = isGrounded && !inWaterBuoyancy;
+            bool canJump = (isGrounded && !inWaterBuoyancy) || isHang;
 
             if (jumpCnt > 0) jumpCnt--;
 

@@ -90,7 +90,7 @@ namespace Game.Characters
             bool noMove = NoMove();
             bool inWater = waterCtrl.InsideCheck();
             bool inWaterBuoyancy = waterCtrl.PointCheck(myCol.bounds.center);
-            bool isHang = hangCtrl.IsHang();
+            bool isHang = hangCtrl.IsHang(maxSlopeAngle) && !jumpCtrl.JumpWait;
             Vector3 hangNormal = hangCtrl.Normal;
             Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
@@ -113,7 +113,8 @@ namespace Game.Characters
 
             jumpCtrl.JumpProccess(
                 movingPlatformDelta,
-                isGrounded, inWaterBuoyancy, moveCtrl.MoveVelocity, jumpForce
+                isGrounded, inWaterBuoyancy, moveCtrl.MoveVelocity, jumpForce,
+                isHang
             );
 
             animCtrl.SetAnimator(noMove, isGrounded, inWater);

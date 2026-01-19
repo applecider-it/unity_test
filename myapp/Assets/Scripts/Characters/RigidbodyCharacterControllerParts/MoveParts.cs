@@ -141,12 +141,24 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
                 Vector3 move;
 
-                Vector3 right = transform.right;   // キャラの右
-                Vector3 up = Vector3.up;            // はしごは常にY軸
+                // 梯子の「上方向」は常にY
+                Vector3 up = Vector3.up;
 
+                Vector3 ladderNormal = -hangNormal;
+
+                // 梯子の「横方向」を法線から計算
+                Vector3 right = Vector3.Cross(up, ladderNormal).normalized;
+
+                // 念のため、面上に投影（斜め梯子対策）
+                right = Vector3.ProjectOnPlane(right, ladderNormal).normalized;
+                up = Vector3.ProjectOnPlane(up, ladderNormal).normalized;
+
+                // 入力から移動ベクトル生成
                 move = right * cursorInput.x + up * cursorInput.y;
 
+                // Rigidbody に反映
                 rb.linearVelocity = move * moveSpeed + stickVelocity;
+
             }
         }
 

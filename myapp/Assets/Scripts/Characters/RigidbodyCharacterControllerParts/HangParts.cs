@@ -57,9 +57,19 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// <summary>
         /// 掴めるオブジェクトに接触しているか
         /// </summary>
-        public bool IsHang()
+        public bool IsHang(float maxSlopeAngle)
         {
-            return collider != null;
+            if (collider == null)
+            {
+                return false;
+            }
+
+            if (Vector3.Angle(normal, Vector3.up) <= maxSlopeAngle)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         // getter setter
