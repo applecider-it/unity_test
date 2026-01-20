@@ -93,6 +93,15 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
             foreach (ContactPoint contact in collision.contacts)
             {
+                //RayUtil.GetTrueNormal(
+                //    contact, out bool trueResult, out Vector3 trueNormal
+                //);
+
+                // これで、境界の接点は辞去される
+                //    道路の微妙な判定が無効化されてしまうので、なしにした。
+                //if (!trueResult)
+                //    continue;
+
                 //Debug.Log("contact.normal " + contact.normal);
                 // 上向きの面か？（坂も考慮）
                 if (Vector3.Angle(contact.normal, Vector3.up) <= maxSlopeAngle)
