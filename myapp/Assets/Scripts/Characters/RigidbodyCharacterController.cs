@@ -41,11 +41,7 @@ namespace Game.Characters
         private AttackParts attackCtrl;
         private WaterParts waterCtrl;
         private HangParts hangCtrl;
-
-        /// <summary> 移動床の移動量 </summary>
-        private Vector3 movingPlatformDeltaPos = Vector3.zero;
-        /// <summary> 移動床の移動量有効カウント </summary>
-        private int movingPlatformDeltaPosCnt = 0;
+        private MovingPlatformParts movingPlatformCtrl;
 
         Collider myCol;
 
@@ -53,6 +49,12 @@ namespace Game.Characters
         private Vector2 moveInput;
         /// <summary> カーソル方向 </summary>
         private Vector2 cursorInput;
+
+        // 外部に情報提供する用の変数
+
+        private bool outerIsHang;
+        private bool outerIsGrounded;
+        private bool outerInWaterBuoyancy;
 
         void OnEnable()
         {
@@ -71,6 +73,7 @@ namespace Game.Characters
             attackCtrl = new AttackParts(transform, attackAudio);
             waterCtrl = new WaterParts(name);
             hangCtrl = new HangParts();
+            movingPlatformCtrl = new MovingPlatformParts();
 
             groundCtrl.Awake();
             attackCtrl.Awake();
@@ -94,9 +97,11 @@ namespace Game.Characters
             Vector3 hangNormal = hangCtrl.Normal;
             Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
-            if (movingPlatformDeltaPosCnt > 0) movingPlatformDeltaPosCnt--;
+            outerIsHang = isHang;
+            outerIsGrounded = isGrounded;
+            outerInWaterBuoyancy = inWaterBuoyancy;
 
-            Vector3 movingPlatformDelta = (movingPlatformDeltaPosCnt > 0) ? movingPlatformDeltaPos : Vector3.zero;
+            movingPlatformCtrl.MovingPlatformProccess();
 
             moveCtrl.MoveProcces(
                 moveDir, cursorInput, gravity, isGrounded, groundNormal,
@@ -112,7 +117,7 @@ namespace Game.Characters
             );
 
             jumpCtrl.JumpProccess(
-                movingPlatformDelta,
+                movingPlatformCtrl.MovingPlatformDelta,
                 isGrounded, inWaterBuoyancy, moveCtrl.MoveVelocity, jumpForce,
                 isHang
             );
@@ -176,19 +181,13 @@ namespace Game.Characters
             return moveInput.sqrMagnitude < 0.01f;
         }
 
-        // setter
+        // setter getter
 
         public Vector2 MoveInput { set => moveInput = value; }
         public Vector2 CursorInput { set => cursorInput = value; }
         public bool Jump { set => jumpCtrl.Jump = value; }
         public bool Attack { set => attackCtrl.Attack = value; }
-        public Vector3 MovingPlatformDeltaPos
-        {
-            set
-            {
-                movingPlatformDeltaPos = value;
-                movingPlatformDeltaPosCnt = 5;
-            }
-        }
+        public Vector3 MovingPlatformDeltaPos { set => movingPlatformCtrl.MovingPlatformDeltaPos = value; }
+        public bool IsHangAction { get => !outerInWaterBuoyancy && !outerIsGrounded && outerIsHang; }
     }
 }

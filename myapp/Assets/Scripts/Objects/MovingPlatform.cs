@@ -138,6 +138,12 @@ namespace Game.Objects
         {
             result = false;
 
+            var controller = collision.transform.GetComponent<RigidbodyCharacterController>();
+            if (controller != null && controller.IsHangAction)
+            {
+                result = true;
+            }
+
             foreach (var contact in collision.contacts)
             {
                 if (Vector3.Dot(-contact.normal, Vector3.up) > 0.5f)
