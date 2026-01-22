@@ -6,6 +6,15 @@ using Game.Systems;
 
 namespace Game.Characters
 {
+    public enum CharacterActionType
+    {
+        Undefined = 0,
+        Water = 1,
+        Ground = 2,
+        Hang = 3,
+        Air = 4
+    }
+
     /// <summary>
     /// Rigidbodyキャラクター管理
     /// </summary>
@@ -52,9 +61,7 @@ namespace Game.Characters
 
         // 外部に情報提供する用の変数
 
-        private bool outerIsHang;
-        private bool outerIsGrounded;
-        private bool outerInWaterBuoyancy;
+        private CharacterActionType outerActionType = CharacterActionType.Undefined;
 
         void OnEnable()
         {
@@ -97,32 +104,33 @@ namespace Game.Characters
             Vector3 hangNormal = hangCtrl.Normal;
             Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
-            outerIsHang = isHang;
-            outerIsGrounded = isGrounded;
-            outerInWaterBuoyancy = inWaterBuoyancy;
+            CharacterActionType actionType = GetActionType(isGrounded, inWaterBuoyancy, isHang);
+
+            outerActionType = actionType;
 
             movingPlatformCtrl.MovingPlatformProccess();
 
             moveCtrl.MoveProcces(
-                moveDir, cursorInput, gravity, isGrounded, groundNormal,
+                moveDir, cursorInput, gravity, groundNormal,
                 moveSpeed, moveSpeedAir, noMove,
-                inWaterBuoyancy, buoyancy, moveSpeedWater, waterFriction,
-                isHang, hangNormal
+                buoyancy, moveSpeedWater, waterFriction,
+                hangNormal,
+                actionType
             );
 
             rotationCtrl.RotationProcces(
-                moveDir, isGrounded, rotationSpeed,
-                inWaterBuoyancy, rotationSpeedWater,
-                isHang, hangNormal, noMove
+                moveDir, rotationSpeed, rotationSpeedWater,
+                hangNormal, noMove,
+                actionType
             );
 
             jumpCtrl.JumpProccess(
                 movingPlatformCtrl.MovingPlatformDelta,
-                isGrounded, inWaterBuoyancy, moveCtrl.MoveVelocity, jumpForce,
-                isHang
+                moveCtrl.MoveVelocity, jumpForce,
+                actionType
             );
 
-            animCtrl.SetAnimator(noMove, isGrounded, inWater);
+            animCtrl.SetAnimator(noMove, actionType);
 
             attackCtrl.AttackProccess(this);
 
@@ -181,6 +189,51 @@ namespace Game.Characters
             return moveInput.sqrMagnitude < 0.01f;
         }
 
+        /// <summary>
+        /// アクションタイプ取得
+        /// </summary>
+        public CharacterActionType GetActionType(bool isGrounded, bool inWaterBuoyancy, bool isHang)
+        {
+            CharacterActionType type = CharacterActionType.Undefined;
+
+            if (inWaterBuoyancy)
+            {
+                // 水中にいるとき
+
+                type = CharacterActionType.Water;
+            }
+            else
+            {
+                // 水中にいないとき
+
+                if (isGrounded)
+                {
+                    // 地面にいるとき
+
+                    type = CharacterActionType.Ground;
+                }
+                else
+                {
+                    // 地面にいないとき
+
+                    if (isHang)
+                    {
+                        // つかまっているとき
+
+                        type = CharacterActionType.Hang;
+                    }
+                    else
+                    {
+                        // つかまっていないとき
+
+                        type = CharacterActionType.Air;
+                    }
+                }
+            }
+
+            return type;
+        }
+
         // setter getter
 
         public Vector2 MoveInput { set => moveInput = value; }
@@ -188,6 +241,7 @@ namespace Game.Characters
         public bool Jump { set => jumpCtrl.Jump = value; }
         public bool Attack { set => attackCtrl.Attack = value; }
         public Vector3 MovingPlatformDeltaPos { set => movingPlatformCtrl.MovingPlatformDeltaPos = value; }
-        public bool IsHangAction { get => !outerInWaterBuoyancy && !outerIsGrounded && outerIsHang; }
+
+        public CharacterActionType ActionType { get => outerActionType; }
     }
 }

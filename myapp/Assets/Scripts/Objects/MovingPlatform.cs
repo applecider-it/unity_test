@@ -138,8 +138,9 @@ namespace Game.Objects
         {
             result = false;
 
+            // キャラクターが掴んでいるときは有効
             var controller = collision.transform.GetComponent<RigidbodyCharacterController>();
-            if (controller != null && controller.IsHangAction)
+            if (controller != null && controller.ActionType == CharacterActionType.Hang)
             {
                 result = true;
             }

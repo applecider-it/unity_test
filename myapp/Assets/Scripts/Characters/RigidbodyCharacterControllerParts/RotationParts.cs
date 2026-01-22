@@ -19,34 +19,27 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// 回転プロセス
         /// </summary>
         public void RotationProcces(
-            Vector3 moveDir, bool isGrounded, float rotationSpeed,
-            bool inWaterBuoyancy, float rotationSpeedWater,
-            bool isHang, Vector3 hangNormal, bool noMove
+            Vector3 moveDir, float rotationSpeed, float rotationSpeedWater,
+            Vector3 hangNormal, bool noMove,
+            CharacterActionType actionType
         )
         {
             bool needBack = true;
 
-            if (inWaterBuoyancy)
+            switch (actionType)
             {
-                // 水中にいるとき
+                case CharacterActionType.Water:
+                    if (!noMove)
+                    {
+                        // 入力があるとき
 
-                if (!noMove)
-                {
-                    // 入力があるとき
+                        TurnProcces(moveDir, rotationSpeedWater);
 
-                    TurnProcces(moveDir, rotationSpeedWater);
+                        needBack = false;
+                    }
+                    break;
 
-                    needBack = false;
-                }
-            }
-            else
-            {
-                // 水中にいないとき
-
-                if (isGrounded)
-                {
-                    // 地面にいるとき
-
+                case CharacterActionType.Ground:
                     if (!noMove)
                     {
                         // 入力があるとき
@@ -55,20 +48,13 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
                         needBack = false;
                     }
-                }
-                else
-                {
-                    // 地面にいないとき
+                    break;
 
-                    if (isHang)
-                    {
-                        // つかまっているとき
+                case CharacterActionType.Hang:
+                    HangProcces(hangNormal);
 
-                        HangProcces(hangNormal);
-
-                        needBack = false;
-                    }
-                }
+                    needBack = false;
+                    break;
             }
 
             if (needBack) BackProcces(rotationSpeed);

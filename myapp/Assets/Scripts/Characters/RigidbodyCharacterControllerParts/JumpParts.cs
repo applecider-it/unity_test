@@ -34,19 +34,24 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// </summary>
         public void JumpProccess(
             Vector3 movingPlatformDelta,
-            bool isGrounded, bool inWaterBuoyancy, Vector3 moveVelocity, float jumpForce,
-            bool isHang
+            Vector3 moveVelocity, float jumpForce,
+            CharacterActionType actionType
         )
         {
-            bool canJump = (isGrounded && !inWaterBuoyancy) || isHang;
+            bool canJump =
+                actionType == CharacterActionType.Ground ||
+                actionType == CharacterActionType.Hang;
 
             if (jumpCnt > 0) jumpCnt--;
 
             if (jump)
             {
+                // ジャンプボタンが押されたとき
+                // ＮＰＣにジャンプ指示がされたとき
+
                 if (canJump)
                 {
-                    // 地面にいるとき
+                    // ジャンプできるとき
 
                     ExecJump(
                         moveVelocity, jumpForce,

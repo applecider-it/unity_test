@@ -24,53 +24,38 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// 移動処理
         /// </summary>
         public void MoveProcces(
-            Vector3 moveDir, Vector2 cursorInput, float gravity, bool isGrounded, Vector3 groundNormal,
+            Vector3 moveDir, Vector2 cursorInput, float gravity, Vector3 groundNormal,
             float moveSpeed, float moveSpeedAir, bool noMove,
-            bool inWaterBuoyancy, float buoyancy, float moveSpeedWater, float waterFriction,
-            bool isHang, Vector3 hangNormal
+            float buoyancy, float moveSpeedWater, float waterFriction,
+            Vector3 hangNormal,
+            CharacterActionType actionType
         )
         {
-            if (inWaterBuoyancy)
+            switch (actionType)
             {
-                // 水中にいるとき
+                case CharacterActionType.Water:
+                    WaterProcces(
+                        moveDir, buoyancy, moveSpeedWater, waterFriction
+                    );
+                    break;
 
-                WaterProcces(
-                    moveDir, buoyancy, moveSpeedWater, waterFriction
-                );
-            }
-            else
-            {
-                // 水中にいないとき
-
-                if (isGrounded)
-                {
-                    // 地面にいるとき
-
+                case CharacterActionType.Ground:
                     GroundProcces(
                         moveDir, groundNormal, moveSpeed, noMove
                     );
-                }
-                else
-                {
-                    // 地面にいないとき
+                    break;
 
-                    if (isHang)
-                    {
-                        // つかまっているとき
+                case CharacterActionType.Hang:
+                    HangProcces(
+                        cursorInput, moveSpeed, noMove, hangNormal
+                    );
+                    break;
 
-                        HangProcces(
-                            cursorInput, moveSpeed, noMove, hangNormal
-                        );
-                    }
-                    else
-                    {
-                        // つかまっていないとき
-
-                        AirProcces(
-                            moveDir, gravity, moveSpeedAir
-                        );
-                    }
-                }
+                case CharacterActionType.Air:
+                    AirProcces(
+                        moveDir, gravity, moveSpeedAir
+                    );
+                    break;
             }
         }
 

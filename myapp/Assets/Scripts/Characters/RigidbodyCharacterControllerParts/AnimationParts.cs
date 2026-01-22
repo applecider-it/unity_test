@@ -18,30 +18,17 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// <summary>
         /// アニメーター指定
         /// </summary>
-        public void SetAnimator(bool noMove, bool isGrounded, bool inWater)
+        public void SetAnimator(bool noMove, CharacterActionType actionType)
         {
-            if (inWater)
+            switch (actionType)
             {
-                // 水中にいるとき
+                case CharacterActionType.Ground:
+                    animator.SetBool("move", !noMove);
+                    break;
 
-                animator.SetBool("move", false);
-            }
-            else
-            {
-                // 水中にいないとき
-
-                if (noMove)
-                {
-                    // 入力なしの時
-
+                default:
                     animator.SetBool("move", false);
-                }
-                else
-                {
-                    // 入力ありの時
-
-                    animator.SetBool("move", isGrounded);
-                }
+                    break;
             }
         }
     }
