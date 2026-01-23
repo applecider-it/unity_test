@@ -40,7 +40,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
             hangContacts[collision.collider] = info;
 
-            Debug.Log("OnCollisionEnter: hangContacts.Count: " + hangContacts.Count);
+            //Debug.Log("OnCollisionEnter: hangContacts.Count: " + hangContacts.Count);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
                 info.normal = normal;
             }
 
-            Debug.Log("OnCollisionStay: hangContacts.Count: " + hangContacts.Count);
+            //Debug.Log("OnCollisionStay: hangContacts.Count: " + hangContacts.Count);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
             hangContacts.Remove(collision.collider);
 
-            Debug.Log("OnCollisionExit: hangContacts.Count: " + hangContacts.Count);
+            //Debug.Log("OnCollisionExit: hangContacts.Count: " + hangContacts.Count);
         }
 
         /// <summary>

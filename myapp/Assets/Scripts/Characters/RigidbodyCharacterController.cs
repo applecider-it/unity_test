@@ -54,6 +54,7 @@ namespace Game.Characters
         private WaterParts waterCtrl;
         private HangParts hangCtrl;
         private MovingPlatformParts movingPlatformCtrl;
+        private ActionTypeParts actionTypeCtrl;
 
         Collider myCol;
 
@@ -84,6 +85,7 @@ namespace Game.Characters
             waterCtrl = new WaterParts(name);
             hangCtrl = new HangParts();
             movingPlatformCtrl = new MovingPlatformParts();
+            actionTypeCtrl = new ActionTypeParts();
 
             groundCtrl.Awake();
             attackCtrl.Awake();
@@ -108,7 +110,7 @@ namespace Game.Characters
             Vector3 hangNormal = hangCtrl.HangContactNormal;
             Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
-            CharacterActionType actionType = GetActionType(isGrounded, inWaterBuoyancy, isHang);
+            CharacterActionType actionType = actionTypeCtrl.GetActionType(isGrounded, inWaterBuoyancy, isHang);
 
             outerActionType = actionType;
 
@@ -191,51 +193,6 @@ namespace Game.Characters
         public bool NoMove()
         {
             return moveInput.sqrMagnitude < 0.01f;
-        }
-
-        /// <summary>
-        /// アクションタイプ取得
-        /// </summary>
-        public CharacterActionType GetActionType(bool isGrounded, bool inWaterBuoyancy, bool isHang)
-        {
-            CharacterActionType type = CharacterActionType.Undefined;
-
-            if (inWaterBuoyancy)
-            {
-                // 水中にいるとき
-
-                type = CharacterActionType.Water;
-            }
-            else
-            {
-                // 水中にいないとき
-
-                if (isGrounded)
-                {
-                    // 地面にいるとき
-
-                    type = CharacterActionType.Ground;
-                }
-                else
-                {
-                    // 地面にいないとき
-
-                    if (isHang)
-                    {
-                        // つかまっているとき
-
-                        type = CharacterActionType.Hang;
-                    }
-                    else
-                    {
-                        // つかまっていないとき
-
-                        type = CharacterActionType.Air;
-                    }
-                }
-            }
-
-            return type;
         }
 
         // setter getter
