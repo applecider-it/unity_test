@@ -40,6 +40,9 @@ namespace Game.Characters
         [SerializeField] private AudioClipContainer attackAudio;
         [SerializeField] private AudioClipContainer jumpAudio;
 
+        [Header("Action")]
+        [Tooltip("つかまり有効")][SerializeField] private bool enableHang = false;
+
         // private
 
         private MoveParts moveCtrl;
@@ -91,6 +94,7 @@ namespace Game.Characters
         void FixedUpdate()
         {
             groundCtrl.CleanupDestroyedGround();
+            hangCtrl.CleanupDestroyedHangObject();
 
             // 地面にいるときはtrue
             bool isGrounded = (groundCtrl.IsGrounded && !jumpCtrl.JumpWait);
@@ -100,8 +104,8 @@ namespace Game.Characters
             bool noMove = NoMove();
             bool inWater = waterCtrl.InsideCheck();
             bool inWaterBuoyancy = waterCtrl.PointCheck(myCol.bounds.center);
-            bool isHang = hangCtrl.IsHang(maxSlopeAngle) && !jumpCtrl.JumpWait;
-            Vector3 hangNormal = hangCtrl.Normal;
+            bool isHang = enableHang && hangCtrl.IsHang && !jumpCtrl.JumpWait;
+            Vector3 hangNormal = hangCtrl.HangContactNormal;
             Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
             CharacterActionType actionType = GetActionType(isGrounded, inWaterBuoyancy, isHang);
@@ -144,7 +148,7 @@ namespace Game.Characters
         void OnCollisionEnter(Collision collision)
         {
             groundCtrl.OnCollisionEnter(collision, maxSlopeAngle);
-            hangCtrl.OnCollisionEnter(collision);
+            hangCtrl.OnCollisionEnter(collision, maxSlopeAngle);
         }
 
         /// <summary>
@@ -153,7 +157,7 @@ namespace Game.Characters
         void OnCollisionStay(Collision collision)
         {
             groundCtrl.OnCollisionStay(collision, maxSlopeAngle);
-            hangCtrl.OnCollisionStay(collision);
+            hangCtrl.OnCollisionStay(collision, maxSlopeAngle);
         }
 
         /// <summary>
