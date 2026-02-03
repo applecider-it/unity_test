@@ -8,20 +8,19 @@ using Game.Commons;
 namespace Game.Characters.RigidbodyCharacterControllerParts
 {
     /// <summary>
-    /// つかまり判定結果情報
-    /// </summary>
-    class HangContactInfo
-    {
-        public bool isHang;
-        public Vector3 normal;
-    }
-
-    /// <summary>
     /// つかまり判定処理
     /// </summary>
     public class HangParts
     {
-        private Dictionary<Collider, HangContactInfo> hangContacts = new Dictionary<Collider, HangContactInfo>();
+        private ContactInfos contactInfos = new ContactInfos();
+
+        private string name;
+
+        // コンストラクタ
+        public HangParts(string argName)
+        {
+            name = argName;
+        }
 
         /// <summary>
         /// 接触開始時
@@ -32,15 +31,9 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
             CheckHangContact(collision, maxSlopeAngle, out var result, out var normal);
 
-            var info = new HangContactInfo
-            {
-                isHang = result,
-                normal = normal
-            };
+            contactInfos.insert(collision.collider, result, normal);
 
-            hangContacts[collision.collider] = info;
-
-            //Debug.Log("OnCollisionEnter: hangContacts.Count: " + hangContacts.Count);
+            //Debug.Log("OnCollisionEnter: groundContacts.Count: " + contactInfos.Count + " name: " + name);
         }
 
         /// <summary>
@@ -52,13 +45,9 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
             CheckHangContact(collision, maxSlopeAngle, out var result, out var normal);
 
-            if (hangContacts.TryGetValue(collision.collider, out var info))
-            {
-                info.isHang = result;
-                info.normal = normal;
-            }
+            contactInfos.update(collision.collider, result, normal);
 
-            //Debug.Log("OnCollisionStay: hangContacts.Count: " + hangContacts.Count);
+            //Debug.Log("OnCollisionStay: groundContacts.Count: " + contactInfos.Count + " name: " + name);
         }
 
         /// <summary>
@@ -68,9 +57,9 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         {
             if (!IsHangObject(collision.gameObject)) return;
 
-            hangContacts.Remove(collision.collider);
+            contactInfos.delete(collision.collider);
 
-            //Debug.Log("OnCollisionExit: hangContacts.Count: " + hangContacts.Count);
+            //Debug.Log("OnCollisionExit: groundContacts.Count: " + contactInfos.Count + " name: " + name);
         }
 
         /// <summary>
@@ -108,43 +97,12 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// </summary>
         public void CleanupDestroyedHangObject()
         {
-            if (hangContacts.Count == 0) return;
-
-            var removeList = new List<Collider>();
-
-            foreach (var col in hangContacts.Keys)
-            {
-                if (col == null)
-                    removeList.Add(col);
-            }
-
-            foreach (var col in removeList)
-                hangContacts.Remove(col);
+            contactInfos.CleanupDestroyedData();
         }
 
         // getter
 
-        public bool IsHang
-        {
-            get
-            {
-                foreach (var info in hangContacts.Values)
-                {
-                    if (info.isHang) return true;
-                }
-                return false;
-            }
-        }
-        public Vector3 HangContactNormal
-        {
-            get
-            {
-                foreach (var info in hangContacts.Values)
-                {
-                    if (info.isHang) return info.normal;
-                }
-                return Vector3.up;
-            }
-        }
+        public bool IsHang { get => contactInfos.Valid; }
+        public Vector3 HangContactNormal { get => contactInfos.ContactNormal; }
     }
 }

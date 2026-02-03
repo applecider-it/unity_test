@@ -8,23 +8,22 @@ using Game.Commons;
 namespace Game.Characters.RigidbodyCharacterControllerParts
 {
     /// <summary>
-    /// 地面判定結果情報
-    /// </summary>
-    class GroundContactInfo
-    {
-        public bool isGrounded;
-        public Vector3 normal;
-    }
-
-    /// <summary>
     /// 地面判定処理
     /// </summary>
     public class GroundParts
     {
-        private Dictionary<Collider, GroundContactInfo> groundContacts = new Dictionary<Collider, GroundContactInfo>();
+        private ContactInfos contactInfos = new ContactInfos();
 
         /// <summary> 地面と判断するためのマスク </summary>
         private LayerMask groundLayer;
+
+        private string name;
+
+        // コンストラクタ
+        public GroundParts(string argName)
+        {
+            name = argName;
+        }
 
         public void Awake()
         {
@@ -42,15 +41,9 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
             CheckGroundContact(collision, maxSlopeAngle, out var result, out var normal);
 
-            var info = new GroundContactInfo
-            {
-                isGrounded = result,
-                normal = normal
-            };
+            contactInfos.insert(collision.collider, result, normal);
 
-            groundContacts[collision.collider] = info;
-
-            //Debug.Log("OnCollisionEnter: groundContacts.Count: " + groundContacts.Count);
+            //Debug.Log("OnCollisionEnter: groundContacts.Count: " + contactInfos.Count + " name: " + name);
         }
 
         /// <summary>
@@ -62,13 +55,9 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
             CheckGroundContact(collision, maxSlopeAngle, out var result, out var normal);
 
-            if (groundContacts.TryGetValue(collision.collider, out var info))
-            {
-                info.isGrounded = result;
-                info.normal = normal;
-            }
+            contactInfos.update(collision.collider, result, normal);
 
-            //Debug.Log("OnCollisionStay: groundContacts.Count: " + groundContacts.Count);
+            //Debug.Log("OnCollisionStay: groundContacts.Count: " + contactInfos.Count + " name: " + name);
         }
 
         /// <summary>
@@ -78,9 +67,9 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         {
             if (!IsGroundLayer(collision.gameObject)) return;
 
-            groundContacts.Remove(collision.collider);
+            contactInfos.delete(collision.collider);
 
-            //Debug.Log("OnCollisionExit: groundContacts.Count: " + groundContacts.Count);
+            //Debug.Log("OnCollisionExit: groundContacts.Count: " + contactInfos.Count + " name: " + name);
         }
 
         /// <summary>
@@ -136,43 +125,12 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// </summary>
         public void CleanupDestroyedGround()
         {
-            if (groundContacts.Count == 0) return;
-
-            var removeList = new List<Collider>();
-
-            foreach (var col in groundContacts.Keys)
-            {
-                if (col == null)
-                    removeList.Add(col);
-            }
-
-            foreach (var col in removeList)
-                groundContacts.Remove(col);
+            contactInfos.CleanupDestroyedData();
         }
 
         // getter
 
-        public bool IsGrounded
-        {
-            get
-            {
-                foreach (var info in groundContacts.Values)
-                {
-                    if (info.isGrounded) return true;
-                }
-                return false;
-            }
-        }
-        public Vector3 GroundContactNormal
-        {
-            get
-            {
-                foreach (var info in groundContacts.Values)
-                {
-                    if (info.isGrounded) return info.normal;
-                }
-                return Vector3.up;
-            }
-        }
+        public bool IsGrounded { get => contactInfos.Valid; }
+        public Vector3 GroundContactNormal { get => contactInfos.ContactNormal; }
     }
 }

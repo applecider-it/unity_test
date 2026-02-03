@@ -80,10 +80,10 @@ namespace Game.Characters
             rotationCtrl = new RotationParts(rb);
             jumpCtrl = new JumpParts(rb, jumpAudio);
             animCtrl = new AnimationParts(animator);
-            groundCtrl = new GroundParts();
+            groundCtrl = new GroundParts(name);
             attackCtrl = new AttackParts(transform, attackAudio);
             waterCtrl = new WaterParts(name);
-            hangCtrl = new HangParts();
+            hangCtrl = new HangParts(name);
             movingPlatformCtrl = new MovingPlatformParts();
             actionTypeCtrl = new ActionTypeParts();
 
