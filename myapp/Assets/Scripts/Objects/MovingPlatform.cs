@@ -8,9 +8,53 @@ namespace Game.Objects
     /// <summary>
     /// 移動床判定結果情報
     /// </summary>
-    class ContactInfo
+    public class ContactInfo
     {
         public bool result;
+    }
+
+    /// <summary>
+    /// 移動床判定結果情報をまとめるクラス
+    /// </summary>
+    public class ContactInfos
+    {
+        private Dictionary<Rigidbody, ContactInfo> contacts = new Dictionary<Rigidbody, ContactInfo>();
+
+        /// <summary>
+        /// 作成
+        /// </summary>
+        public void insert(Rigidbody rb, bool result)
+        {
+            var info = new ContactInfo
+            {
+                result = result
+            };
+
+            contacts[rb] = info;
+        }
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        public void update(Rigidbody rb, bool result)
+        {
+            if (contacts.TryGetValue(rb, out var info))
+            {
+                info.result = result;
+            }
+        }
+
+        /// <summary>
+        /// 削除
+        /// </summary>
+        public void delete(Rigidbody rb)
+        {
+            contacts.Remove(rb);
+        }
+
+        // setter getter
+
+        public Dictionary<Rigidbody, ContactInfo> Contacts { get => contacts; }
     }
 
     /// <summary>
@@ -21,8 +65,7 @@ namespace Game.Objects
         private Vector3 lastPosition;
         private Quaternion lastRotation;
 
-        /// <summary> 上に乗っているすべてのオブジェクトのContactInfo </summary>
-        private Dictionary<Rigidbody, ContactInfo> contactInfos = new Dictionary<Rigidbody, ContactInfo>();
+        private ContactInfos contactInfos = new ContactInfos();
 
         void Start()
         {
@@ -39,7 +82,7 @@ namespace Game.Objects
             {
                 // 変化があった時
 
-                foreach (var (rb, info) in contactInfos)
+                foreach (var (rb, info) in contactInfos.Contacts)
                 {
                     if (info.result)
                     {
@@ -62,12 +105,7 @@ namespace Game.Objects
 
             CheckContact(collision, out var result);
 
-            var info = new ContactInfo
-            {
-                result = result
-            };
-
-            contactInfos[rb] = info;
+            contactInfos.insert(rb, result);
         }
 
         /// <summary>
@@ -80,10 +118,7 @@ namespace Game.Objects
 
             CheckContact(collision, out var result);
 
-            if (contactInfos.TryGetValue(rb, out var info))
-            {
-                info.result = result;
-            }
+            contactInfos.update(rb, result);
         }
 
         /// <summary>
@@ -94,7 +129,7 @@ namespace Game.Objects
             var rb = collision.rigidbody;
             if (rb == null) return;
 
-            contactInfos.Remove(rb);
+            contactInfos.delete(rb);
         }
 
         /// <summary>
