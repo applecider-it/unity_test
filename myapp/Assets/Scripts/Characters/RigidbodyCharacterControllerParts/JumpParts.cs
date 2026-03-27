@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using Game.Systems;
+using Game.Commons;
 
 namespace Game.Characters.RigidbodyCharacterControllerParts
 {
@@ -72,14 +73,19 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
         /// </summary>
         void ExecJump(Vector3 moveVelocity, float jumpForce, Vector3 movingPlatformDelta)
         {
+            CommonData cd = CommonData.GetInstance();
+
             Vector3 velocity = new Vector3(
                 moveVelocity.x,
                 jumpForce,
                 moveVelocity.z
             );
 
+            // 動く床の位置差分を速度に変換
+            Vector3 platformVelocity = movingPlatformDelta / Time.fixedDeltaTime;
+
             // 動く床の影響を足す
-            velocity += movingPlatformDelta * 50f;
+            velocity += platformVelocity * cd.PlatformVelocityMulti;
 
             rb.linearVelocity = velocity;
         }

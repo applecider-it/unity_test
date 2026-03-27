@@ -13,9 +13,10 @@ namespace Game.Commons
         [Header("Character")]
         [Tooltip("地面と判断するためのマスク")][SerializeField] private LayerMask groundLayer;
         [Tooltip("PKファイアー")][SerializeField] private GameObject pkFire;
+        [Tooltip("動く床の移動のVelocityの掛け数")][SerializeField] float platformVelocityMulti = 3.2f;
 
         [Header("Input")]
-        [SerializeField] float lookIgnoreTime = 0.2f; // 開始直後にLookを無視する時間
+        [Tooltip("開始直後にLookを無視する時間")][SerializeField] float lookIgnoreTime = 0.2f;
 
         [Header("GameObjects")]
         [Tooltip("プレイヤーのヒエラルキーパス")][SerializeField] private string playerPath;
@@ -61,6 +62,7 @@ namespace Game.Commons
 
         public LayerMask GroundLayer { get => groundLayer; }
         public GameObject PKFire { get => pkFire; }
+        public float PlatformVelocityMulti { get => platformVelocityMulti; }
         public float LookIgnoreTime { get => lookIgnoreTime; }
         public GameObject Player { get => GameObject.Find(playerPath); }
         public GameObject Camera { get => GameObject.Find(cameraPath); }
