@@ -592,7 +592,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 9
   pkFire: {fileID: 9087154942113874597, guid: 71cc045e35c1a8b4b9ad271418e658ad, type: 3}
-  platformVelocityMulti: 3.2
   lookIgnoreTime: 0.2
   playerPath: Common/Characters/Player
   cameraPath: Common/Main Camera
@@ -909,15 +908,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1289159788885873809, guid: b766bdfab3a9f984f993d9767dd61b1c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.318249
+      value: -4.950601
       objectReference: {fileID: 0}
     - target: {fileID: 1289159788885873809, guid: b766bdfab3a9f984f993d9767dd61b1c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.6880755
+      value: 5.40505
       objectReference: {fileID: 0}
     - target: {fileID: 1289159788885873809, guid: b766bdfab3a9f984f993d9767dd61b1c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.664352
+      value: -0.46824867
       objectReference: {fileID: 0}
     - target: {fileID: 1289159788885873809, guid: b766bdfab3a9f984f993d9767dd61b1c, type: 3}
       propertyPath: m_LocalRotation.w

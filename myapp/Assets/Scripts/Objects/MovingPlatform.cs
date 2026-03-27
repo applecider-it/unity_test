@@ -73,7 +73,7 @@ namespace Game.Objects
             lastRotation = transform.rotation;
         }
 
-        void LateUpdate()
+        void FixedUpdate()
         {
             Vector3 positionDelta = transform.position - lastPosition;
             Quaternion rotationDelta = transform.rotation * Quaternion.Inverse(lastRotation);

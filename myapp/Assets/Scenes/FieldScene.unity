@@ -27987,7 +27987,7 @@ PrefabInstance:
       objectReference: {fileID: 1311197547}
     - target: {fileID: 200657504585463827, guid: 24dc0cbba52325f408db3a22f15ba287, type: 3}
       propertyPath: m_VersionIndex
-      value: 220
+      value: 226
       objectReference: {fileID: 0}
     - target: {fileID: 6535873842456973548, guid: 24dc0cbba52325f408db3a22f15ba287, type: 3}
       propertyPath: m_Mesh
@@ -28208,6 +28208,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HavyBlock
       objectReference: {fileID: 0}
+    - target: {fileID: 6917673599046856292, guid: 72a767b28bcae264ab015d69a9e7bd8e, type: 3}
+      propertyPath: deltaMulti
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28278,6 +28282,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 926181364}
     m_Modifications:
+    - target: {fileID: 2020836976195934654, guid: 38d93d9a260e173439b456ad5a95287b, type: 3}
+      propertyPath: deltaMulti
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2020836976195934654, guid: 38d93d9a260e173439b456ad5a95287b, type: 3}
+      propertyPath: velocityMulti
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 2601973099537060017, guid: 38d93d9a260e173439b456ad5a95287b, type: 3}
       propertyPath: m_Name
       value: Block
@@ -28450,7 +28462,7 @@ PrefabInstance:
       objectReference: {fileID: 465877472}
     - target: {fileID: 4450176461791006768, guid: 851725cce8c5feb4eaf4dbb19209f03f, type: 3}
       propertyPath: m_VersionIndex
-      value: 139
+      value: 145
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
