@@ -573,7 +573,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7580576711144558842}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -15.007317, y: 0.4947797, z: -7.832142}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -679,8 +679,9 @@ MonoBehaviour:
     clip: {fileID: 0}
     volume: 1
   jumpAudio:
-    clip: {fileID: 8300000, guid: ebde4ee9345f6134f84715b982063637, type: 3}
-    volume: 0.4
+    clip: {fileID: 8300000, guid: 91373383b77d3664f97f50fff9792f7a, type: 3}
+    volume: 1
+  enableHang: 0
 --- !u!82 &7244975702660692358
 AudioSource:
   m_ObjectHideFlags: 0
