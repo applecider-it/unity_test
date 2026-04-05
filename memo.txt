@@ -5,6 +5,10 @@
 
 src/をunityで開く
 
+CommonSceneをダブルクリック
+FieldScene、CaveSceneをヒエラルキーにドラッグアンドドロップ
+CaveSceneの...からシーンのアンロード
+
 CommonScene/UI/Canvas/Panel/Text
     Import TMP Essentials
 
