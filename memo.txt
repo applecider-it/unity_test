@@ -1,6 +1,15 @@
 
 -----------------------------------
 
+セットアップ
+
+src/をunityで開く
+
+CommonScene/UI/Canvas/Panel/Text
+    Import TMP Essentials
+
+-----------------------------------
+
 RigidbodyCharacterController追加時
 
 
