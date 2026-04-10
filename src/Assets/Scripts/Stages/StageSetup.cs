@@ -17,6 +17,7 @@ namespace Game.Stages
         [Header("Background")]
         [SerializeField] CameraClearFlags cameraClearFlag = CameraClearFlags.Skybox;
         [SerializeField] Color backgroundColor  = Color.black;
+        [SerializeField] float ambientIntensity = 1;
 
         [Header("Audio")]
         [Tooltip("このステージで流すBGM")][SerializeField] private AudioClip bgmClip;
@@ -31,6 +32,7 @@ namespace Game.Stages
 
             SetupBGM();
             SetupCamera();
+            SetupLight();
             SetupCharacter();
         }
 
@@ -52,6 +54,14 @@ namespace Game.Stages
             Camera cam = targetCamera.GetComponent<Camera>();
             cam.clearFlags = cameraClearFlag;
             cam.backgroundColor  = backgroundColor;
+        }
+
+        /// <summary>
+        /// ライトのセットアップ
+        /// </summary>
+        void SetupLight()
+        {
+            RenderSettings.ambientIntensity = ambientIntensity;
         }
 
         /// <summary>

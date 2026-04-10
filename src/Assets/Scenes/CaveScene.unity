@@ -1114,7 +1114,7 @@ Light:
   serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.56
+  m_Intensity: 0.33
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1793,15 +1793,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3612676217960917808, guid: 354be492b0ea1ad4d92b1be9e186c243, type: 3}
       propertyPath: info.startPosition.x
-      value: -35.22443
+      value: -35.60342
       objectReference: {fileID: 0}
     - target: {fileID: 3612676217960917808, guid: 354be492b0ea1ad4d92b1be9e186c243, type: 3}
       propertyPath: info.startPosition.y
-      value: 0.007968083
+      value: 0.002235502
       objectReference: {fileID: 0}
     - target: {fileID: 3612676217960917808, guid: 354be492b0ea1ad4d92b1be9e186c243, type: 3}
       propertyPath: info.startPosition.z
-      value: -21.88517
+      value: -20.391043
       objectReference: {fileID: 0}
     - target: {fileID: 4606223071507086110, guid: 354be492b0ea1ad4d92b1be9e186c243, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2912,6 +2912,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.StageSetup
   cameraClearFlag: 2
   backgroundColor: {r: 0.34145766, g: 0.3433962, b: 0.10301882, a: 1}
+  ambientIntensity: 1
   bgmClip: {fileID: 8300000, guid: d0910bc7f07297e4197fb0e8cceb9815, type: 3}
 --- !u!4 &1475677586
 Transform:

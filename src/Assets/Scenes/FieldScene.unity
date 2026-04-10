@@ -5578,6 +5578,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.Systems.StageSetup
   cameraClearFlag: 1
   backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  ambientIntensity: 2
   bgmClip: {fileID: 8300000, guid: 058ffbeb76adb5647a8ddd16e4440ce7, type: 3}
 --- !u!4 &170751667 stripped
 Transform:
@@ -6155,7 +6156,7 @@ Light:
   serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1.3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -6164,7 +6165,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.756
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -27583,15 +27584,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3612676217960917808, guid: 354be492b0ea1ad4d92b1be9e186c243, type: 3}
       propertyPath: info.startPosition.x
-      value: -5.665547
+      value: -5.199557
       objectReference: {fileID: 0}
     - target: {fileID: 3612676217960917808, guid: 354be492b0ea1ad4d92b1be9e186c243, type: 3}
       propertyPath: info.startPosition.y
-      value: -0.2046268
+      value: 0.7668817
       objectReference: {fileID: 0}
     - target: {fileID: 3612676217960917808, guid: 354be492b0ea1ad4d92b1be9e186c243, type: 3}
       propertyPath: info.startPosition.z
-      value: -14.633524
+      value: -19.127542
       objectReference: {fileID: 0}
     - target: {fileID: 4606223071507086110, guid: 354be492b0ea1ad4d92b1be9e186c243, type: 3}
       propertyPath: m_LocalPosition.x
