@@ -19,6 +19,11 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
         private string name;
 
+        private bool isGrounded = false;
+        private Vector3 groundContactNormal = Vector3.up;
+
+        private int keepCnt = 0;
+
         // コンストラクタ
         public GroundParts(string argName)
         {
@@ -128,9 +133,45 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
             contactInfos.CleanupDestroyedData();
         }
 
+        /// <summary>
+        /// 地面の状態を確定する処理
+        /// </summary>
+        public void FixGround()
+        {
+            CommonData cd = CommonData.GetInstance();
+
+            bool valid = contactInfos.Valid;
+            Vector3 norma = contactInfos.ContactNormal;
+            bool update = false;
+
+            if (valid)
+            {
+                keepCnt = cd.GroundKeep;
+                update = true;
+            }
+            else
+            {
+                if (keepCnt > 0)
+                {
+                    keepCnt--;
+                }
+                else
+                {
+                    update = true;
+                }
+            }
+
+            if (update)
+            {
+                isGrounded = valid;
+                groundContactNormal = norma;
+            }
+        }
+
+
         // getter
 
-        public bool IsGrounded { get => contactInfos.Valid; }
-        public Vector3 GroundContactNormal { get => contactInfos.ContactNormal; }
+        public bool IsGrounded { get => isGrounded; }
+        public Vector3 GroundContactNormal { get => groundContactNormal; }
     }
 }

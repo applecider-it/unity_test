@@ -13,6 +13,8 @@ namespace Game.Commons
         [Header("Character")]
         [Tooltip("地面と判断するためのマスク")][SerializeField] private LayerMask groundLayer;
         [Tooltip("PKファイアー")][SerializeField] private GameObject pkFire;
+        [Tooltip("地面の法線の逆向きのVelocityの強さ")][SerializeField] private float groundStick = 2f;
+        [Tooltip("地面判定を維持するフレーム数")][SerializeField] private int groundKeep = 4;
 
         [Header("Input")]
         [Tooltip("開始直後にLookを無視する時間")][SerializeField] float lookIgnoreTime = 0.2f;
@@ -61,7 +63,11 @@ namespace Game.Commons
 
         public LayerMask GroundLayer { get => groundLayer; }
         public GameObject PKFire { get => pkFire; }
+        public int GroundKeep { get => groundKeep; }
+        public float GroundStick { get => groundStick; }
+
         public float LookIgnoreTime { get => lookIgnoreTime; }
+
         public GameObject Player { get => GameObject.Find(playerPath); }
         public GameObject Camera { get => GameObject.Find(cameraPath); }
     }

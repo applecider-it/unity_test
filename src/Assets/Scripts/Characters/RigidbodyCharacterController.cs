@@ -98,6 +98,8 @@ namespace Game.Characters
             groundCtrl.CleanupDestroyedGround();
             hangCtrl.CleanupDestroyedHangObject();
 
+            groundCtrl.FixGround();
+
             // 地面にいるときはtrue
             bool isGrounded = (groundCtrl.IsGrounded && !jumpCtrl.JumpWait);
             // 地面の法線ベクトル

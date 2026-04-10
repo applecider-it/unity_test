@@ -60,7 +60,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
 
                     jumpAudio.PlayOneShot();
 
-                    jumpCnt = 5;
+                    jumpCnt = 10;
                 }
 
                 jump = false;

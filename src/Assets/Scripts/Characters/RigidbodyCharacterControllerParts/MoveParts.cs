@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using Game.Commons;
+
 namespace Game.Characters.RigidbodyCharacterControllerParts
 {
     /// <summary>
@@ -80,6 +82,8 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
             Vector3 moveDir, Vector3 groundNormal, float moveSpeed, bool noMove
         )
         {
+            CommonData cd = CommonData.GetInstance();
+
             if (noMove)
             {
                 // 入力がないとき
@@ -95,7 +99,7 @@ namespace Game.Characters.RigidbodyCharacterControllerParts
                 moveVelocity = slopeMoveDir * moveSpeed;
             }
 
-            Vector3 stickVelocity = -groundNormal * 1f;
+            Vector3 stickVelocity = -groundNormal * cd.GroundStick;
 
             // こうすることで、上り坂で止まった時に跳ねないようになる
             rb.linearVelocity = moveVelocity + stickVelocity;
